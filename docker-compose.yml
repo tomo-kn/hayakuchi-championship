@@ -5,19 +5,29 @@ services:
     image: mysql:8.0.28
     environment:
       TZ: Asia/Tokyo
-      MYSQL_DATABASE: root
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - 3308:3306
     volumes:
-      - ./tmp/db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/myapp
+      - .:/myapp:cached
+      - bundle_data:/usr/local/bundle:cached
+      - /myapp/vendor
+      - /myapp/tmp
+      - /myapp/log
+      - /myapp/.git
+    environment:
+      TZ: Asia/Tokyo
     ports:
       - 3000:3000
     depends_on:
       - db
+
+volumes:
+  mysql_data:
+  bundle_data:
