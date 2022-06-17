@@ -1,6 +1,6 @@
 #!/bin/bash
 
 sudo service nginx start
-cd /app
+cd /myapp
 bin/setup
 bundle exec pumactl start

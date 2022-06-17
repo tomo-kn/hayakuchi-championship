@@ -4,4 +4,6 @@ Rails.application.routes.draw do
       get :health_check, to: 'health_check#index'
     end
   end
+
+  root 'application#hello'
 end
