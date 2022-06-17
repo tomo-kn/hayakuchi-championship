@@ -1,6 +1,6 @@
 #!/bin/bash
-set -e
 
-rm -f /myapp/tmp/pids/server.pid
-
-exec "$@"
+sudo service nginx start
+cd /app
+bin/setup
+bundle exec pumactl start
