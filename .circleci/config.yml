@@ -2,13 +2,14 @@ version: 2.1
 
 orbs:
   ruby: circleci/ruby@1.8.0
+  node: circleci/node@5.0.2
   aws-ecr: circleci/aws-ecr@6.12.2
   aws-ecs: circleci/aws-ecs@2.3.0
 
 jobs:
   test_backend:
     docker:
-      - image: cimg/ruby:3.1.2
+      - image: cimg/ruby:3.1.2-node
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
@@ -29,7 +30,7 @@ jobs:
       # gem install
       - run:
           command: |
-            gem install bundler
+            gem install bundler -v 2.3.16
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
           working_directory: ~/repo
@@ -52,6 +53,10 @@ jobs:
           name: create directory to store test results
           command: mkdir /tmp/test-results
           working_directory: ~/repo
+      
+      - run:
+          name: yarn Install
+          command: yarn install
 
       # run tests
       - run:
