@@ -76,11 +76,11 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-        account-url: AWS_ACCOUNT_URL
-        repo: "hayakuchi-championship"
-        region: AWS_REGION
-        tag: "${CIRCLE_SHA1}"
-        path: ./
+          account-url: AWS_ACCOUNT_URL
+          repo: "hayakuchi-championship"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./
 
 
 
