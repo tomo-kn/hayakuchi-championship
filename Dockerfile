@@ -22,7 +22,6 @@ RUN apt-get update && \
 
 
 RUN yarn install --check-files
-RUN bundle exec bin/webpack
 RUN bundle install
 COPY . /myapp
 RUN mkdir -p tmp/sockets

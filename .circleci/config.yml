@@ -9,7 +9,7 @@ orbs:
 jobs:
   test_backend:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.2-stretch-node
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
@@ -30,7 +30,7 @@ jobs:
       # gem install
       - run:
           command: |
-            gem install bundler
+            gem install bundler -v 2.3.16
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
           working_directory: ~/repo
@@ -57,8 +57,8 @@ jobs:
       - run:
           name: yarn Install
           command: yarn install
-          
-      - run: bundle exec bin/webpack
+
+      - run: bundle exec ../bin/webpack
 
       # run tests
       - run:
