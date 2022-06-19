@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/how-to-play', to: 'pages#how_to_play'
   get '/game', to: 'games#index'
   get '/game/result', to: 'games#result'
-  get '/practice', to: 'practices#index'
+  get '/practices', to: 'practices#index'
   get '/rank', to: 'ranks#index'
   
   namespace :api do
