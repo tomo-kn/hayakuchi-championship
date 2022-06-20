@@ -32,6 +32,11 @@ RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
+# アセットのプリコンパイル
+RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile \
+ && yarn cache clean \
+ && rm -rf node_modules tmp/cache
+
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
 COPY entrypoint.sh /usr/bin/
