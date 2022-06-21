@@ -33,9 +33,9 @@ RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
 # アセットのプリコンパイル
-RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile \
- && yarn cache clean \
- && rm -rf node_modules tmp/cache
+RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile
+RUN yarn cache clean
+RUN rm -rf node_modules tmp/cache
 
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
