@@ -1,3 +1,53 @@
 <h1 class="text-center mt-5"><%= @sentence.content %></h1>
 <p>3回繰り返そう！</p>
+
+<div><button id="recognitionStart">認識開始</button></div>
+<div><button id="recognitionEnd">認識終了</button></div>
+<div><textarea id="recognitionResult"></textarea></div>
+
+<a href="/practices/<%= @sentence.id %>/result">結果を見る</a>
+<p></p>
 <a href="/practices">一覧ページへ戻る</a>
+
+<script>
+var recognition = new webkitSpeechRecognition();
+var elmStart = document.getElementById('recognitionStart');
+var elmEnd = document.getElementById('recognitionEnd');
+var elmResult = document.getElementById('recognitionResult');
+
+recognition.lang = 'ja';
+recognition.continuous = true;
+
+// 動的文字変換
+// recognition.interimResults = true;
+// 変換候補の最大値
+// recognition.maxAlternatives = 5;
+
+recognition.addEventListener('result', function (event) {
+    var text = '';
+
+    for (var i = 0; i < event.results.length; i++) {
+        text += event.results[i][0].transcript;
+    }
+
+    elmResult.value = text;
+    console.log(event);
+}, false);
+
+recognition.addEventListener('soundstart', function() {
+  console.log('Some sound is being received');
+});
+
+recognition.addEventListener('soundend', function(event) {
+  console.log('Sound has stopped being received');
+});
+
+elmStart.addEventListener('click', function () {
+    elmResult.value = '';
+    recognition.start();
+}, false);
+
+elmEnd.addEventListener('click', function () {
+    recognition.stop();
+}, false);
+</script>
