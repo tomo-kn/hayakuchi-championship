@@ -56,7 +56,7 @@ jobs:
       
       - run:
           name: yarn Install
-          command: yarn install
+          command: yarn install -v 1.22.19
 
       # run tests
       - run:
