@@ -10,13 +10,18 @@
 <a href="/practices">一覧ページへ戻る</a>
 
 <script>
-  var recognition = new webkitSpeechRecognition();
+var recognition = new webkitSpeechRecognition();
 var elmStart = document.getElementById('recognitionStart');
 var elmEnd = document.getElementById('recognitionEnd');
 var elmResult = document.getElementById('recognitionResult');
 
 recognition.lang = 'ja';
 recognition.continuous = true;
+
+// 動的文字変換
+// recognition.interimResults = true;
+// 変換候補の最大値
+// recognition.maxAlternatives = 5;
 
 recognition.addEventListener('result', function (event) {
     var text = '';
@@ -26,7 +31,16 @@ recognition.addEventListener('result', function (event) {
     }
 
     elmResult.value = text;
+    console.log(event);
 }, false);
+
+recognition.addEventListener('soundstart', function() {
+  console.log('Some sound is being received');
+});
+
+recognition.addEventListener('soundend', function(event) {
+  console.log('Sound has stopped being received');
+});
 
 elmStart.addEventListener('click', function () {
     elmResult.value = '';
