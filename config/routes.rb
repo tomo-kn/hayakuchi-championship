@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   get '/rank', to: 'ranks#index'
 
   get '/practices/:id', to: 'practices#show'
-  
+  get '/practices/:id/result', to: 'practices#result'
+
   namespace :api do
     namespace :v1 do
       get :health_check, to: 'health_check#index'
