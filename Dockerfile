@@ -20,9 +20,11 @@ RUN apt-get update && \
   apt-get update -qq && apt-get install -y yarn nodejs && \
   gem install bundler -v 2.3.15
 
+RUN gem update --system
 
 RUN yarn install --check-files
 RUN bundle _2.3.15_ install
+RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=placeholder
 COPY . /myapp
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
@@ -33,7 +35,7 @@ RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
 # アセットのプリコンパイル
-RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile RAILS_ENV=production
+
 RUN yarn cache clean
 RUN rm -rf node_modules tmp/cache
 
