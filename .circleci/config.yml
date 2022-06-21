@@ -30,7 +30,7 @@ jobs:
       # gem install
       - run:
           command: |
-            gem install bundler -v 2.3.16
+            gem install bundler -v 2.3.15
             bundle config set path 'vendor/bundle'
             bundle install --jobs=4 --retry=3
           working_directory: ~/repo

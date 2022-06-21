@@ -33,7 +33,7 @@ RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
 # アセットのプリコンパイル
-RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=placeholder bundle exec rails assets:precompile RAILS_ENV=production
 RUN yarn cache clean
 RUN rm -rf node_modules tmp/cache
 
