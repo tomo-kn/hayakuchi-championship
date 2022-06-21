@@ -18,11 +18,11 @@ RUN apt-get update && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update -qq && apt-get install -y yarn nodejs && \
-  gem install bundler --update
+  gem install bundler -v 2.3.15
 
 
 RUN yarn install --check-files
-RUN bundle install
+RUN bundle _2.3.15_ install
 COPY . /myapp
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
