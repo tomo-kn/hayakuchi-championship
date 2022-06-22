@@ -3,7 +3,7 @@ FROM ruby:3.1.2
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 # debconf: delaying package configuration, since apt-utils is not installedを非表示
-ENV DEBCONF_NOWARNINGS=yes
+# ENV DEBCONF_NOWARNINGS=yes
 
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
