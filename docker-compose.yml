@@ -17,8 +17,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - .:/myapp:cached
-      - bundle_data:/usr/local/bundle:cached
+      - .:/myapp
+      - bundle_data:/usr/local/bundle
       - /myapp/vendor
       - /myapp/tmp
       - /myapp/log
