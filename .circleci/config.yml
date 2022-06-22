@@ -86,6 +86,7 @@ jobs:
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./
+    
 
 
 
