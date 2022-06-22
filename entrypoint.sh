@@ -1,9 +1,8 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
 
-# sudo service nginx start
-# cd /myapp
-# bin/setup
-# bundle exec pumactl start
 
-exec "$@"
+sudo service nginx start
+cd /myapp
+bin/setup
+bundle exec pumactl start
+
