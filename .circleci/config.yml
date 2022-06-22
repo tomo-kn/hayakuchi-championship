@@ -81,8 +81,8 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-          repo: AWS_RESOURCE_NAME_PREFIX
-          region: AWS_REGION
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          region: "${AWS_REGION}"
           tag: "${CIRCLE_SHA1}"
           path: ./
     
