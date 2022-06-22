@@ -18,13 +18,18 @@ RUN apt-get update && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
   apt-get update -qq && apt-get install -y yarn nodejs && \
-  gem install bundler -v 2.3.15
+  gem install bundler --update
 
 RUN gem update --system
 
 RUN yarn install --check-files
-RUN bundle _2.3.15_ install
+RUN bundle install
+
+# アセットのプリコンパイル
 RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=placeholder
+RUN yarn cache clean
+RUN rm -rf node_modules tmp/cache
+
 COPY . /myapp
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
@@ -33,11 +38,6 @@ RUN mkdir -p tmp/pids
 RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-
-# アセットのプリコンパイル
-
-RUN yarn cache clean
-RUN rm -rf node_modules tmp/cache
 
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
