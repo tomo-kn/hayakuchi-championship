@@ -42,4 +42,4 @@ ADD nginx/nginx.conf /etc/nginx/nginx.conf
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
 RUN chmod +x /myapp/entrypoint.sh
-ENTRYPOINT [ "sh", "/myapp/entrypoint.sh" ]
+CMD [ "sh", "/myapp/entrypoint.sh" ]

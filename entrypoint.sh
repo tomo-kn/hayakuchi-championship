@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 sudo service nginx start
 cd /myapp
