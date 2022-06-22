@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.8.0
   node: circleci/node@5.0.2
-  aws-ecr: circleci/aws-ecr@6.12.2
+  aws-ecr: circleci/aws-ecr@8.1.2
   aws-ecs: circleci/aws-ecs@2.3.0
 
 jobs:
@@ -81,8 +81,7 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ACCOUNT_URL
-          repo: "hayakuchi-championship"
+          repo: AWS_RESOURCE_NAME_PREFIX
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./
@@ -115,10 +114,10 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - build_and_push_image_backend
-          family: "hayakuchi-championship-task"
-          service-name: "hayakuchi-championship-service"
-          cluster-name: "hayakuchi-championship-cluster"
-          container-image-name-updates: "container=hayakuchi-championship-service,tag=${CIRCLE_SHA1}"
+          family: "${AWS_RESOURCE_NAME_PREFIX}-task"
+          service-name: "${AWS_RESOURCE_NAME_PREFIX}-service"
+          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
+          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-container,tag=${CIRCLE_SHA1}"
           filters:
             branches:
               only: main
