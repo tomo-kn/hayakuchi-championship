@@ -30,7 +30,6 @@ RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=pla
 RUN yarn cache clean
 RUN rm -rf node_modules tmp/cache
 
-COPY . /myapp
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
 
@@ -38,6 +37,8 @@ RUN mkdir -p tmp/pids
 RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
+
+COPY . /myapp
 
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
