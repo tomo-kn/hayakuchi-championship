@@ -44,5 +44,6 @@ RUN mkdir -p tmp/pids
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
 RUN chmod +x /myapp/entrypoint.sh
-RUN chmod +x /myapp/bin/setup
+RUN chmod +x /myapp/bin/*
+
 CMD [ "sh", "/myapp/entrypoint.sh" ]
