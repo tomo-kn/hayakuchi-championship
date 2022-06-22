@@ -36,12 +36,11 @@ RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
-USER nginx
 COPY . /myapp
-
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
 
+USER nginx
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
 RUN chmod +x /myapp/entrypoint.sh
