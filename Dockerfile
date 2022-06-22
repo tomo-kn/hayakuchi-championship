@@ -39,8 +39,8 @@ ADD nginx/nginx.conf /etc/nginx/nginx.conf
 USER nginx
 COPY . /myapp
 
-RUN mkdir tmp/sockets
-RUN mkdir tmp/pids
+RUN mkdir -p tmp/sockets
+RUN mkdir -p tmp/pids
 
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
