@@ -7,6 +7,7 @@ ENV TZ Asia/Tokyo
 
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
+COPY Gemfile.lock /myapp/Gemfile.lock
 
 # yarnパッケージ管理ツールをインストール
 RUN apt-get update && \
@@ -30,14 +31,15 @@ RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=pla
 RUN yarn cache clean
 RUN rm -rf node_modules tmp/cache
 
-RUN mkdir -p tmp/sockets
-RUN mkdir -p tmp/pids
+RUN mkdir tmp/sockets
+RUN mkdir tmp/pids
 
 # nginx
 RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
+USER nginx
 COPY . /myapp
 
 # コンテナ起動時に実行させるスクリプトを追加
