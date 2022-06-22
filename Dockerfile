@@ -40,8 +40,9 @@ COPY . /myapp
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
 
-USER nginx
+
 # コンテナ起動時に実行させるスクリプトを追加
 EXPOSE 80
 RUN chmod +x /myapp/entrypoint.sh
+USER nginx
 CMD [ "sh", "/myapp/entrypoint.sh" ]
