@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-service nginx start
+systemctl start nginx
 rm -f /myapp/tmp/pids/server.pid
 cd /myapp
 bin/setup
