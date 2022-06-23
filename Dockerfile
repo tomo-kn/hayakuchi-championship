@@ -45,5 +45,4 @@ RUN mkdir -p tmp/pids
 EXPOSE 80
 RUN chmod +x /myapp/entrypoint.sh
 RUN chmod +x /myapp/bin/*
-RUN service nginx start
 CMD [ "sh", "/myapp/entrypoint.sh" ]
