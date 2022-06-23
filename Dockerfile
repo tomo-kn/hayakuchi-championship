@@ -26,11 +26,6 @@ RUN gem update --system
 RUN yarn install --check-files
 RUN bundle install
 
-# アセットのプリコンパイル
-RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=placeholder
-RUN yarn cache clean
-RUN rm -rf node_modules tmp/cache
-
 # nginx
 RUN groupadd nginx
 RUN useradd -g nginx nginx
