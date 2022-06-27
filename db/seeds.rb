@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Sentence.create!(
+Sentence.first_or_create!(
   [
     { content: 'バナナの謎はまだ謎なのだぞ' },
     { content: 'あの長押の長薙刀は誰が長薙刀ぞ' },
@@ -19,7 +19,7 @@ Sentence.create!(
     { content: '竹垣に竹立てかけたかったから竹立てかけた' },
     { content: '左折車専用車線 右折車が逆走' },
     { content: '商社の社長が 調査書捜査中' },
-    { content: '蝶々(ちょうちょう)ちょっと取ってちょうだい' },
+    { content: '蝶々(ちょうちょう)ちょっとちょっとだけ取ってちょうだい' },
     { content: '東京特許許可局許可局長の許可' },
     { content: 'ブスバスガイド バスガス爆発' },
     { content: 'よぼよぼ病予防病院予防病室' },
