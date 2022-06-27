@@ -14,6 +14,7 @@ RUN apt-get update && \
   apt-get install -y build-essential \
   curl apt-transport-https wget \
   libpq-dev \
+  libgmp3-dev \
   nginx \
   sudo && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \

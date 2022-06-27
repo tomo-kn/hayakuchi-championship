@@ -9,4 +9,5 @@ service nginx start
 rm -f /myapp/tmp/pids/server.pid
 cd /myapp
 bin/setup
+bundle exec rails db:seed
 bundle exec pumactl start
