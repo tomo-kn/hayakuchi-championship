@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+gem 'bootstrap-sass', '~>3.4.1'
 gem 'meta-tags', :require => 'meta_tags'
 gem 'sorcery'
 gem 'damerau-levenshtein', '~>1.3.3'
