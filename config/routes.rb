@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   get '/practices/:id', to: 'practices#show'
   get '/practices/:id/result', to: 'practices#result'
 
+  resources :users, only: %i[new create show edit update]
+
+  get '/login', to: 'sessions#new', as: :login
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy', as: :logout
+
   namespace :api do
     namespace :v1 do
       get :health_check, to: 'health_check#index'

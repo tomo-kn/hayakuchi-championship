@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Myapp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= display_meta_tags(default_meta_tags) %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,6 +12,18 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="content">
+      <div id="nav">
+        <% if logged_in? %>
+          <%= render 'shared/logged_in_header' %>
+        <% else %>
+          <%= render 'shared/not_logged_in_header' %>
+        <% end %>
+      </div>
+      <%= render 'shared/flash_message' %>
+      <%= yield %>
+    </div>
+    <%= render 'shared/footer' %>
+    <%= debug(params) if Rails.env.development? %>
   </body>
 </html>

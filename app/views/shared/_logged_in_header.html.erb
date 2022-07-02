@@ -1,0 +1,13 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "早口言葉選手権", "/", id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "遊び方", "/how-to-play"%></li>
+        <li><%= link_to "ランキング", "/rank"%></li>
+        <li>マイページ</li>
+        <li><%= link_to "ログアウト", logout_path, method: :delete%></li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_110949) do
+ActiveRecord::Schema.define(version: 2022_07_01_042147) do
 
   create_table "judges", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "content"
@@ -40,6 +40,10 @@ ActiveRecord::Schema.define(version: 2022_06_20_110949) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.index ["crypted_password"], name: "index_users_on_crypted_password"
+    t.index ["salt"], name: "index_users_on_salt"
   end
 
 end
