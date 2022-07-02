@@ -10,7 +10,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = 'ユーザーの作成に成功しました'
+      log_in @user
+      flash[:success] = 'ユーザーの作成に成功しました'
       render 'index'
     else
       render 'new'
@@ -20,6 +21,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email, :password)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 end
