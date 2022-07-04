@@ -14,8 +14,8 @@
         <button class = "btn btn-primary btn-lg" id="rec">録音する</button>
         <button class = "btn btn-danger btn-lg d-none" id="result">採点する</button>
             <%= form_with url:practices_path(@sentence), id: "voiceform", local: true do |f| %>
-              <%= f.hidden_field :target_id, :value => @sentence.id %>
-              <%= f.hidden_field :impersonation_voice  %>
+              <%= f.hidden_field :sentence_id, :value => @sentence.id %>
+              <%= f.hidden_field :voice  %>
               <%= f.hidden_field :score, :value => 0  %>
             <% end %>
       </div>

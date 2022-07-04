@@ -1,7 +1,3 @@
-import axios from 'axios';
-axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.headers['X-CSRF-TOKEN'] = document.getElementsByName('csrf-token')[0].getAttribute('content');
-
 const recognition = new webkitSpeechRecognition();
 
 const rec = document.getElementById('rec');
