@@ -3,6 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+# bootstrap
+gem 'uglifier'
+gem 'jquery-rails'
+gem 'bootstrap'
+
 gem 'bootstrap-sass', '~>3.4.1'
 gem 'meta-tags', :require => 'meta_tags'
 gem 'sorcery'
