@@ -10,6 +10,7 @@ const stop = document.getElementById('stop');
 const download = document.getElementById('download');
 
 const text = document.getElementById('text');
+const text2 = document.getElementById('text2');
 
 var recording = false;
 
@@ -179,12 +180,17 @@ result.onclick = function() {
   const resultWord_original = text.innerHTML;
   const sentence_original = document.getElementById('sentence').value;
   
-  const resultWord = resultWord_original.replace(/\s+/g, "").replace("<div>", "").replace("</div>", "");
+  const resultWord = resultWord_original.replace(/\s+/g, "");
   const sentenceWord = sentence_original.repeat(3).replace(/\s+/g, "");
 
   console.log(resultWord);
   console.log(sentenceWord);
   console.log(levenshteinDistance(resultWord, sentenceWord));
+
+  const accuracy = text2.innerHTML;
+  console.log(accuracy);
+  const score = (100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy;
+  console.log("スコアは、" + score + "点です。");
 
   
 };
@@ -222,8 +228,10 @@ function levenshteinDistance( str1, str2 ) {
 recognition.onresult = function(e){
   for (let i = e.resultIndex; (i < e.results.length); i++){
     let product = e.results[i][0].transcript;
+    let confidence = e.results[i][0].confidence;
     if(e.results[i].isFinal){
-      text.innerHTML += '<div>' + product + '</div>';
+      text.innerHTML += product;
+      text2.innerHTML += confidence;
       console.log(e);
     }
   }
