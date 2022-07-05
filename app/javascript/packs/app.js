@@ -173,17 +173,58 @@ let saveAudio = function () {
   });
 };
 
-recognition.onresult = function(e){
-  for (let i = e.resultIndex; (i < e.results.length); i++){
-    let result = e.results[i][0].transcript;
-    if(e.results[i].isFinal){
-      text.innerHTML += '<div>' + result + '</div>';
-      console.log(e);
-    }
+// 結果の処理
+result.onclick = function() {
+  notice.innerHTML = '〜音声処理中〜';
+  const resultWord_original = text.innerHTML;
+  const sentence_original = document.getElementById('sentence').value;
+  
+  const resultWord = resultWord_original.replace(/\s+/g, "").replace("<div>", "").replace("</div>", "");
+  const sentenceWord = sentence_original.repeat(3).replace(/\s+/g, "");
+
+  console.log(resultWord);
+  console.log(sentenceWord);
+  console.log(levenshteinDistance(resultWord, sentenceWord));
+
+  
+};
+
+// レーベンシュタイン距離の定義
+function levenshteinDistance( str1, str2 ) { 
+  var x = str1.length; 
+  var y = str2.length; 
+
+  var d = []; 
+  for( var i = 0; i <= x; i++ ) { 
+      d[i] = []; 
+      d[i][0] = i; 
+  } 
+  for( var i = 0; i <= y; i++ ) { 
+      d[0][i] = i; 
+  } 
+
+  var cost = 0; 
+  for( var i = 1; i <= x; i++ ) { 
+      for( var j = 1; j <= y; j++ ) { 
+          cost = str1[i - 1] == str2[j - 1] ? 0 : 1; 
+
+          d[i][j] = Math.min( d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost ); 
+      }
   }
+  return d[x][y];
 };
 
 
 
 
 
+// デバッグ
+recognition.onresult = function(e){
+  for (let i = e.resultIndex; (i < e.results.length); i++){
+    let product = e.results[i][0].transcript;
+    if(e.results[i].isFinal){
+      text.innerHTML += '<div>' + product + '</div>';
+      console.log(e);
+    }
+  }
+};
