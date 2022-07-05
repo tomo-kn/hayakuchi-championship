@@ -8,6 +8,10 @@ const play = document.getElementById("play")
 const restart = document.getElementById('restart');
 const stop = document.getElementById('stop');
 const download = document.getElementById('download');
+const display = document.getElementById('display');
+const judge = document.getElementById('judge');
+const startTime = document.getElementById('startTime');
+const endTime = document.getElementById('endTime');
 
 const text = document.getElementById('text');
 const text2 = document.getElementById('text2');
@@ -58,12 +62,14 @@ var hundleSuccess = (function(stream){
   nowRecordingMessage();
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
   recognition.onspeechstart = function() {
+    startTime.innerHTML += performance.now();
     console.log("開始しました")
     notice.innerHTML = '録音中…';
-  }
+  };
   recognition.onspeechend = function() {
+    endTime.innerHTML += performance.now();
     stop.click();
-  }
+  };
 });
 
 // save audio data //1024bitのバッファサイズに達するごとにaudioDataにデータを追加する
@@ -176,23 +182,36 @@ let saveAudio = function () {
 
 // 結果の処理
 result.onclick = function() {
-  notice.innerHTML = '〜音声処理中〜';
+  notice.innerHTML = '～結果発表～';
+  result.classList.add("d-none");
   const resultWord_original = text.innerHTML;
   const sentence_original = document.getElementById('sentence').value;
   
   const resultWord = resultWord_original.replace(/\s+/g, "");
   const sentenceWord = sentence_original.repeat(3).replace(/\s+/g, "");
 
-  console.log(resultWord);
-  console.log(sentenceWord);
-  console.log(levenshteinDistance(resultWord, sentenceWord));
+  // console.log(resultWord);
+  // console.log(sentenceWord);
+  // console.log(levenshteinDistance(resultWord, sentenceWord));
 
   const accuracy = text2.innerHTML;
-  console.log(accuracy);
-  const score = (100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy;
-  console.log("スコアは、" + score + "点です。");
-
+  const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  const time = Math.round((endTime.innerHTML - startTime.innerHTML) / 100) / 10;  
+  display.innerHTML += "スコア: " + score + "点(Time: " + time + "秒)";
+  display.classList.remove("d-none");
   
+  if(score > 95){
+    judge.innerHTML += "完璧です！"
+  }else if(score > 90){
+    judge.innerHTML += "良い発音ですね！"
+  }else if(score > 80){
+    judge.innerHTML += "概ね聞き取りやすいです"
+  }else {
+    judge.innerHTML += "頑張って訓練しましょう。"
+  };
+
+
+
 };
 
 // レーベンシュタイン距離の定義
