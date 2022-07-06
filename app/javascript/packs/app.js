@@ -12,9 +12,12 @@ const display = document.getElementById('display');
 const judge = document.getElementById('judge');
 const startTime = document.getElementById('startTime');
 const endTime = document.getElementById('endTime');
+const yourWord = document.getElementById('yourWord')
+const game = document.getElementById('game')
+const practices = document.getElementById('practices')
 
-const text = document.getElementById('text');
-const text2 = document.getElementById('text2');
+const kotoba = document.getElementById('kotoba');
+const seido = document.getElementById('seido');
 
 var recording = false;
 
@@ -184,7 +187,7 @@ let saveAudio = function () {
 result.onclick = function() {
   notice.innerHTML = '～結果発表～';
   result.classList.add("d-none");
-  const resultWord_original = text.innerHTML;
+  const resultWord_original = kotoba.innerHTML;
   const sentence_original = document.getElementById('sentence').value;
   
   const resultWord = resultWord_original.replace(/\s+/g, "");
@@ -194,22 +197,35 @@ result.onclick = function() {
   // console.log(sentenceWord);
   // console.log(levenshteinDistance(resultWord, sentenceWord));
 
-  const accuracy = text2.innerHTML;
+  // display
+  const accuracy = seido.innerHTML;
   const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
   const time = Math.round((endTime.innerHTML - startTime.innerHTML) / 100) / 10;  
   display.innerHTML += "スコア: " + score + "点(Time: " + time + "秒)";
   display.classList.remove("d-none");
   
-  if(score > 95){
+  // judge
+  if(score >= 95){
     judge.innerHTML += "完璧です！"
-  }else if(score > 90){
+  }else if(score >= 90){
     judge.innerHTML += "良い発音ですね！"
-  }else if(score > 80){
+  }else if(score >= 80){
     judge.innerHTML += "概ね聞き取りやすいです"
   }else {
     judge.innerHTML += "頑張って訓練しましょう。"
   };
+  judge.classList.remove("d-none");
 
+  // yourWord
+  yourWord.innerHTML += "あなたの言葉は、<span style='color:red'>" + resultWord + "</span>と聞こえました";
+  yourWord.classList.remove("d-none");
+
+  // game,practices
+  game.classList.remove("invisible")
+  practices.classList.remove("invisible")
+
+  // twitterのシェアボタン
+  twitter.classList.remove("d-none")
 
 
 };
@@ -249,8 +265,8 @@ recognition.onresult = function(e){
     let product = e.results[i][0].transcript;
     let confidence = e.results[i][0].confidence;
     if(e.results[i].isFinal){
-      text.innerHTML += product;
-      text2.innerHTML += confidence;
+      kotoba.innerHTML += product;
+      seido.innerHTML += confidence;
       console.log(e);
     }
   }

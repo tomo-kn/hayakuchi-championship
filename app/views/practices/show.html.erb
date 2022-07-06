@@ -15,7 +15,7 @@
         <button class="btn btn-danger btn-lg d-none" id="result">採点する</button>
         <h2 class="d-none" id="display"></h2>
         <h3 class="d-none" id="judge"></h3>
-        <p class="d-none" id=""></p>
+        <p class="d-none" id="yourWord"></p>
           <input type="hidden" id="sentence" value="<%= @sentence.content %>">
       </div>
 
@@ -29,16 +29,23 @@
             <button class = "col-2 btn btn-primary mr-3 invisible" id="play" >再生する</button>
             <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 invisible" %>
         </div>
+        <div class="row justify-content-center pt-2">
+            <%= link_to "今すぐ試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 invisible" %>
+            <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 invisible" %>
+        </div>
+        <%= link_to "https://twitter.com/share?url=#{ request.url }&hashtags=早口言葉,早口言葉選手権&&text=早口言葉【#{@sentence.content}】に挑戦しました！%0a%0a結果は…#{}点/100点でした！%0aみんなも挑戦してみよう！",id: "twitter", class: "d-none", target: '_blank' do %>
+          <i class="fab fa-twitter" style='color: #3399FF;'></i>練習結果をつぶやく
+        <% end %>
       </section>
     </div>
   </div>
 </div>
 
 
-<div id="text"></div>
-<div id="text2"></div>
-<div id="startTime"></div>
-<div id="endTime"></div>
+<div class="d-none" id="kotoba"></div>
+<div class="d-none" id="seido"></div>
+<div class="d-none" id="startTime"></div>
+<div class="d-none" id="endTime"></div>
 
 
 <%= javascript_pack_tag 'app', 'data-turbolinks-track': 'reload' %>
