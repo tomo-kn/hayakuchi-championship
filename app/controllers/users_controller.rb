@@ -8,14 +8,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.create(user_params)
     if @user.save
       log_in @user
       flash[:success] = 'ユーザーの作成に成功しました'
-      render 'index'
+      redirect_to root_path
     else
-      render 'new'
       flash.now[:alert] = 'ユーザーの作成に失敗しました'
+      render :new
     end
   end
 
