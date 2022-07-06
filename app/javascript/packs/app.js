@@ -15,6 +15,8 @@ const endTime = document.getElementById('endTime');
 const yourWord = document.getElementById('yourWord')
 const game = document.getElementById('game')
 const practices = document.getElementById('practices')
+const twitter = document.getElementById('twitter')
+
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -225,6 +227,7 @@ result.onclick = function() {
   practices.classList.remove("invisible")
 
   // twitterのシェアボタン
+  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
 

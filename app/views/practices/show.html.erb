@@ -33,9 +33,7 @@
             <%= link_to "今すぐ試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 invisible" %>
             <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 invisible" %>
         </div>
-        <%= link_to "https://twitter.com/share?url=#{ request.url }&hashtags=早口言葉,早口言葉選手権&&text=早口言葉【#{@sentence.content}】に挑戦しました！%0a%0a結果は…#{}点/100点でした！%0aみんなも挑戦してみよう！",id: "twitter", class: "d-none", target: '_blank' do %>
-          <i class="fab fa-twitter" style='color: #3399FF;'></i>練習結果をつぶやく
-        <% end %>
+        <div class="d-none" id="twitter"></div>
       </section>
     </div>
   </div>
