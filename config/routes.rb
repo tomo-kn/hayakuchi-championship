@@ -5,12 +5,11 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
   get '/how-to-play', to: 'pages#how_to_play'
   get '/game', to: 'games#index'
-  get '/game/result', to: 'games#result'
   get '/practices', to: 'practices#index'
+  get '/practices/:id', to: 'practices#show'
+  post '/practices/:id', to: 'practices#create'
   get '/rank', to: 'ranks#index'
 
-  get '/practices/:id', to: 'practices#show'
-  get '/practices/:id/result', to: 'practices#result'
 
   resources :users, only: %i[new create show edit update]
 

@@ -7,7 +7,20 @@ class PracticesController < ApplicationController
     @sentence = Sentence.find(params[:id])
   end
 
-  def result
-    @sentence = Sentence.find(params[:id])
+  def new
+    @practice = Practice.new
   end
+
+  def create
+    @practice = Practice.new(practice_params)
+    @practice.user_id = current_user.id
+    @practice.save
+  end
+  
+  private
+
+    def practice_params
+      params.permit(:score, :time, :word, :user_id, :sentence_id)
+    end
+
 end

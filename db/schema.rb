@@ -10,23 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_01_042147) do
-
-  create_table "judges", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
+ActiveRecord::Schema.define(version: 2022_07_06_072637) do
 
   create_table "practices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
     t.integer "score"
-    t.integer "accuracy"
     t.float "time"
     t.string "voice"
-    t.datetime "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.bigint "sentence_id"
+    t.string "word"
+    t.index ["sentence_id"], name: "index_practices_on_sentence_id"
+    t.index ["user_id"], name: "index_practices_on_user_id"
   end
 
   create_table "sentences", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -46,4 +42,6 @@ ActiveRecord::Schema.define(version: 2022_07_01_042147) do
     t.index ["salt"], name: "index_users_on_salt"
   end
 
+  add_foreign_key "practices", "sentences"
+  add_foreign_key "practices", "users"
 end

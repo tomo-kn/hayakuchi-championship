@@ -28,3 +28,10 @@ Sentence.first_or_create!(
     { content: '京の生鱈 奈良生まな鰹' }
   ]
 )
+
+User.first_or_create!(
+  name: "test",
+  email: "test@example.com",
+  password: "password",
+  password_confirmation: "password"
+)

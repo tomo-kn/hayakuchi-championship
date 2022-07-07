@@ -3,10 +3,15 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+# bootstrap
+gem 'uglifier'
+gem 'jquery-rails'
+gem 'bootstrap'
 gem 'bootstrap-sass', '~>3.4.1'
+# SEO
 gem 'meta-tags', :require => 'meta_tags'
+# crypted_password実装
 gem 'sorcery'
-gem 'damerau-levenshtein', '~>1.3.3'
 # docker-compose起動時のエラー「You don't have net-smtp installed in your application. Please add it to your Gemfile and run bundle install 」解消
 gem 'net-smtp'
 gem 'net-imap'
