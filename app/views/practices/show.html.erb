@@ -13,6 +13,16 @@
       <div class="mt-4 mb-5">
         <button class="btn btn-primary btn-lg" id="rec">録音する</button>
         <button class="btn btn-danger btn-lg d-none" id="result">採点する</button>
+          <% if logged_in? %>
+            <%= form_with model: @practice, id: "voiceform", local: true do |f| %>
+              <%= f.hidden_field :score %>
+              <%= f.hidden_field :time %>
+              <%= f.hidden_field :word %>
+              <%= f.hidden_field :sentence_id, :value => @sentence.id %>
+              <input type="submit"  id="submit" style="display:none;" >
+            <% end %>
+            <input type="hidden" id="user" value="<%= current_user.id %>">
+          <% end %>
         <h2 class="d-none" id="display"></h2>
         <h3 class="d-none" id="judge"></h3>
         <p class="d-none" id="yourWord"></p>

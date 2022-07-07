@@ -4,7 +4,7 @@ const rec = document.getElementById('rec');
 const notice = document.getElementById('notice');
 const result = document.getElementById('result');
 const playback = document.getElementById('playback');
-const play = document.getElementById("play")
+const play = document.getElementById("play");
 const restart = document.getElementById('restart');
 const stop = document.getElementById('stop');
 const download = document.getElementById('download');
@@ -12,11 +12,10 @@ const display = document.getElementById('display');
 const judge = document.getElementById('judge');
 const startTime = document.getElementById('startTime');
 const endTime = document.getElementById('endTime');
-const yourWord = document.getElementById('yourWord')
-const game = document.getElementById('game')
-const practices = document.getElementById('practices')
-const twitter = document.getElementById('twitter')
-
+const yourWord = document.getElementById('yourWord');
+const game = document.getElementById('game');
+const practices = document.getElementById('practices');
+const twitter = document.getElementById('twitter');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -230,7 +229,17 @@ result.onclick = function() {
   twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
-
+  // ログイン時のみデータを保存する
+  if (document.getElementById('user')) {
+    const formScore = document.getElementById('score');
+    const formTime = document.getElementById('time');
+    const formWord = document.getElementById('word');
+    formScore.value = score;
+    formTime.value = time;
+    formWord.value = resultWord;
+  
+    document.getElementById("submit").click();
+  };
 };
 
 // レーベンシュタイン距離の定義
@@ -257,10 +266,6 @@ function levenshteinDistance( str1, str2 ) {
   }
   return d[x][y];
 };
-
-
-
-
 
 // デバッグ
 recognition.onresult = function(e){

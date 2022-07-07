@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/game', to: 'games#index'
   get '/practices', to: 'practices#index'
   get '/practices/:id', to: 'practices#show'
+  post '/practices/:id', to: 'practices#create'
   get '/rank', to: 'ranks#index'
 
 
