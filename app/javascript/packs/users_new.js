@@ -1,2 +1,2 @@
 history.replaceState('', '', '/users/new')
-require("users_new")
+require("../packs/users_new")
