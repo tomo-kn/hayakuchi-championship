@@ -13,9 +13,9 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[new create show edit update]
 
-  get '/login', to: 'sessions#new', as: :login
+  get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy', as: :logout
+  delete '/logout', to: 'sessions#destroy'
 
   namespace :api do
     namespace :v1 do
