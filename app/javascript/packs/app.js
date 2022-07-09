@@ -53,15 +53,14 @@ rec.onclick = function() {
 
 var hundleSuccess = (function(stream){
   rec.disabled = true;
-  // 実験
-  // audioData = [];
-  // audioContext = new AudioContext();
-  // audio_sample_rate = audioContext.sampleRate;
-  // scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
-  // mediaStreamSource = audioContext.createMediaStreamSource(stream);
-  // mediaStreamSource.connect(scriptProcessor);
-  // scriptProcessor.onaudioprocess = onAudioProcess;
-  // scriptProcessor.connect(audioContext.destination);
+  audioData = [];
+  audioContext = new AudioContext();
+  audio_sample_rate = audioContext.sampleRate;
+  scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
+  mediaStreamSource = audioContext.createMediaStreamSource(stream);
+  mediaStreamSource.connect(scriptProcessor);
+  scriptProcessor.onaudioprocess = onAudioProcess;
+  scriptProcessor.connect(audioContext.destination);
 
   nowRecordingMessage();
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
@@ -77,15 +76,14 @@ var hundleSuccess = (function(stream){
 });
 
 // save audio data //1024bitのバッファサイズに達するごとにaudioDataにデータを追加する
-// 実験
-// var onAudioProcess = function (e) {
-//   var input = e.inputBuffer.getChannelData(0);
-//   var bufferData = new Float32Array(bufferSize);
-//   for (var i = 0; i < bufferSize; i++) {
-//       bufferData[i] = input[i];
-//   }
-//   audioData.push(bufferData);
-// };
+var onAudioProcess = function (e) {
+  var input = e.inputBuffer.getChannelData(0);
+  var bufferData = new Float32Array(bufferSize);
+  for (var i = 0; i < bufferSize; i++) {
+      bufferData[i] = input[i];
+  }
+  audioData.push(bufferData);
+};
 
 // 停止
 stop.onclick = function() {
@@ -95,99 +93,92 @@ stop.onclick = function() {
   result.classList.remove("d-none");
   play.classList.remove("invisible");
   restart.classList.remove("invisible");
-  // 実験
-  // saveAudio();
+  saveAudio();
 };
 
 // 再生
-// 実験
-// play.onclick = function(audioBlob) {
-//   if (micBlobUrl) {
-//     playback.src = micBlobUrl;
-//     // 再生終了時
-//     playback.onended = function() {
-//       playback.pause();
-//       playback.src = '';
-//     };
-//     // 再生
-//     playback.play();
-//   }
-// };
+play.onclick = function(audioBlob) {
+  if (micBlobUrl) {
+    playback.src = micBlobUrl;
+    // 再生終了時
+    playback.onended = function() {
+      playback.pause();
+      playback.src = '';
+    };
+    // 再生
+    playback.play();
+  }
+};
 
+// WAVに変換
+let exportWAV = function (audioData) {
+  let encodeWAV = function (samples, sampleRate) {
+      let buffer = new ArrayBuffer(44 + samples.length * 2);
+      let view = new DataView(buffer);
 
-//WAVに変換
-// 実験
-// let exportWAV = function (audioData) {
-//   let encodeWAV = function (samples, sampleRate) {
-//       let buffer = new ArrayBuffer(44 + samples.length * 2);
-//       let view = new DataView(buffer);
+      let writeString = function (view, offset, string) {
+          for (let i = 0; i < string.length; i++) {
+              view.setUint8(offset + i, string.charCodeAt(i));
+          }
+      };
 
-//       let writeString = function (view, offset, string) {
-//           for (let i = 0; i < string.length; i++) {
-//               view.setUint8(offset + i, string.charCodeAt(i));
-//           }
-//       };
+      let floatTo16BitPCM = function (output, offset, input) {
+          for (let i = 0; i < input.length; i++, offset += 2) {
+              let s = Math.max(-1, Math.min(1, input[i]));
+              output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+          }
+      };
 
-//       let floatTo16BitPCM = function (output, offset, input) {
-//           for (let i = 0; i < input.length; i++, offset += 2) {
-//               let s = Math.max(-1, Math.min(1, input[i]));
-//               output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-//           }
-//       };
+      writeString(view, 0, 'RIFF');  // RIFFヘッダ
+      view.setUint32(4, 32 + samples.length * 2, true); // これ以降のファイルサイズ
+      writeString(view, 8, 'WAVE'); // WAVEヘッダ
+      writeString(view, 12, 'fmt '); // fmtチャンク
+      view.setUint32(16, 16, true); // fmtチャンクのバイト数
+      view.setUint16(20, 1, true); // フォーマットID
+      view.setUint16(22, 1, true); // チャンネル数
+      view.setUint32(24, sampleRate, true); // サンプリングレート
+      view.setUint32(28, sampleRate * 2, true); // データ速度
+      view.setUint16(32, 2, true); // ブロックサイズ
+      view.setUint16(34, 16, true); // サンプルあたりのビット数
+      writeString(view, 36, 'data'); // dataチャンク
+      view.setUint32(40, samples.length * 2, true); // 波形データのバイト数
+      floatTo16BitPCM(view, 44, samples); // 波形データ
+      return view;
+  };
 
-//       writeString(view, 0, 'RIFF');  // RIFFヘッダ
-//       view.setUint32(4, 32 + samples.length * 2, true); // これ以降のファイルサイズ
-//       writeString(view, 8, 'WAVE'); // WAVEヘッダ
-//       writeString(view, 12, 'fmt '); // fmtチャンク
-//       view.setUint32(16, 16, true); // fmtチャンクのバイト数
-//       view.setUint16(20, 1, true); // フォーマットID
-//       view.setUint16(22, 1, true); // チャンネル数
-//       view.setUint32(24, sampleRate, true); // サンプリングレート
-//       view.setUint32(28, sampleRate * 2, true); // データ速度
-//       view.setUint16(32, 2, true); // ブロックサイズ
-//       view.setUint16(34, 16, true); // サンプルあたりのビット数
-//       writeString(view, 36, 'data'); // dataチャンク
-//       view.setUint32(40, samples.length * 2, true); // 波形データのバイト数
-//       floatTo16BitPCM(view, 44, samples); // 波形データ
-//       return view;
-//   };
+  let mergeBuffers = function (audioData) {
+      let sampleLength = 0;
+      for (let i = 0; i < audioData.length; i++) {
+          sampleLength += audioData[i].length;
+      }
+      let samples = new Float32Array(sampleLength);
+      let sampleIdx = 0;
+      for (let i = 0; i < audioData.length; i++) {
+          for (let j = 0; j < audioData[i].length; j++) {
+              samples[sampleIdx] = audioData[i][j];
+              sampleIdx++;
+          }
+      }
+      return samples;
+  };
 
-//   let mergeBuffers = function (audioData) {
-//       let sampleLength = 0;
-//       for (let i = 0; i < audioData.length; i++) {
-//           sampleLength += audioData[i].length;
-//       }
-//       let samples = new Float32Array(sampleLength);
-//       let sampleIdx = 0;
-//       for (let i = 0; i < audioData.length; i++) {
-//           for (let j = 0; j < audioData[i].length; j++) {
-//               samples[sampleIdx] = audioData[i][j];
-//               sampleIdx++;
-//           }
-//       }
-//       return samples;
-//   };
+  let dataview = encodeWAV(mergeBuffers(audioData), audio_sample_rate);
+  let audioBlob = new Blob([dataview], { type: 'audio/wav' });
+  micBlobUrl = window.URL.createObjectURL(audioBlob);
+  console.log(dataview);
 
-//   let dataview = encodeWAV(mergeBuffers(audioData), audio_sample_rate);
-//   let audioBlob = new Blob([dataview], { type: 'audio/wav' });
-//   micBlobUrl = window.URL.createObjectURL(audioBlob);
-//   console.log(dataview);
-
-//   let myURL = window.URL || window.webkitURL;
-//   let url = myURL.createObjectURL(audioBlob);
-//   download.href = url;
-// };
-
-
+  let myURL = window.URL || window.webkitURL;
+  let url = myURL.createObjectURL(audioBlob);
+  download.href = url;
+};
 
 //保存
-// 実験
-// let saveAudio = function () {
-//   exportWAV(audioData);
-//   download.download = 'test.wav';
-//   audioContext.close().then(function () {
-//   });
-// };
+let saveAudio = function () {
+  exportWAV(audioData);
+  download.download = 'test.wav';
+  audioContext.close().then(function () {
+  });
+};
 
 // 結果の処理
 result.onclick = function() {
@@ -272,7 +263,6 @@ function levenshteinDistance( str1, str2 ) {
   return d[x][y];
 };
 
-// デバッグ
 recognition.onresult = function(e){
   for (let i = e.resultIndex; (i < e.results.length); i++){
     let product = e.results[i][0].transcript;
