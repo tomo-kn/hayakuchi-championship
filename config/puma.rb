@@ -42,5 +42,6 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
+# Nginxとソケット通信をする際に必要になるファイル
 myapp_root = File.expand_path('..', __dir__)
 bind "unix://#{myapp_root}/tmp/sockets/puma.sock"
