@@ -65,15 +65,15 @@ var hundleSuccess = (function(stream){
 
   nowRecordingMessage();
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
-  recognition.onspeechstart = function() {
+  recognition.addEventListener('speechstart', function() {
     startTime.innerHTML += performance.now();
     console.log("開始しました")
     notice.innerHTML = '録音中…';
-  };
-  recognition.onspeechend = function() {
+  });
+  recognition.addEventListener('speechend', function() {
     endTime.innerHTML += performance.now();
     stop.click();
-  };
+  });
 });
 
 // save audio data //1024bitのバッファサイズに達するごとにaudioDataにデータを追加する
