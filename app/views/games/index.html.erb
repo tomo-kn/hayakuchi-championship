@@ -32,4 +32,10 @@
 <div class="d-none" id="kotoba"></div>
 <div class="d-none" id="seido"></div>
 
+<input type="hidden" id="sentences" value="<%= @sentences %>">
+<input type="hidden" id="sentencesId" value="<%= @sentences_id %>">
+<input type="hidden" id="sentencesContent" value="<%= @sentences_content %>">
+<input type="hidden" id="sentencesSize" value="<%= @sentences.length %>">
+
+
 <%= javascript_pack_tag 'game', 'data-turbolinks-track': 'reload' %>

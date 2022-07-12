@@ -8,6 +8,10 @@ const scoreOut = document.getElementById('scoreOut');
 const rec = document.getElementById('rec');
 const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
+const sentences = document.getElementById('sentences').value;
+const sentencesId = document.getElementById('sentencesId').value;
+const sentencesContent = document.getElementById('sentencesContent').value;
+const sentencesSize = document.getElementById('sentencesSize').value;
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -53,6 +57,50 @@ var hundleSuccess = (function(stream) {
 stop.onclick = function() {
   console.log("停止しました");
 }
+
+// 1～sentencesSize の配列を作る
+let sentenceIndexArray = forRange(1, sentencesSize);
+function forRange(a, z) {
+  const lst = [];
+    for (let i = a; i <= z; i++) {
+        lst.push(i)
+    }
+    return lst;
+};
+
+// sentenceIndexArray の中身をシャッフルする
+const sentenceIndexArrayShuffled = shuffle(sentenceIndexArray)
+function shuffle([...array]) {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+console.log(sentences);
+console.log(sentencesId);
+console.log(sentencesContent);
+console.log(sentencesContent.length);
+console.log(sentenceIndexArray);
+console.log(sentenceIndexArrayShuffled);
+
+// シャッフルされた配列を用いてお題をランダムに取得し、表示する
+let index = 0;
+function selectSentence() {
+  let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
+  console.log(selectIndex);
+  let sentenceTemporary = sentencesContent[selectIndex];
+  console.log(sentenceTemporary);
+  index += 1
+}
+
+selectSentence();
+selectSentence();
+selectSentence();
+selectSentence();
+selectSentence();
+
 
 recognition.onresult = function(e){
   reading.innerHTML = '';
