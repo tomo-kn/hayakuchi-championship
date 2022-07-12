@@ -8,9 +8,7 @@ const scoreOut = document.getElementById('scoreOut');
 const rec = document.getElementById('rec');
 const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
-const sentences = document.getElementById('sentences').value;
-const sentencesId = document.getElementById('sentencesId').value;
-const sentencesContent = document.getElementById('sentencesContent').value;
+const sentencesContent = document.getElementsByName('sentencesContent');
 const sentencesSize = document.getElementById('sentencesSize').value;
 
 const kotoba = document.getElementById('kotoba');
@@ -78,27 +76,23 @@ function shuffle([...array]) {
   return array;
 };
 
-console.log(sentences);
-console.log(sentencesId);
-console.log(sentencesContent);
-console.log(sentencesContent.length);
-console.log(sentenceIndexArray);
-console.log(sentenceIndexArrayShuffled);
+// console.log(sentencesContent);
+// console.log(sentencesContent.length);
+// console.log(sentenceIndexArray);
+// console.log(sentenceIndexArrayShuffled);
 
 // シャッフルされた配列を用いてお題をランダムに取得し、表示する
 let index = 0;
 function selectSentence() {
   let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
   console.log(selectIndex);
-  let sentenceTemporary = sentencesContent[selectIndex];
+  let sentenceTemporary = sentencesContent[selectIndex].value;
   console.log(sentenceTemporary);
+
+  sentence.innerHTML = sentenceTemporary;
   index += 1
 }
 
-selectSentence();
-selectSentence();
-selectSentence();
-selectSentence();
 selectSentence();
 
 
