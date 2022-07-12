@@ -9,8 +9,22 @@ const rec = document.getElementById('rec');
 const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
 
+const kotoba = document.getElementById('kotoba');
+const seido = document.getElementById('seido');
+
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
+
+// カウントダウン
+let originTime = 90;
+let startTime = new Date();
+setInterval(() => {
+  timer.innerHTML = "残り時間: " + (originTime - getTimerTime()); 
+}, 1000);
+
+function getTimerTime() {
+  return Math.floor((new Date() - startTime) / 1000);
+}
 
 let nowRecordingMessage = () => {
   notice.innerHTML = '～録音待機中～';
@@ -38,5 +52,19 @@ var hundleSuccess = (function(stream) {
 // 停止
 stop.onclick = function() {
   console.log("停止しました");
-
 }
+
+recognition.onresult = function(e){
+  reading.innerHTML = '';
+  for (let i = e.resultIndex; (i < e.results.length); i++){
+    let product = e.results[i][0].transcript;
+    let confidence = e.results[i][0].confidence;
+    if(e.results[i].isFinal){
+      kotoba.innerHTML += product;
+      seido.innerHTML += confidence;
+      console.log(e);
+    } else {
+      reading.innerHTML += product;
+    }
+  }
+};
