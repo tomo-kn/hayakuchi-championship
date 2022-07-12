@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_06_072637) do
+ActiveRecord::Schema.define(version: 2022_07_12_093303) do
+
+  create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "score"
+    t.integer "out"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
 
   create_table "practices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "score"
@@ -42,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_072637) do
     t.index ["salt"], name: "index_users_on_salt"
   end
 
+  add_foreign_key "games", "users"
   add_foreign_key "practices", "sentences"
   add_foreign_key "practices", "users"
 end
