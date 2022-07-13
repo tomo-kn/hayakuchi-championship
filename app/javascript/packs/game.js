@@ -38,23 +38,21 @@ rec.onclick = function() {
   navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 }
 
-var hundleSuccess = (function(stream) {
+var hundleSuccess = (function() {
   rec.disabled = true;
   nowRecordingMessage();
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
-  recognition.addEventListener('speechstart', function() {
+  recognition.onspeechstart = function() {
     console.log("開始しました")
     notice.innerHTML = '録音中…';
-  });
-  recognition.addEventListener('speechend', function() {
+  };
+  recognition.onspeechend = function() {
     stop.click();
-  });
+  };
 })
 
-// 停止
-stop.onclick = function() {
-  console.log("停止しました");
-}
+// 採点
+
 
 // 1～sentencesSize の配列を作る
 let sentenceIndexArray = forRange(1, sentencesSize);
@@ -76,11 +74,6 @@ function shuffle([...array]) {
   return array;
 };
 
-// console.log(sentencesContent);
-// console.log(sentencesContent.length);
-// console.log(sentenceIndexArray);
-// console.log(sentenceIndexArrayShuffled);
-
 // シャッフルされた配列を用いてお題をランダムに取得し、表示する
 let index = 0;
 function selectSentence() {
@@ -93,8 +86,22 @@ function selectSentence() {
   index += 1
 }
 
-selectSentence();
+// 初めのお題(初期値)
+var startSentence = true;
+if(startSentence) {
+  selectSentence();
+  startSentence = false;
+};
 
+// 停止
+stop.onclick = function() {
+  console.log("停止しました");
+  rec.textContent = "録音する";
+  notice.innerHTML = '録音ボタンを押して1回繰り返そう！';
+  rec.disabled = false;
+  selectSentence();
+  recognition.stop();
+};
 
 recognition.onresult = function(e){
   reading.innerHTML = '';
