@@ -63,7 +63,11 @@ var hundleSuccess = (function() {
   };
   // 話が終わったら自動でstopする。
   recognition.onspeechend = function() {
-    stop.click();
+    // resultの処理を待つために0.5秒間遅延してみる
+    notice.innerHTML = '～採点中～';
+    setTimeout(() => {
+      stop.click();
+    }, 500)
   };
 })
 
@@ -153,6 +157,8 @@ function selectSentence() {
 // 初めのお題(初期値)
 var startSentence = true;
 if(startSentence) {
-  selectSentence();
+  setTimeout(() => {
+    selectSentence();
+  }, 1000);
   startSentence = false;
 };
