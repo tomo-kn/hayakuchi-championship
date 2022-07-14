@@ -41,17 +41,81 @@ rec.onclick = function() {
 var hundleSuccess = (function() {
   rec.disabled = true;
   nowRecordingMessage();
-  // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
+  // 話し始めたら録音中…と表示する。
   recognition.onspeechstart = function() {
     console.log("開始しました")
     notice.innerHTML = '録音中…';
   };
+  // result の処理
+  recognition.onresult = function(e) {
+    reading.innerHTML = '';
+    for (let i = e.resultIndex; (i < e.results.length); i++){
+      let product = e.results[i][0].transcript;
+      let confidence = e.results[i][0].confidence;
+      if(e.results[i].isFinal){
+        kotoba.innerHTML = product;
+        seido.innerHTML = confidence;
+        console.log(e);
+      } else {
+        reading.innerHTML += product;
+      }
+    }
+  };
+  // 話が終わったら自動でstopする。
   recognition.onspeechend = function() {
     stop.click();
   };
 })
 
+// 停止
+stop.onclick = function() {
+  console.log("停止しました");
+  rec.textContent = "録音する";
+  notice.innerHTML = '録音ボタンを押して1回繰り返そう！';
+  rec.disabled = false;
+  recognition.stop();
+  gradeText();
+  selectSentence();
+};
+
 // 採点
+function gradeText() {
+  const accuracy = seido.innerHTML;
+  const resultWord = kotoba.innerHTML.replace(/\s+/g, "");
+  const sentenceWord = sentence.innerHTML.replace(/\s+/g, "");
+
+  console.log(accuracy);
+  console.log(resultWord);
+
+  const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  console.log("スコアは、" + score + "点です。");
+
+}
+
+// レーベンシュタイン距離の定義
+function levenshteinDistance( str1, str2 ) { 
+  var x = str1.length; 
+  var y = str2.length; 
+
+  var d = []; 
+  for( var i = 0; i <= x; i++ ) { 
+      d[i] = []; 
+      d[i][0] = i; 
+  } 
+  for( var i = 0; i <= y; i++ ) { 
+      d[0][i] = i; 
+  } 
+
+  var cost = 0; 
+  for( var i = 1; i <= x; i++ ) { 
+      for( var j = 1; j <= y; j++ ) { 
+          cost = str1[i - 1] == str2[j - 1] ? 0 : 1; 
+
+          d[i][j] = Math.min( d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost ); 
+      }
+  }
+  return d[x][y];
+};
 
 
 // 1～sentencesSize の配列を作る
@@ -91,29 +155,4 @@ var startSentence = true;
 if(startSentence) {
   selectSentence();
   startSentence = false;
-};
-
-// 停止
-stop.onclick = function() {
-  console.log("停止しました");
-  rec.textContent = "録音する";
-  notice.innerHTML = '録音ボタンを押して1回繰り返そう！';
-  rec.disabled = false;
-  selectSentence();
-  recognition.stop();
-};
-
-recognition.onresult = function(e){
-  reading.innerHTML = '';
-  for (let i = e.resultIndex; (i < e.results.length); i++){
-    let product = e.results[i][0].transcript;
-    let confidence = e.results[i][0].confidence;
-    if(e.results[i].isFinal){
-      kotoba.innerHTML += product;
-      seido.innerHTML += confidence;
-      console.log(e);
-    } else {
-      reading.innerHTML += product;
-    }
-  }
 };
