@@ -18,7 +18,7 @@ recognition.lang = 'ja-JP';
 recognition.interimResults = true;
 
 // カウントダウン
-let originTime = 90;
+let originTime = 91;
 let startTime = new Date();
 setInterval(() => {
   timer.innerHTML = "残り時間: " + (originTime - getTimerTime()); 
