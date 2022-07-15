@@ -11,6 +11,11 @@ const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
 const sentencesContent = document.getElementsByName('sentencesContent');
 const sentencesSize = document.getElementById('sentencesSize').value;
+const scoreOut = document.getElementById('scoreOut');
+const judge = document.getElementById('judge');
+const restart = document.getElementById('restart');
+const top = document.getElementById('top');
+const twitter = document.getElementById('twitter');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -26,12 +31,15 @@ let homerunCount = 0;
 // カウントダウン
 let originTime = 91;
 let startTime = new Date();
-setInterval(() => {
+let timerID;
+timerID = setInterval(() => {
   timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
   // 制限時間を過ぎたらゲームセット関数を呼び出す 
   if(originTime - getTimerTime() == 0) {
     gameSet();
+    clearInterval(timerID);
   };
+  // console.log(originTime - getTimerTime());
 }, 1000);
 
 function getTimerTime() {
@@ -129,6 +137,7 @@ function gradeText() {
   // アウトが3回重なったらゲームセット関数を呼び出す
   if(outScore == 3) {
     gameSet();
+    clearInterval(timerID);
   } else {
     // ゲームが続行するのなら次のお題を選ぶ
     selectSentence();
@@ -139,6 +148,42 @@ function gradeText() {
 function gameSet() {
   console.log("ゲームセット！");
   originTime = -1000;
+
+  sentence.innerHTML = "<span style='color:red'>試合終了!!</span>";
+  scoreOut.innerHTML = "スコア: " + gameScore + " - " + outScore;
+  scoreOut.classList.remove("d-none");
+  if(gameScore >= 14 && outScore <= 1) {
+    judge.innerHTML = "あなたは一流の早口バッター！"
+  } else if(gameScore >= 10 && outScore <= 2) {
+    judge.innerHTML = "一流の早口バッターまでもう少し"
+  } else {
+    judge.innerHTML = "練習モードでたくさん訓練しよう"
+  };
+  judge.classList.remove("d-none");
+
+  timer.classList.add('d-none');
+  notice.classList.add('d-none');
+  scoreTemporary.classList.add('d-none');
+  outTemporary.classList.add('d-none');
+  rec.classList.add('d-none');
+  reading.classList.add('d-none');
+
+  restart.classList.remove('invisible');
+  top.classList.remove('invisible');
+
+  // twitterのシェアボタン
+  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
+  twitter.classList.remove("d-none")
+
+  // ログイン時、かつgameScoreが1以上の場合のみデータを保存する
+  if (document.getElementById('user') && gameScore >= 1) {
+    const formScore = document.getElementById('score');
+    const formOut = document.getElementById('out');
+    formScore.value = gameScore;
+    formOut.value = outScore;
+  
+    document.getElementById("submit").click();
+  };
 }
 
 // レーベンシュタイン距離の定義
