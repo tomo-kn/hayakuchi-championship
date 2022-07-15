@@ -4,7 +4,8 @@ const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 const timer = document.getElementById('timer');
 const sentence = document.getElementById('sentence');
 const notice = document.getElementById('notice');
-const scoreOut = document.getElementById('scoreOut');
+const scoreTemporary = document.getElementById('scoreTemporary');
+const outTemporary = document.getElementById('outTemporary');
 const rec = document.getElementById('rec');
 const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
@@ -17,11 +18,20 @@ const seido = document.getElementById('seido');
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
 
+// ゲームスコア
+let gameScore = 0;
+let outScore = 0;
+let homerunCount = 0;
+
 // カウントダウン
 let originTime = 91;
 let startTime = new Date();
 setInterval(() => {
-  timer.innerHTML = "残り時間: " + (originTime - getTimerTime()); 
+  timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
+  // 制限時間を過ぎたらゲームセット関数を呼び出す 
+  if(originTime - getTimerTime() == 0) {
+    gameSet();
+  };
 }, 1000);
 
 function getTimerTime() {
@@ -79,7 +89,6 @@ stop.onclick = function() {
   rec.disabled = false;
   recognition.stop();
   gradeText();
-  selectSentence();
 };
 
 // 採点
@@ -88,12 +97,48 @@ function gradeText() {
   const resultWord = kotoba.innerHTML.replace(/\s+/g, "");
   const sentenceWord = sentence.innerHTML.replace(/\s+/g, "");
 
-  console.log(accuracy);
-  console.log(resultWord);
+  console.log("精度: " + accuracy);
+  console.log("あなたの言葉は、" + resultWord + "と聞こえました");
 
   const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
   console.log("スコアは、" + score + "点です。");
 
+  // 95点以上はホームラン、90点以上はヒット、90点未満はアウト
+  if(score >= 95){
+    console.log("ホームラン！");
+    gameScore += 2;
+    homerunCount += 1;
+    scoreTemporary.innerHTML = "Score: " + gameScore;
+  } else if(score >= 90) {
+    console.log("ヒット");
+    gameScore += 1;
+    homerunCount = 0;
+    scoreTemporary.innerHTML = "Score: " + gameScore;
+  } else {
+    console.log("アウト…");
+    outScore += 1;
+    homerunCount = 0;
+    outTemporary.innerHTML = "Out: " + outScore;
+  };
+  // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
+  if(homerunCount == 3) {
+    console.log("3回連続ホームランボーナス！残り時間5秒追加！");
+    homerunCount = 0;
+    originTime += 5;
+  };
+  // アウトが3回重なったらゲームセット関数を呼び出す
+  if(outScore == 3) {
+    gameSet();
+  } else {
+    // ゲームが続行するのなら次のお題を選ぶ
+    selectSentence();
+  }
+};
+
+// ゲームセット関数
+function gameSet() {
+  console.log("ゲームセット！");
+  originTime = -1000;
 }
 
 // レーベンシュタイン距離の定義
@@ -121,7 +166,6 @@ function levenshteinDistance( str1, str2 ) {
   return d[x][y];
 };
 
-
 // 1～sentencesSize の配列を作る
 let sentenceIndexArray = forRange(1, sentencesSize);
 function forRange(a, z) {
@@ -146,9 +190,9 @@ function shuffle([...array]) {
 let index = 0;
 function selectSentence() {
   let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
-  console.log(selectIndex);
+  console.log("次のお題の番号: " + selectIndex);
   let sentenceTemporary = sentencesContent[selectIndex].value;
-  console.log(sentenceTemporary);
+  console.log("次のお題: " + sentenceTemporary);
 
   sentence.innerHTML = sentenceTemporary;
   index += 1
