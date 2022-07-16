@@ -17,6 +17,10 @@ const restart = document.getElementById('restart');
 const top = document.getElementById('top');
 const twitter = document.getElementById('twitter');
 
+const startPage = document.getElementById('startPage');
+const gamePage = document.getElementById('gamePage');
+const startButton = document.getElementById('startButton');
+
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
 
@@ -28,22 +32,33 @@ let gameScore = 0;
 let outScore = 0;
 let homerunCount = 0;
 
-// カウントダウン
-let originTime = 91;
-let startTime = new Date();
 let timerID;
-timerID = setInterval(() => {
-  timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
-  // 制限時間を過ぎたらゲームセット関数を呼び出す 
-  if(originTime - getTimerTime() == 0) {
-    gameSet();
-    clearInterval(timerID);
-  };
-  // console.log(originTime - getTimerTime());
-}, 1000);
 
-function getTimerTime() {
-  return Math.floor((new Date() - startTime) / 1000);
+// スタートボタン
+startButton.onclick = function() {
+  // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
+  selectSentence();
+  let originTime = 91;
+  let startTime = new Date();
+  timerID = setInterval(() => {
+    timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
+    // 制限時間を過ぎたらゲームセット関数を呼び出す 
+    if(originTime - getTimerTime() == 0) {
+      gameSet();
+      clearInterval(timerID);
+    };
+    // console.log(originTime - getTimerTime());
+  }, 1000);
+  function getTimerTime() {
+    return Math.floor((new Date() - startTime) / 1000);
+  }
+  startButton.disabled = true;
+  startButton.textContent = "Now Starting…";
+  // 1秒後に画面を切り替える
+  setTimeout(() => {
+    startPage.classList.add('d-none');
+    gamePage.classList.remove('d-none');
+  }, 1000);
 }
 
 let nowRecordingMessage = () => {
@@ -243,11 +258,3 @@ function selectSentence() {
   index += 1
 }
 
-// 初めのお題(初期値)
-var startSentence = true;
-if(startSentence) {
-  setTimeout(() => {
-    selectSentence();
-  }, 1000);
-  startSentence = false;
-};
