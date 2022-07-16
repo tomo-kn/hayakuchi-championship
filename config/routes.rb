@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/terms', to: 'pages#terms'
   get '/how-to-play', to: 'pages#how_to_play'
   get '/game', to: 'games#index'
+  post '/game', to: 'games#create'
   get '/practices', to: 'practices#index'
   get '/practices/:id', to: 'practices#show'
   post '/practices/:id', to: 'practices#create'

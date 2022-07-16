@@ -21,8 +21,6 @@ const twitter = document.getElementById('twitter');
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
 
-var recording = false;
-
 recognition.lang = 'ja-JP';
 
 // for audio
@@ -46,7 +44,6 @@ let doneMessage = () => {
 
 rec.onclick = function() {
     recognition.start();
-    recording = true;
     rec.textContent = "Now Recording…";
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 };

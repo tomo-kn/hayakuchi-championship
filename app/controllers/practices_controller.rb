@@ -22,5 +22,4 @@ class PracticesController < ApplicationController
     def practice_params
       params.permit(:score, :time, :word, :user_id, :sentence_id)
     end
-
 end
