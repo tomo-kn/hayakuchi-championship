@@ -32,13 +32,14 @@ let gameScore = 0;
 let outScore = 0;
 let homerunCount = 0;
 
+// タイマーの初期値
+let originTime = 91;
 let timerID;
 
 // スタートボタン
 startButton.onclick = function() {
   // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
   selectSentence();
-  let originTime = 91;
   let startTime = new Date();
   timerID = setInterval(() => {
     timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
@@ -58,11 +59,8 @@ startButton.onclick = function() {
   setTimeout(() => {
     startPage.classList.add('d-none');
     gamePage.classList.remove('d-none');
+    rec.click();
   }, 1000);
-}
-
-let nowRecordingMessage = () => {
-  notice.innerHTML = '～録音待機中～';
 }
 
 rec.onclick = function() {
@@ -73,7 +71,6 @@ rec.onclick = function() {
 
 var hundleSuccess = (function() {
   rec.disabled = true;
-  nowRecordingMessage();
   // 話し始めたら録音中…と表示する。
   recognition.onspeechstart = function() {
     console.log("開始しました")
@@ -108,7 +105,7 @@ var hundleSuccess = (function() {
 stop.onclick = function() {
   console.log("停止しました");
   rec.textContent = "録音する";
-  notice.innerHTML = '録音ボタンを押して1回繰り返そう！';
+  notice.innerHTML = 'お題を1回繰り返そう！';
   rec.disabled = false;
   recognition.stop();
   gradeText();
@@ -156,6 +153,7 @@ function gradeText() {
   } else {
     // ゲームが続行するのなら次のお題を選ぶ
     selectSentence();
+    rec.click();
   }
 };
 
@@ -167,9 +165,9 @@ function gameSet() {
   sentence.innerHTML = "<span style='color:red'>試合終了!!</span>";
   scoreOut.innerHTML = "スコア: " + gameScore + " - " + outScore;
   scoreOut.classList.remove("d-none");
-  if(gameScore >= 14 && outScore <= 1) {
+  if((gameScore >= 14 && outScore <= 1) || gameScore >= 22) {
     judge.innerHTML = "あなたは一流の早口バッター！"
-  } else if(gameScore >= 10 && outScore <= 2) {
+  } else if((gameScore >= 10 && outScore <= 2) || gameScore >= 16) {
     judge.innerHTML = "一流の早口バッターまでもう少し"
   } else {
     judge.innerHTML = "練習モードでたくさん訓練しよう"
@@ -187,7 +185,7 @@ function gameSet() {
   top.classList.remove('invisible');
 
   // twitterのシェアボタン
-  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
+  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>試合結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
   // ログイン時、かつgameScoreが1以上の場合のみデータを保存する
