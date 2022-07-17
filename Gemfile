@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+# seed data
+gem 'seed-fu'
 # bootstrap
 gem 'uglifier'
 gem 'jquery-rails'
