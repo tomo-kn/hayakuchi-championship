@@ -61,6 +61,10 @@
 <% @sentences_content.each do |sentence_content| %>
   <input type="hidden" name="sentencesContent" value="<%= sentence_content %>">
 <% end %>
+<% @sentences_contentFurigana.each do |sentence_contentFurigana| %>
+  <input type="hidden" name="sentencesContentFurigana" value="<%= sentence_contentFurigana %>">
+<% end %>
+
 <input type="hidden" id="sentencesSize" value="<%= @sentences.length %>">
 
 

@@ -1,6 +1,6 @@
 Sentence.seed do |s|
   s.id = 1
-  s.content = "テストの謎はまだ謎なのだぞ"
+  s.content = "バナナの謎はまだ謎なのだぞ"
   s.contentFurigana = "バナナの謎はまだ謎なのだぞ"
   s.contentHiragana = "ばななのなぞはまだなぞなのだぞ"
   s.contentMisconversion = "バナナの謎はまだ謎なのだぞ"

@@ -10,6 +10,7 @@ const rec = document.getElementById('rec');
 const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
 const sentencesContent = document.getElementsByName('sentencesContent');
+const sentencesContentFurigana = document.getElementsByName('sentencesContentFurigana');
 const sentencesSize = document.getElementById('sentencesSize').value;
 const scoreOut = document.getElementById('scoreOut');
 const judge = document.getElementById('judge');
@@ -249,7 +250,7 @@ let index = 0;
 function selectSentence() {
   let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
   console.log("次のお題の番号: " + selectIndex);
-  let sentenceTemporary = sentencesContent[selectIndex].value;
+  let sentenceTemporary = sentencesContentFurigana[selectIndex].value;
   console.log("次のお題: " + sentenceTemporary);
 
   sentence.innerHTML = sentenceTemporary;

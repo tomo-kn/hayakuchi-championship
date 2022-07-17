@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   def index
     @sentences = Sentence.all.map{|sentence| sentence }
     @sentences_content = Sentence.all.map(&:content)
+    @sentences_contentFurigana = Sentence.all.map(&:contentFurigana)
   end
   
   def new

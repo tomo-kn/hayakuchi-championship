@@ -17,6 +17,8 @@ const yourWord = document.getElementById('yourWord');
 const game = document.getElementById('game');
 const practices = document.getElementById('practices');
 const twitter = document.getElementById('twitter');
+const theme = document.getElementById('theme');
+const sentenceFurigana = document.getElementById('sentenceFurigana').value;
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -33,6 +35,9 @@ let mediaStreamSource = null;
 let audioData = [];
 let bufferSize = 1024;
 let micBlobUrl = null;
+
+// お題をルビ振りで表示
+theme.innerHTML = sentenceFurigana;
 
 let nowRecordingMessage = () => {
   notice.innerHTML = '～録音待機中～';
