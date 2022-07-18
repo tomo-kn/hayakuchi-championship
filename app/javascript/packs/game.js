@@ -11,6 +11,7 @@ const reading = document.getElementById('reading');
 const stop = document.getElementById('stop');
 const sentencesContent = document.getElementsByName('sentencesContent');
 const sentencesContentFurigana = document.getElementsByName('sentencesContentFurigana');
+const sentencesContentMisconversion = document.getElementsByName('sentencesContentMisconversion');
 const sentencesSize = document.getElementById('sentencesSize').value;
 const scoreOut = document.getElementById('scoreOut');
 const judge = document.getElementById('judge');
@@ -24,6 +25,8 @@ const startButton = document.getElementById('startButton');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
+const odai = document.getElementById('odai');
+const gohenkan = document.getElementById('gohenkan');
 
 recognition.lang = 'ja-JP';
 recognition.interimResults = true;
@@ -36,6 +39,9 @@ let homerunCount = 0;
 // タイマーの初期値
 let originTime = 91;
 let timerID;
+
+// ゲーム中であるか否かを判断するフラグ
+let gameContinue = true;
 
 // スタートボタン
 startButton.onclick = function() {
@@ -56,6 +62,7 @@ startButton.onclick = function() {
   }
   startButton.disabled = true;
   startButton.textContent = "Now Starting…";
+  gameContinue = true;
   // 1秒後に画面を切り替える
   setTimeout(() => {
     startPage.classList.add('d-none');
@@ -116,12 +123,29 @@ stop.onclick = function() {
 function gradeText() {
   const accuracy = seido.innerHTML;
   const resultWord = kotoba.innerHTML.replace(/\s+/g, "");
-  const sentenceWord = sentence.innerHTML.replace(/\s+/g, "");
+  const sentenceWord = odai.innerHTML.replace(/\s+/g, "");
 
   console.log("精度: " + accuracy);
   console.log("あなたの言葉は、" + resultWord + "と聞こえました");
 
-  const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  console.log("scoreOriginal: " + scoreOriginal);
+  // misconversionの処理
+  var scoreMisconversion = 0;
+  if(gohenkan.innerHTML != "なし"){
+    var sentenceMisconversionArray = gohenkan.innerHTML.split(',');
+    var scoreMisconversionAll = [];
+    for (let i = 1; i < sentenceMisconversionArray.length; i++) {
+      var sentenceMisconversionWord = sentenceMisconversionArray[i].replace(/\s+/g, "");
+      console.log("誤変換ワード: " + sentenceMisconversionWord);
+      scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracy * 10) / 10);
+    }
+    console.log("scoreMisconversionAll: " + scoreMisconversionAll);
+    var scoreMisconversion = Math.max(...scoreMisconversionAll);
+    console.log("scoreMisconversion: " + scoreMisconversion);
+  };
+
+  const score = Math.max(scoreOriginal, scoreMisconversion);
   console.log("スコアは、" + score + "点です。");
 
   // 95点以上はホームラン、90点以上はヒット、90点未満はアウト
@@ -147,19 +171,23 @@ function gradeText() {
     homerunCount = 0;
     originTime += 5;
   };
-  // アウトが3回重なったらゲームセット関数を呼び出す
-  if(outScore == 3) {
-    gameSet();
-    clearInterval(timerID);
-  } else {
-    // ゲームが続行するのなら次のお題を選ぶ
-    selectSentence();
-    rec.click();
-  }
+  // ゲームが続行中の場合、以下の処理を行う
+  if(gameContinue) {
+    // アウトが3回重なったらゲームセット関数を呼び出す
+    if(outScore == 3) {
+      gameSet();
+      clearInterval(timerID);
+    } else {
+      // 次のお題を選び録音ボタンを裏側で押す
+      selectSentence();
+      rec.click();
+    };
+  };
 };
 
 // ゲームセット関数
 function gameSet() {
+  gameContinue = false;
   console.log("ゲームセット！");
   originTime = -1000;
 
@@ -251,9 +279,14 @@ function selectSentence() {
   let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
   console.log("次のお題の番号: " + selectIndex);
   let sentenceTemporary = sentencesContentFurigana[selectIndex].value;
-  console.log("次のお題: " + sentenceTemporary);
+  let sentenceOriginalTemporary = sentencesContent[selectIndex].value;
+  let sentenceMisconversionTemporary = sentencesContentMisconversion[selectIndex].value;
+  console.log("次のお題: " + sentenceOriginalTemporary);
 
   sentence.innerHTML = sentenceTemporary;
+  odai.innerHTML = sentenceOriginalTemporary;
+  gohenkan.innerHTML = sentenceMisconversionTemporary;
+
   index += 1
 }
 
