@@ -109,3 +109,31 @@ Sentence.seed do |s|
   s.contentFurigana = "京の<ruby>生鱈<rp>（</rp><rt>なまだら</rt><rp>）</rp></ruby> 奈良生まな<ruby>鰹<rp>（</rp><rt>がつお</rt><rp>）</rp></ruby>"
   s.contentMisconversion = "あり,きょうのなまだらならなままながつお,今日のなまだらならなままながつお"
 end
+
+Sentence.seed do |s|
+  s.id = 17
+  s.content = "ブラジル人のミラクルビラ配り"
+  s.contentFurigana = "ブラジル人のミラクルビラ配り"
+  s.contentMisconversion = "なし"
+end
+
+Sentence.seed do |s|
+  s.id = 18
+  s.content = "赤パプリカ 黄パプリカ オレンジパプリカ"
+  s.contentFurigana = "赤パプリカ 黄パプリカ オレンジパプリカ"
+  s.contentMisconversion = "なし"
+end
+
+Sentence.seed do |s|
+  s.id = 19
+  s.content = "隣の客はよく柿食う客だ"
+  s.contentFurigana = "隣の客はよく柿食う客だ"
+  s.contentMisconversion = "なし"
+end
+
+Sentence.seed do |s|
+  s.id = 20
+  s.content = "まだまだ生な生バナナ"
+  s.contentFurigana = "まだまだ生な生バナナ"
+  s.contentMisconversion = "なし"
+end
