@@ -107,5 +107,5 @@ Sentence.seed do |s|
   s.id = 16
   s.content = "京の生鱈 奈良生まな鰹"
   s.contentFurigana = "京の<ruby>生鱈<rp>（</rp><rt>なまだら</rt><rp>）</rp></ruby> 奈良生まな<ruby>鰹<rp>（</rp><rt>がつお</rt><rp>）</rp></ruby>"
-  s.contentMisconversion = "あり,きょうのなまだらならなままながつお"
+  s.contentMisconversion = "あり,きょうのなまだらならなままながつお,今日のなまだらならなままながつお"
 end
