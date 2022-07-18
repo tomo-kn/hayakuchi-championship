@@ -17,6 +17,8 @@ const yourWord = document.getElementById('yourWord');
 const game = document.getElementById('game');
 const practices = document.getElementById('practices');
 const twitter = document.getElementById('twitter');
+const theme = document.getElementById('theme');
+const sentenceFurigana = document.getElementById('sentenceFurigana').value;
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -33,6 +35,9 @@ let mediaStreamSource = null;
 let audioData = [];
 let bufferSize = 1024;
 let micBlobUrl = null;
+
+// お題をルビ振りで表示
+theme.innerHTML = sentenceFurigana;
 
 let nowRecordingMessage = () => {
   notice.innerHTML = '～録音待機中～';
@@ -187,13 +192,34 @@ result.onclick = function() {
   const resultWord = resultWord_original.replace(/\s+/g, "");
   const sentenceWord = sentence_original.repeat(3).replace(/\s+/g, "");
 
-  // console.log(resultWord);
-  // console.log(sentenceWord);
-  // console.log(levenshteinDistance(resultWord, sentenceWord));
+  console.log("読み取り結果: " + resultWord);
+  console.log("元のワード3回繰り返し: " + sentenceWord);
+  console.log("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceWord));
+  // 元のワードに対するスコアを計算
+  const accuracy = seido.innerHTML;
+  const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  console.log("scoreOriginal: " + scoreOriginal);
+
+  var scoreMisconversion = 0;
+  // misconversionの処理
+  if(document.getElementById('sentenceMisconversion').value != "なし"){
+    var sentenceMisconversion = document.getElementById('sentenceMisconversion').value;
+    var sentenceMisconversionArray = sentenceMisconversion.split(',');
+    var scoreMisconversionAll = [];
+    for (let i = 1; i < sentenceMisconversionArray.length; i++) {
+      var sentenceMisconversionWord = sentenceMisconversionArray[i].repeat(3).replace(/\s+/g, "");
+      console.log("誤変換ワード3回繰り返し: " + sentenceMisconversionWord);
+      console.log("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceMisconversionWord));
+      // misconversionに対するscoreを計算
+      scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracy * 10) / 10);
+    }
+    console.log("scoreMisconversionAll: " + scoreMisconversionAll);
+    var scoreMisconversion = Math.max(...scoreMisconversionAll);
+    console.log("scoreMisconversion: " + scoreMisconversion);
+  };
 
   // display
-  const accuracy = seido.innerHTML;
-  const score = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  const score = Math.max(scoreOriginal, scoreMisconversion);
   const time = Math.round((endTime.innerHTML - startTime.innerHTML) / 100) / 10;  
   display.innerHTML += "スコア: " + score + "点(Time: " + time + "秒)";
   display.classList.remove("d-none");

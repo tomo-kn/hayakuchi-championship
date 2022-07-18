@@ -4,7 +4,7 @@
   <div class='top-wrapper'>
     <div class='top-inner-text text-center'>
       <div>
-        <h1 class="text-center mt-5"><%= @sentence.content %></h1>
+        <h1 class="text-center mt-5", id="theme">お題</h1>
       </div>
       <div>
         <p class="mt-3", id="notice">録音ボタンを押して3回繰り返そう！<br>
@@ -28,6 +28,8 @@
         <h3 class="d-none" id="judge"></h3>
         <p class="d-none" id="yourWord"></p>
           <input type="hidden" id="sentence" value="<%= @sentence.content %>">
+          <input type="hidden" id="sentenceFurigana" value="<%= @sentence.contentFurigana %>">
+          <input type="hidden" id="sentenceMisconversion" value="<%= @sentence.contentMisconversion %>">
       </div>
 
       <section class="tape">

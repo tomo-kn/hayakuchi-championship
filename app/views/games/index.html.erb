@@ -57,10 +57,19 @@
 
 <div class="d-none" id="kotoba"></div>
 <div class="d-none" id="seido"></div>
+<div class="d-none" id="odai"></div>
+<div class="d-none" id="gohenkan"></div>
 
 <% @sentences_content.each do |sentence_content| %>
   <input type="hidden" name="sentencesContent" value="<%= sentence_content %>">
 <% end %>
+<% @sentences_contentFurigana.each do |sentence_contentFurigana| %>
+  <input type="hidden" name="sentencesContentFurigana" value="<%= sentence_contentFurigana %>">
+<% end %>
+<% @sentences_contentMisconversion.each do |sentence_contentMisconversion| %>
+  <input type="hidden" name="sentencesContentMisconversion" value="<%= sentence_contentMisconversion %>">
+<% end %>
+
 <input type="hidden" id="sentencesSize" value="<%= @sentences.length %>">
 
 
