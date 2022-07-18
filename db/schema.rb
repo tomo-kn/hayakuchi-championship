@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_17_124503) do
+ActiveRecord::Schema.define(version: 2022_07_18_050417) do
 
   create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "score"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2022_07_17_124503) do
   end
 
   create_table "practices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "score"
+    t.float "score"
     t.float "time"
     t.string "voice"
     t.datetime "created_at", precision: 6, null: false
