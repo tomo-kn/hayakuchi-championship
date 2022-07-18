@@ -25,6 +25,9 @@ const seido = document.getElementById('seido');
 
 recognition.lang = 'ja-JP';
 
+// 録音中か否かのフラグ
+let recordingNow = true;
+
 // for audio
 let audio_sample_rate = null;
 let audioContext = null;
@@ -49,6 +52,7 @@ let doneMessage = () => {
 
 rec.onclick = function() {
     recognition.start();
+    recordingNow = true;
     rec.textContent = "Now Recording…";
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 };
@@ -65,6 +69,26 @@ var hundleSuccess = (function(stream){
   scriptProcessor.connect(audioContext.destination);
 
   nowRecordingMessage();
+
+  // カウントダウン
+  let originTime = 20;
+  let countTime = new Date();
+  let timerID;
+  timerID = setInterval(() => {
+    // 20秒経過したらstop処理を行う
+    if(originTime - getTimerTime() == 0) {
+      recordingNow = false;
+      endTime.innerHTML += performance.now();
+      stop.click();
+      clearInterval(timerID);
+      console.log("20秒経過したので自動的に停止しました");
+      recognition.stop();
+    };
+  }, 1000);
+  function getTimerTime() {
+    return Math.floor((new Date() - countTime) / 1000);
+  }
+
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
   recognition.addEventListener('speechstart', function() {
     startTime.innerHTML += performance.now();
@@ -72,8 +96,14 @@ var hundleSuccess = (function(stream){
     notice.innerHTML = '録音中…';
   });
   recognition.addEventListener('speechend', function() {
-    endTime.innerHTML += performance.now();
-    stop.click();
+    if(recordingNow) {
+      recordingNow = false;
+      endTime.innerHTML += performance.now();
+      stop.click();
+      clearInterval(timerID);
+      console.log("停止しました");
+      recognition.stop();
+    };
   });
 });
 
@@ -90,7 +120,6 @@ var onAudioProcess = function (e) {
 // 停止
 stop.onclick = function() {
   doneMessage();
-  console.log("停止しました");
   rec.classList.add("d-none");
   result.classList.remove("d-none");
   play.classList.remove("invisible");
@@ -286,6 +315,7 @@ function levenshteinDistance( str1, str2 ) {
   return d[x][y];
 };
 
+// onresultの処理
 recognition.onresult = function(e){
   for (let i = e.resultIndex; (i < e.results.length); i++){
     let product = e.results[i][0].transcript;
