@@ -20,8 +20,6 @@
               <%= f.hidden_field :time %>
               <%= f.hidden_field :word %>
               <%= f.hidden_field :sentence_id, :value => @sentence.id %>
-              <input type="file" name="voice" id="voice" accept=".mp3, .wav">
-              <input type="submit"  id="submit" style="display:none;">
             <% end %>
             <input type="hidden" id="user" value="<%= current_user.id %>">
           <% end %>
@@ -31,6 +29,7 @@
           <input type="hidden" id="sentence" value="<%= @sentence.content %>">
           <input type="hidden" id="sentenceFurigana" value="<%= @sentence.contentFurigana %>">
           <input type="hidden" id="sentenceMisconversion" value="<%= @sentence.contentMisconversion %>">
+          <input type="hidden" id="sentenceId" value="<%= @sentence.id %>">
       </div>
 
       <section class="tape">

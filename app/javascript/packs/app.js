@@ -38,6 +38,7 @@ let mediaStreamSource = null;
 let audioData = [];
 let bufferSize = 1024;
 let micBlobUrl = null;
+let audioBlob = null;
 
 // お題をルビ振りで表示
 theme.innerHTML = sentenceFurigana;
@@ -194,7 +195,7 @@ let exportWAV = function (audioData) {
   };
 
   let dataview = encodeWAV(mergeBuffers(audioData), audio_sample_rate);
-  let audioBlob = new Blob([dataview], { type: 'audio/wav' });
+  audioBlob = new Blob([dataview], { type: 'audio/wav' });
   micBlobUrl = window.URL.createObjectURL(audioBlob);
   console.log(dataview);
 
@@ -279,15 +280,22 @@ result.onclick = function() {
 
   // ログイン時のみデータを保存する
   if (document.getElementById('user')) {
-    const formScore = document.getElementById('score');
-    const formTime = document.getElementById('time');
-    const formWord = document.getElementById('word');
-    
-    formScore.value = score;
-    formTime.value = time;
-    formWord.value = resultWord;
-  
-    document.getElementById("submit").click();
+    // FormDataの用意
+    const voiceform = document.getElementById('voiceform');
+    const fd = new FormData(voiceform);
+    // 値の設定
+    fd.set('score', score);
+    fd.set('time', time);
+    fd.set('word', resultWord);
+    fd.set('voice', audioBlob, 'voice.wav');
+    console.log([...fd.entries()]);
+    // sentenceIdの取得
+    const sentenceId = document.getElementById('sentenceId').value;
+    // fetchで送信
+    fetch(`/practices/${sentenceId}`, {
+      method: 'post',
+      body: fd,
+    })
   };
 };
 
