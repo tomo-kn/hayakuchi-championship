@@ -8,7 +8,7 @@ const playback = document.getElementById('playback');
 const play = document.getElementById("play");
 const restart = document.getElementById('restart');
 const stop = document.getElementById('stop');
-const download = document.getElementById('download');
+const downloadLink = document.getElementById('download');
 const display = document.getElementById('display');
 const judge = document.getElementById('judge');
 const startTime = document.getElementById('startTime');
@@ -25,6 +25,9 @@ const seido = document.getElementById('seido');
 
 recognition.lang = 'ja-JP';
 
+// 録音中か否かのフラグ
+let recordingNow = true;
+
 // for audio
 let audio_sample_rate = null;
 let audioContext = null;
@@ -35,6 +38,7 @@ let mediaStreamSource = null;
 let audioData = [];
 let bufferSize = 1024;
 let micBlobUrl = null;
+let audioBlob = null;
 
 // お題をルビ振りで表示
 theme.innerHTML = sentenceFurigana;
@@ -49,6 +53,7 @@ let doneMessage = () => {
 
 rec.onclick = function() {
     recognition.start();
+    recordingNow = true;
     rec.textContent = "Now Recording…";
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 };
@@ -65,6 +70,26 @@ var hundleSuccess = (function(stream){
   scriptProcessor.connect(audioContext.destination);
 
   nowRecordingMessage();
+
+  // カウントダウン
+  let originTime = 20;
+  let countTime = new Date();
+  let timerID;
+  timerID = setInterval(() => {
+    // 20秒経過したらstop処理を行う
+    if(originTime - getTimerTime() == 0) {
+      recordingNow = false;
+      endTime.innerHTML += performance.now();
+      stop.click();
+      clearInterval(timerID);
+      console.log("20秒経過したので自動的に停止しました");
+      recognition.stop();
+    };
+  }, 1000);
+  function getTimerTime() {
+    return Math.floor((new Date() - countTime) / 1000);
+  }
+
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
   recognition.addEventListener('speechstart', function() {
     startTime.innerHTML += performance.now();
@@ -72,8 +97,14 @@ var hundleSuccess = (function(stream){
     notice.innerHTML = '録音中…';
   });
   recognition.addEventListener('speechend', function() {
-    endTime.innerHTML += performance.now();
-    stop.click();
+    if(recordingNow) {
+      recordingNow = false;
+      endTime.innerHTML += performance.now();
+      stop.click();
+      clearInterval(timerID);
+      console.log("停止しました");
+      recognition.stop();
+    };
   });
 });
 
@@ -90,7 +121,6 @@ var onAudioProcess = function (e) {
 // 停止
 stop.onclick = function() {
   doneMessage();
-  console.log("停止しました");
   rec.classList.add("d-none");
   result.classList.remove("d-none");
   play.classList.remove("invisible");
@@ -165,19 +195,19 @@ let exportWAV = function (audioData) {
   };
 
   let dataview = encodeWAV(mergeBuffers(audioData), audio_sample_rate);
-  let audioBlob = new Blob([dataview], { type: 'audio/wav' });
+  audioBlob = new Blob([dataview], { type: 'audio/wav' });
   micBlobUrl = window.URL.createObjectURL(audioBlob);
   console.log(dataview);
 
   let myURL = window.URL || window.webkitURL;
   let url = myURL.createObjectURL(audioBlob);
-  download.href = url;
+  downloadLink.href = url;
 };
 
 //保存
 let saveAudio = function () {
   exportWAV(audioData);
-  download.download = 'test.wav';
+  downloadLink.download = 'test.wav';
   audioContext.close().then(function () {
   });
 };
@@ -250,14 +280,22 @@ result.onclick = function() {
 
   // ログイン時のみデータを保存する
   if (document.getElementById('user')) {
-    const formScore = document.getElementById('score');
-    const formTime = document.getElementById('time');
-    const formWord = document.getElementById('word');
-    formScore.value = score;
-    formTime.value = time;
-    formWord.value = resultWord;
-  
-    document.getElementById("submit").click();
+    // FormDataの用意
+    const voiceform = document.getElementById('voiceform');
+    const fd = new FormData(voiceform);
+    // 値の設定
+    fd.set('score', score);
+    fd.set('time', time);
+    fd.set('word', resultWord);
+    fd.set('voice', audioBlob, 'voice.wav');
+    console.log([...fd.entries()]);
+    // sentenceIdの取得
+    const sentenceId = document.getElementById('sentenceId').value;
+    // fetchで送信
+    fetch(`/practices/${sentenceId}`, {
+      method: 'post',
+      body: fd,
+    })
   };
 };
 
@@ -286,6 +324,7 @@ function levenshteinDistance( str1, str2 ) {
   return d[x][y];
 };
 
+// onresultの処理
 recognition.onresult = function(e){
   for (let i = e.resultIndex; (i < e.results.length); i++){
     let product = e.results[i][0].transcript;

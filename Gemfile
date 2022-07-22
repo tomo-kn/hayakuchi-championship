@@ -3,6 +3,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+# for audio uploader with AWS S3
+gem 'carrierwave'
+gem 'carrierwave-audio'
+gem 'fog-aws'
+
+# 環境変数
+gem 'dotenv-rails'
 # seed data
 gem 'seed-fu'
 # bootstrap
