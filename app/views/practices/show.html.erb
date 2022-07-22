@@ -15,12 +15,13 @@
         <button class="btn btn-primary btn-lg" id="rec">録音する</button>
         <button class="btn btn-danger btn-lg d-none" id="result">採点する</button>
           <% if logged_in? %>
-            <%= form_with model: @practice, id: "voiceform", local: true do |f| %>
+            <%= form_with model: @practice, id: "voiceform", multipart: true, local: true do |f| %>
               <%= f.hidden_field :score %>
               <%= f.hidden_field :time %>
               <%= f.hidden_field :word %>
               <%= f.hidden_field :sentence_id, :value => @sentence.id %>
-              <input type="submit"  id="submit" style="display:none;" >
+              <input type="file" name="voice" id="voice" accept=".mp3, .wav">
+              <input type="submit"  id="submit" style="display:none;">
             <% end %>
             <input type="hidden" id="user" value="<%= current_user.id %>">
           <% end %>

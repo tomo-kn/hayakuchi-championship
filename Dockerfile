@@ -15,6 +15,7 @@ RUN apt-get update && \
   curl apt-transport-https wget \
   libpq-dev \
   libgmp3-dev \
+  libsox-fmt-all sox libchromaprint-dev \ 
   nginx \
   sudo && \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \

@@ -20,6 +20,6 @@ class PracticesController < ApplicationController
   private
 
     def practice_params
-      params.permit(:score, :time, :word, :user_id, :sentence_id)
+      params.permit(:score, :time, :word, :user_id, :sentence_id, :voice)
     end
 end

@@ -8,7 +8,7 @@ const playback = document.getElementById('playback');
 const play = document.getElementById("play");
 const restart = document.getElementById('restart');
 const stop = document.getElementById('stop');
-const download = document.getElementById('download');
+const downloadLink = document.getElementById('download');
 const display = document.getElementById('display');
 const judge = document.getElementById('judge');
 const startTime = document.getElementById('startTime');
@@ -200,13 +200,13 @@ let exportWAV = function (audioData) {
 
   let myURL = window.URL || window.webkitURL;
   let url = myURL.createObjectURL(audioBlob);
-  download.href = url;
+  downloadLink.href = url;
 };
 
 //保存
 let saveAudio = function () {
   exportWAV(audioData);
-  download.download = 'test.wav';
+  downloadLink.download = 'test.wav';
   audioContext.close().then(function () {
   });
 };
@@ -282,6 +282,7 @@ result.onclick = function() {
     const formScore = document.getElementById('score');
     const formTime = document.getElementById('time');
     const formWord = document.getElementById('word');
+    
     formScore.value = score;
     formTime.value = time;
     formWord.value = resultWord;
