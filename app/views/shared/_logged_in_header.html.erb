@@ -5,7 +5,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "遊び方", "/how-to-play"%></li>
         <li><%= link_to "ランキング", "/rank"%></li>
-        <li>マイページ</li>
+        <li><%= link_to "マイページ", user_path(current_user) %></li>
         <li><%= link_to "ログアウト", logout_path, method: :delete%></li>
       </ul>
     </nav>

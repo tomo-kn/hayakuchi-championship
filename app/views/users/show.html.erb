@@ -1,0 +1,30 @@
+<% set_meta_tags title: "マイページ" %>
+<div class="container text-muted mt-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h1 class="float-left mb-5"><i class="fas fa-user mr-2"></i>マイページ</h1>
+        <%= link_to edit_user_path, class: 'btn btn-primary float-right' do %>
+         <i class="fa-regular fa-pen-to-square"></i>
+        <% end %>
+    </div>
+    <ul class="tab-list list-unstyled">
+      <li class="tab tab-active">
+        練習結果一覧
+      </li>
+      <li class="tab">
+        試合結果一覧
+      </li>
+    </ul>
+    <%# タブで選択された要素の部分 %>
+    <div class="tabbox-contents">
+      <div class="tabbox box-show">
+        練習結果
+      </div>
+      <div class="tabbox">
+        試合結果
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'mypage', 'data-turbolinks-track': 'reload' %>
