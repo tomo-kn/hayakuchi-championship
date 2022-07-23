@@ -296,6 +296,18 @@ result.onclick = function() {
       method: 'post',
       body: fd,
     })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
+      return res.blob();
+    })
+    .then((blob) => {
+      // blob にレスポンスデータが入る
+    })
+    .catch((reason) => {
+      console.log(reason);
+    });
   };
 };
 
