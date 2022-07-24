@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update]
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_practice_result, only: %i[show edit update destroy]
 
   def new
     @user = User.new
@@ -19,6 +20,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @practice_results = current_user.practices
+    @game_results = current_user.games
   end
 
   def edit
@@ -36,6 +39,10 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(current_user.id)
+    end
+
+    def set_practice_result
+      @practice_result = Practice.find(params[:id])
     end
 
     def user_params

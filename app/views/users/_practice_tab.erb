@@ -1,0 +1,15 @@
+<table class="table table-striped">
+  <thead class="thead-primary">
+  <tr>
+    <th scope="col">登録日時</th>
+    <th scope="col">スコア</th>
+    <th scope="col">お題</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @practice_results.each do |practice_result| %>
+      <%= render partial: 'practice_result', locals: {practice_result: practice_result} %>
+    <% end %>
+  </tbody>
+</table>
