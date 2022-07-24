@@ -20,8 +20,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @practice_results = current_user.practices
-    @game_results = current_user.games
+    @practice_results = current_user.practices.order(created_at: "DESC")
+    @practice_results = current_user.practices.order(created_at: "DESC").page(params[:page]).per(10)
+    @game_results = current_user.games.order(created_at: "DESC")
+    @game_results = current_user.games.order(created_at: "DESC").page(params[:page]).per(5)
   end
 
   def edit

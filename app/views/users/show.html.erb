@@ -19,9 +19,11 @@
     <div class="tabbox-contents">
       <div class="tabbox box-show">
         <%= render 'users/practice_tab' %>
+        <%= paginate @practice_results%>
       </div>
       <div class="tabbox">
         <%= render 'users/game_tab' %>
+        <%= paginate @game_results%>
       </div>
     </div>
   </div>
