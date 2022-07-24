@@ -1,6 +1,5 @@
 <tr>
-  <td class='align-middle'><%= l practice_result.created_at, format: :short %></td>
+  <td class='align-middle'><%= practice_result.created_at.to_s(:datetime_jp) %></td>
   <td class='align-middle td-pe-none'><%= practice_result.score %>点</td>
   <td class='align-middle'><%= Sentence.find(practice_result.sentence_id).content %></td>
-
 </tr>
