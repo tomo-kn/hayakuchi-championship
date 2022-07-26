@@ -18,15 +18,14 @@
     <%# タブで選択された要素の部分 %>
     <div class="tabbox-contents">
       <div class="tabbox box-show">
-        <%= render 'users/practice_tab' %>
-        <%= paginate @practice_results%>
+        <%= render 'users/practice_tab' %> 
       </div>
       <div class="tabbox">
         <%= render 'users/game_tab' %>
-        <%= paginate @game_results%>
       </div>
     </div>
   </div>
 </div>
 
+<%= javascript_pack_tag 'jquery_pagination', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'mypage', 'data-turbolinks-track': 'reload' %>
