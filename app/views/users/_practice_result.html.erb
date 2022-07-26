@@ -2,4 +2,5 @@
   <td class='align-middle'><%= practice_result.created_at.to_s(:datetime_jp) %></td>
   <td class='align-middle td-pe-none'><%= practice_result.score %>点</td>
   <td class='align-middle'><%= Sentence.find(practice_result.sentence_id).content %></td>
+    <%= audio_tag("#{practice_result.voice.url}", controls: true) %>
 </tr>
