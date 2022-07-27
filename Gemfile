@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+# デザイン
+gem 'font-awesome-sass', '~> 6.1', '>= 6.1.2'
 # for audio uploader with AWS S3
 gem 'carrierwave'
 gem 'carrierwave-audio'

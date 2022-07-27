@@ -21,7 +21,7 @@ class PracticesController < ApplicationController
   end
 
   def result
-
+    @sentence = Sentence.find(@result.sentence_id)
   end
 
   def destroy
