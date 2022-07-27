@@ -12,6 +12,7 @@ $(document).on('turbolinks:load', function() {
 });
 
 // ページネーション
+$('.pagination').remove();
 $(".js-filter-items").pagination({
   itemElement : '> tr',
   displayItemCount: 10,
