@@ -1,4 +1,9 @@
 <tr>
   <td class='align-middle'><%= game_result.created_at.to_s(:datetime_jp) %></td>
   <td class='align-middle td-pe-none'><%= game_result.score %> 対 <%= game_result.out %></td>
+  <td class='align-middle'>
+    <%= link_to "/games/#{game_result.id}", method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' do %>
+      <i class="far fa-trash-alt"></i> 
+    <% end %>
+  </td>
 </tr>

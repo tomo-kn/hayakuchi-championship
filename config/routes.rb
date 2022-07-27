@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/game', to: 'games#index'
   post '/game', to: 'games#create'
+  delete '/games/:id', to: 'games#destroy'
 
   get '/practices', to: 'practices#index'
   get '/practices/:id', to: 'practices#show'
