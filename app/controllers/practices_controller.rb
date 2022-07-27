@@ -26,7 +26,7 @@ class PracticesController < ApplicationController
 
   def destroy
     @result.destroy
-    redirect_to user_path(current_user.id)
+    redirect_to user_path(current_user.id), success: "削除しました"
   end
 
   
