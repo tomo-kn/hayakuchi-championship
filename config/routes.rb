@@ -4,13 +4,18 @@ Rails.application.routes.draw do
   get '/contact', to: 'pages#contact'
   get '/terms', to: 'pages#terms'
   get '/how-to-play', to: 'pages#how_to_play'
+
   get '/game', to: 'games#index'
   post '/game', to: 'games#create'
+  delete '/games/:id', to: 'games#destroy'
+
   get '/practices', to: 'practices#index'
   get '/practices/:id', to: 'practices#show'
   post '/practices/:id', to: 'practices#create'
-  get '/rank', to: 'ranks#index'
+  get '/results/:id', to: 'practices#result'
+  delete 'results/:id', to: 'practices#destroy'
 
+  get '/rank', to: 'ranks#index'
 
   resources :users, only: %i[new create show edit update]
 

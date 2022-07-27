@@ -1,0 +1,13 @@
+<tr data-id="<%= practice_result.sentence_id %>">
+  <td class='align-middle'><%= practice_result.created_at.to_s(:datetime_jp) %></td>
+  <td class='align-middle td-pe-none'><%= practice_result.score %>点</td>
+  <td class='align-middle'><%= Sentence.find(practice_result.sentence_id).content %></td>
+  <td class='align-middle'>
+    <%= link_to '詳細', "/results/#{practice_result.id}", class: 'btn btn-info mr-3' %>
+  </td>
+  <td class='align-middle'>
+    <%= link_to "/results/#{practice_result.id}", method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' do %>
+      <i class="far fa-trash-alt"></i> 
+    <% end %>
+  </td>
+</tr>

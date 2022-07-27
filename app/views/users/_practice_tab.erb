@@ -1,0 +1,22 @@
+<select name="type" class="js-filter-form list_checkbox">
+    <option value="all">お題で絞り込む</option>
+    <% @sentences.each do |sentence| %>
+      <option value="<%= sentence.id %>"><%= sentence.content %></option>
+    <% end %>
+</select>
+
+<table class="table table-striped">
+  <thead class="thead-primary">
+  <tr>
+    <th scope="col">登録日時</th>
+    <th scope="col">スコア</th>
+    <th scope="col">お題</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody class="js-filter-items">
+    <% @practice_results.each do |practice_result| %>
+      <%= render partial: 'practice_result', locals: {practice_result: practice_result} %>
+    <% end %>
+  </tbody>
+</table>

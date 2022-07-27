@@ -37,7 +37,7 @@ let outScore = 0;
 let homerunCount = 0;
 
 // タイマーの初期値
-let originTime = 91;
+let originTime = 61;
 let timerID;
 
 // ゲーム中であるか否かを判断するフラグ

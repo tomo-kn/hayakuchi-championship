@@ -1,0 +1,33 @@
+<% set_meta_tags title: '詳細ページ' %>
+<div class="container pt-5 text-muted">
+  <div class="row mb-3">
+    <div class="col-lg-8 offset-lg-2">
+      <h1><i class="fa-solid fa-microphone"></i> 詳細ページ</h1>
+      <article class="card">
+        <div class="card-body">
+          <div class='row text-center'>
+            <div class='col-md-9'>
+              <h1 style='display: inline;'><%= @sentence.content %>：<%= @result.score %>点</h1>
+              <div class='advice mb-5'>
+                <p>
+                あなたの言葉は、<span style='color:red'><%= @result.word %></span>と聞こえました
+                </p>
+              </div>
+              <%= audio_tag("#{@result.voice.url}", controls: true) %>
+              <ul class="list-inline">
+                <li class="list-inline-item">by <%= @user.name %></li>
+                <li class="list-inline-item"><%= @result.created_at.to_s(:datetime_jp) %></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+      <%= link_to "https://twitter.com/share?url=#{request.url}&hashtags=早口言葉,早口言葉選手権&text=早口言葉【#{@sentence.content}】に挑戦しました！%0a%0a結果は… #{@result.score}点/100点(Time: #{@result.time}秒)でした！%0aみんなも挑戦しよう！%0a%0a", class: 'btn btn-primary float-right', target: '_blank' do %>
+        <i class="fab fa-twitter pe-1"></i>練習結果をつぶやく
+      <% end %>
+      <%= link_to "/results/#{@result.id}", method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' do %>
+        <i class="far fa-trash-alt"></i> 
+      <% end %>
+    </div>
+  </div>
+</div>

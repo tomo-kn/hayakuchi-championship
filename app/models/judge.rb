@@ -1,2 +1,0 @@
-class Judge < ApplicationRecord
-end

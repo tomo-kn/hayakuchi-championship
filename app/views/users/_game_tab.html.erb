@@ -1,0 +1,14 @@
+<table class="table table-striped">
+  <thead class="thead-primary">
+  <tr>
+    <th scope="col">登録日時</th>
+    <th scope="col">スコア - アウト</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody class="js-filter-items">
+    <% @game_results.each do |game_result| %>
+      <%= render partial: 'game_result', locals: {game_result: game_result} %>
+    <% end %>
+  </tbody>
+</table>
