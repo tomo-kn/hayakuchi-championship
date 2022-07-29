@@ -1,2 +1,29 @@
-<h1>Ranks#index / ランキングページ</h1>
-<a href="/">Topページに戻る</a>
+<% set_meta_tags title: 'ランキング' %>
+<div class="container mt-5">
+  <h1 class="text-center text-muted mb-5">
+    <i class="fa-solid fa-medal mr-2"></i>ランキング
+  </h1>
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <table class="table table-striped">
+        <thead class="thead-primary">
+          <tr>
+            <th scope="col">順位</th>
+            <th scope="col">ユーザー名</th>
+            <th scope="col">スコア - アウト</th>
+            <th scope="col">日時</th>
+          </tr>
+        </thead>
+        <tbody class="js-filter-items">
+          <% @ranks.each do |rank| %>
+            <%= render partial: 'rank', locals: {rank: rank} %>
+            <% @ranking += 1 %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'jquery_pagination', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'rank', 'data-turbolinks-track': 'reload' %>

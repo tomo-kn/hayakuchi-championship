@@ -1,0 +1,6 @@
+<tr>
+  <td class='align-middle'><%= @ranking %>位</td>
+  <td class='align-middle'><%= User.find(rank.user_id).name %></td>
+  <td class='align-middle td-pe-none'><%= rank.score %> - <%= rank.out %></td>
+  <td class='align-middle'><%= rank.created_at.to_s(:datetime_jp) %></td>
+</tr>
