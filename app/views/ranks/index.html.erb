@@ -17,10 +17,15 @@
         <tbody class="js-filter-items">
           <% @ranks.each do |rank| %>
             <%= render partial: 'rank', locals: {rank: rank} %>
-            <% @ranking += 1 %>
           <% end %>
         </tbody>
       </table>
+    <%# ログイン中かつgameのデータが1件以上ある場合、ランキングを表示する %>
+    <% if logged_in? %>
+      <% if Game.exists?(user_id: current_user.id) %>
+        <p>あなたの順位: <%= @myrank.ranking %> 位 / <%= @ranks.count %> 人</p>
+      <% end %>
+    <% end %>
     </div>
   </div>
 </div>
