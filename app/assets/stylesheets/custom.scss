@@ -31,6 +31,14 @@ body {
   border-radius:30px !important;
 }
 
+.btn {
+  transition: all .2s !important;
+}
+
+.btn:hover{
+  opacity: 0.7;
+}
+
 .button-pair {
   display: flex;
   width: 100%;
@@ -76,12 +84,22 @@ body {
 /* footer */
 
 footer {
-  background-color: #eff700;
+  background-color: #009944;
   background-image: none;
   width: 100%;
   overflow: hidden;
 }
 
+.footer-item {
+  text-decoration: none !important;
+  opacity: 0.5;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+.footer-item:hover {
+  opacity: 0.7;
+}
 
 /* miscellaneous */
 
@@ -116,9 +134,7 @@ input {
 }
 
 .top-button {
-  width: 7em;
   height: 4em;
-  border-radius:100%;
 }
 
 
