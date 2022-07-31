@@ -1,13 +1,19 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <%= link_to "早口言葉選手権", "/", id: "logo" %>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "遊び方", "/how-to-play"%></li>
-        <li><%= link_to "ランキング", "/rank"%></li>
-        <li><%= link_to "マイページ", user_path(current_user) %></li>
-        <li><%= link_to "ログアウト", logout_path, method: :delete%></li>
-      </ul>
-    </nav>
-  </div>
+<header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <div class="logo_area">
+        <a class="navbar-brand" href="/"><%= image_tag 'hayakuchi-championship-header.png', alt: '早口言葉選手権ヘッダー', class: 'logo', id: 'logo' %></a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><%= link_to "ランキング", "/rank", class: "nav-link"%></li>
+          <li class="nav-item"><%= link_to "マイページ", user_path(current_user), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "ログアウト", logout_path, method: :delete, class: "nav-link" %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>
