@@ -24,6 +24,24 @@ body {
   text-align: center;
 }
 
+.btn-primary {
+  background: #00AB4C !important;
+  color: #ffffff !important;
+  border-color: #00AB4C !important;
+  border-radius:30px !important;
+}
+
+.button-pair {
+  display: flex;
+  width: 100%;
+  margin: 0;
+}
+
+.button-pair > a {
+  width: 44%;
+  margin: 0 5%;
+}
+
 
 /* header */
 
@@ -87,6 +105,20 @@ input, textarea, select, .uneditable-input {
 
 input {
   height: auto !important;
+}
+
+/* toppage */
+
+.logo-top {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+}
+
+.top-button {
+  width: 7em;
+  height: 4em;
+  border-radius:100%;
 }
 
 
