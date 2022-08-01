@@ -19,6 +19,7 @@ const restart = document.getElementById('restart');
 const top = document.getElementById('top');
 const twitter = document.getElementById('twitter');
 const jsAnimation = document.getElementById('jsAnimation');
+const batterImage = document.getElementById('batterImage');
 
 const startPage = document.getElementById('startPage');
 const gamePage = document.getElementById('gamePage');
@@ -52,9 +53,8 @@ startButton.onclick = function() {
   timerID = setInterval(() => {
     timer.innerHTML = "  残り時間: " + (originTime - getTimerTime());
     // 制限時間を過ぎたらゲームセット関数を呼び出す 
-    if(originTime - getTimerTime() == 0) {
+    if(originTime - getTimerTime() <= 0) {
       gameSet();
-      clearInterval(timerID);
     };
     // console.log(originTime - getTimerTime());
   }, 1000);
@@ -84,6 +84,7 @@ var hundleSuccess = (function() {
   recognition.onspeechstart = function() {
     console.log("開始しました")
     notice.innerHTML = '録音中…';
+    batterImage.src = 'hayakuchi-championship-batter1.png';
   };
   // result の処理
   recognition.onresult = function(e) {
@@ -95,6 +96,7 @@ var hundleSuccess = (function() {
         kotoba.innerHTML = product;
         seido.innerHTML = confidence;
         console.log(e);
+        reading.innerHTML = '読み取り結果';
       } else {
         reading.innerHTML += product;
       }
@@ -155,11 +157,13 @@ function gradeText() {
     gameScore += 2;
     homerunCount += 1;
     scoreTemporary.innerHTML = "Score: " + gameScore;
+    batterImage.src = 'hayakuchi-championship-batter3.png';
   } else if(score >= 90) {
     console.log("ヒット");
     gameScore += 1;
     homerunCount = 0;
     scoreTemporary.innerHTML = "Score: " + gameScore;
+    batterImage.src = 'hayakuchi-championship-batter2.png';
   } else {
     console.log("アウト…");
     outScore += 1;
@@ -169,6 +173,7 @@ function gradeText() {
     } else if(outScore == 2){
       outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●●</span>";
     }
+    batterImage.src = 'hayakuchi-championship-batter4.png';
   };
   // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
   if(homerunCount == 3) {
@@ -185,7 +190,6 @@ function gradeText() {
     // アウトが3回重なったらゲームセット関数を呼び出す
     if(outScore == 3) {
       gameSet();
-      clearInterval(timerID);
     } else {
       // 次のお題を選び録音ボタンを裏側で押す
       selectSentence();
@@ -196,6 +200,7 @@ function gradeText() {
 
 // ゲームセット関数
 function gameSet() {
+  clearInterval(timerID);
   gameContinue = false;
   console.log("ゲームセット！");
   originTime = -1000;
@@ -218,6 +223,7 @@ function gameSet() {
   outTemporary.classList.add('d-none');
   rec.classList.add('d-none');
   reading.classList.add('d-none');
+  batterImage.classList.add('d-none');
 
   restart.classList.remove('invisible');
   top.classList.remove('invisible');
