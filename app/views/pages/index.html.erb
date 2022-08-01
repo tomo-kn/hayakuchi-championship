@@ -1,5 +1,13 @@
-<h1>Pages#index / Topページ</h1>
-<ul>
-  <li><a href="/game">今すぐ試合をする</a></li>
-  <li><a href="/practices">練習する</a></li>
-</ul>
+<main>
+  <div class="container-fluid text-muted">
+    <div class="top-wrapper">
+      <div class="text-center">
+        <%= image_tag 'hayakuchi-championship-toppage.png', alt: '早口言葉選手権トップページ', class: 'logo-top' %>
+        <div class="button-pair"  data-turbolinks="false">
+          <%= link_to "試合する", game_path, class: "top-button btn btn-primary btn-lg mb-5 pt-4"%>
+          <%= link_to "練習する", practices_path, class: "top-button btn btn-primary btn-lg mb-5 pt-4"%>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

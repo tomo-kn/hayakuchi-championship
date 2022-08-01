@@ -3,5 +3,5 @@
 <h2>練習一覧</h2>
 <% @sentences.each do |sentence| %>
   <p>Test:<%=  sentence.id %></p>
-  <span><%= link_to sentence.content, "/practices/#{sentence.id}" %></span>
+  <span  data-turbolinks="false"><%= link_to sentence.content, "/practices/#{sentence.id}" %></span>
 <% end %>

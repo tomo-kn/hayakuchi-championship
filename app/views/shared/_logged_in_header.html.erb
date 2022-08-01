@@ -1,13 +1,22 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <%= link_to "早口言葉選手権", "/", id: "logo" %>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "遊び方", "/how-to-play"%></li>
-        <li><%= link_to "ランキング", "/rank"%></li>
-        <li><%= link_to "マイページ", user_path(current_user) %></li>
-        <li><%= link_to "ログアウト", logout_path, method: :delete%></li>
-      </ul>
-    </nav>
-  </div>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <div class="logo_area" data-turbolinks="false">
+        <a class="navbar-brand" href="/"><%= image_tag 'hayakuchi-championship-header.png', alt: '早口言葉選手権ヘッダー', class: 'logo' %></a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="Navber">
+        <ul class="navbar-nav" data-turbolinks="false">
+          <li class="nav-item"><%= link_to "ランキング", "/rank", class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "マイページ", user_path(current_user), class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "ログアウト", logout_path, method: :delete, class: "nav-link" %></li>
+          <li class="nav-item"><a class="nav-link close-menu">メニューを閉じる</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>
+
