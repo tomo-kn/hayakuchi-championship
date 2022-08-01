@@ -18,6 +18,7 @@ const judge = document.getElementById('judge');
 const restart = document.getElementById('restart');
 const top = document.getElementById('top');
 const twitter = document.getElementById('twitter');
+const jsAnimation = document.getElementById('jsAnimation');
 
 const startPage = document.getElementById('startPage');
 const gamePage = document.getElementById('gamePage');
@@ -49,7 +50,7 @@ startButton.onclick = function() {
   selectSentence();
   let startTime = new Date();
   timerID = setInterval(() => {
-    timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
+    timer.innerHTML = "  残り時間: " + (originTime - getTimerTime());
     // 制限時間を過ぎたらゲームセット関数を呼び出す 
     if(originTime - getTimerTime() == 0) {
       gameSet();
@@ -174,6 +175,10 @@ function gradeText() {
     console.log("3回連続ホームランボーナス！残り時間5秒追加！");
     homerunCount = 0;
     originTime += 5;
+    jsAnimation.classList.add('is-show');
+    setTimeout(() => {
+      jsAnimation.classList.remove('is-show');
+    }, 2000)
   };
   // ゲームが続行中の場合、以下の処理を行う
   if(gameContinue) {

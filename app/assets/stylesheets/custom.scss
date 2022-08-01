@@ -134,6 +134,32 @@ input {
 }
 
 
+/* game */
+
+.timer-pair {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer-pair > p {
+  margin:0 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.js-animation {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 1s;
+}
+.js-animation.is-show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+}
+
+
 /* tab */
 .tab {
   width: 100%;
