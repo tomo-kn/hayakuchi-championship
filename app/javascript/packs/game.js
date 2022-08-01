@@ -163,7 +163,11 @@ function gradeText() {
     console.log("アウト…");
     outScore += 1;
     homerunCount = 0;
-    outTemporary.innerHTML = "Out: " + outScore;
+    if(outScore == 1){
+      outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●</span>";
+    } else if(outScore == 2){
+      outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●●</span>";
+    }
   };
   // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
   if(homerunCount == 3) {
