@@ -5,8 +5,34 @@
     <%# スタート画面 %>
     <div id="startPage" class="">
       <div class="top-inner-text text-center">
-        <button class="btn btn-primary btn-lg" id="startButton">スタート!!</button>
+        <button class="btn btn-primary btn-lg mt-5 gamestart-button" id="startButton"><i class="fa-solid fa-baseball pe-2"></i>試合開始</button>
+        <h3 class="mt-5 pb-3">遊び方</h3>
       </div>
+      <div class="ol-align-center">
+        <ol>
+          <li>ランダムにお題が表示されるので、そのお題を<span style='color:red'>1回</span>正しく発声してください。</li>
+          <li>発音の精度に応じて点数がもらえます（ホームラン:2点、ヒット:1点、アウト:0点）。</li>
+          <li>3回連続ホームランを達成した場合、ボーナスとして残り時間が5秒延長されます。</li>
+          <li>アウトが3回重なるか、60秒の残り時間を使い切ったらゲームセットです。</li>
+        </ol>
+      </div>
+      <h3 class="mt-4 pb-3 text-center">注意事項</h3>
+      <div class="ul-align-center">
+        <ul>
+          <li>ゲーム中は音が出ますので、音量にご注意ください。</li>
+          <li>なるべく雑音の少ない静かな環境でご利用ください。</li>
+          <li><span style='color:red'>PCまたはAndroid端末のChromeブラウザのみ</span>の対応となります。ご了承ください。</li>
+        <% if !logged_in? %>
+          <li>ログインすると試合結果が保存されます。</li>
+        <% end %>
+        </ul>
+      </div>
+      <% if !logged_in? %>
+        <div class="mt-3 mb-3 login-membership-pair" data-turbolinks="false">
+          <%= link_to "ログインはこちら", login_path, class: "text-center" %>
+          <%= link_to "新規会員登録はこちら", new_user_path, class: "text-center" %>
+        </div>
+      <% end %>
     </div>
     <%# ゲーム画面 %>
     <div id="gamePage" class="d-none">
@@ -21,7 +47,7 @@
           <h3 class="d-none mt-5" id="judge"></h3>
         </div>
         <div>
-          <p class="mt-3", id="notice">お題を1回繰り返そう！</p>
+          <p class="mt-3", id="notice">お題を1回正しく発声しよう！</p>
         </div>
         <div>
           <h3 class="text-center mt-2", id="scoreTemporary">Score: </h3>

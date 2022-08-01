@@ -72,7 +72,7 @@ startButton.onclick = function() {
     return Math.floor((new Date() - startTime) / 1000);
   }
   startButton.disabled = true;
-  startButton.textContent = "Now Starting…";
+  startButton.textContent = "プレイボール!!";
   gameContinue = true;
   // 1秒後に画面を切り替える
   setTimeout(() => {
@@ -126,7 +126,7 @@ var hundleSuccess = (function() {
 stop.onclick = function() {
   console.log("停止しました");
   rec.textContent = "録音する";
-  notice.innerHTML = 'お題を1回繰り返そう！';
+  notice.innerHTML = 'お題を1回正しく発声しよう！';
   rec.disabled = false;
   recognition.stop();
   gradeText();
