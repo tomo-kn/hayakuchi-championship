@@ -21,6 +21,14 @@ const twitter = document.getElementById('twitter');
 const jsAnimation = document.getElementById('jsAnimation');
 const batterImage = document.getElementById('batterImage');
 
+// 効果音
+const gamesetSound = document.getElementById('gamesetSound');
+const hitSound = document.getElementById('hitSound');
+const homerunSound = document.getElementById('homerunSound');
+const homerunsSound = document.getElementById('homerunsSound');
+const outSound = document.getElementById('outSound');
+const playballSound =  document.getElementById('playballSound');
+
 const startPage = document.getElementById('startPage');
 const gamePage = document.getElementById('gamePage');
 const startButton = document.getElementById('startButton');
@@ -48,6 +56,7 @@ let gameContinue = true;
 // スタートボタン
 startButton.onclick = function() {
   // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
+  playballSound.play();
   selectSentence();
   let startTime = new Date();
   timerID = setInterval(() => {
@@ -158,20 +167,26 @@ function gradeText() {
     homerunCount += 1;
     scoreTemporary.innerHTML = "Score: " + gameScore;
     batterImage.src = 'hayakuchi-championship-batter3.png';
+    if(homerunCount <= 2){
+      homerunSound.play();
+    }
   } else if(score >= 90) {
     console.log("ヒット");
     gameScore += 1;
     homerunCount = 0;
     scoreTemporary.innerHTML = "Score: " + gameScore;
     batterImage.src = 'hayakuchi-championship-batter2.png';
+    hitSound.play();
   } else {
     console.log("アウト…");
     outScore += 1;
     homerunCount = 0;
     if(outScore == 1){
       outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●</span>";
+      outSound.play();
     } else if(outScore == 2){
       outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●●</span>";
+      outSound.play();
     }
     batterImage.src = 'hayakuchi-championship-batter4.png';
   };
@@ -180,6 +195,7 @@ function gradeText() {
     console.log("3回連続ホームランボーナス！残り時間5秒追加！");
     homerunCount = 0;
     originTime += 5;
+    homerunsSound.play();
     jsAnimation.classList.add('is-show');
     setTimeout(() => {
       jsAnimation.classList.remove('is-show');
@@ -200,6 +216,7 @@ function gradeText() {
 
 // ゲームセット関数
 function gameSet() {
+  gamesetSound.play();
   clearInterval(timerID);
   gameContinue = false;
   console.log("ゲームセット！");

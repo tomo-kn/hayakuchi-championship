@@ -50,7 +50,7 @@
          <%= image_tag 'hayakuchi-championship-batter1.png', alt: '早口言葉選手権バッター待機', id: 'batterImage', class: "" %>
         </div>
 
-        <div class="row justify-content-center pt-2">
+        <div class="row justify-content-center pt-2" data-turbolinks="false">
             <%= link_to "もう一度試合する", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 invisible" %>
             <%= link_to "トップページに戻る", root_path, id: "top", class: "col-2 btn btn-primary ms-3 invisible" %>
         </div>
@@ -64,6 +64,13 @@
 <div class="d-none" id="seido"></div>
 <div class="d-none" id="odai"></div>
 <div class="d-none" id="gohenkan"></div>
+
+<%= audio_tag('gameset.wav', id: "gamesetSound") %>
+<%= audio_tag('hit.mp3', id: "hitSound") %>
+<%= audio_tag('homerun.mp3', id: "homerunSound") %>
+<%= audio_tag('homeruns.wav', id: "homerunsSound") %>
+<%= audio_tag('out.mp3', id: "outSound") %>
+<%= audio_tag('playball.mp3', id: "playballSound") %>
 
 <% @sentences_content.each do |sentence_content| %>
   <input type="hidden" name="sentencesContent" value="<%= sentence_content %>">
