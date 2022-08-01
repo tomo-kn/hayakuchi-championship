@@ -20,6 +20,7 @@ const top = document.getElementById('top');
 const twitter = document.getElementById('twitter');
 const jsAnimation = document.getElementById('jsAnimation');
 const batterImage = document.getElementById('batterImage');
+const ranking = document.getElementById('ranking');
 
 // 効果音
 const gamesetSound = document.getElementById('gamesetSound');
@@ -246,8 +247,12 @@ function gameSet() {
   top.classList.remove('invisible');
 
   // twitterのシェアボタン
-  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>試合結果をつぶやく</a>'
-  twitter.classList.remove("d-none")
+  twitter.innerHTML += '<a  class="btn btn-outline-info" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>試合結果をつぶやく</a>';
+  twitter.classList.remove("d-none");
+
+  // ランキングページへのリンクを表示
+  ranking.innerHTML += "<a href='/rank'>ランキングをチェック</a>";
+  ranking.classList.remove('d-none');
 
   // ログイン時、かつgameScoreが1以上の場合のみデータを保存する
   if (document.getElementById('user') && gameScore >= 1) {

@@ -17,8 +17,8 @@
         </div>
         <div>
           <h1 class="text-center mt-3", id="sentence">お題</h1>
-          <h2 class="text-center mt-2 d-none", id="scoreOut"></h2>
-          <h3 class="d-none" id="judge"></h3>
+          <h2 class="text-center mt-5 d-none", id="scoreOut"></h2>
+          <h3 class="d-none mt-5" id="judge"></h3>
         </div>
         <div>
           <p class="mt-3", id="notice">お題を1回繰り返そう！</p>
@@ -50,11 +50,12 @@
          <%= image_tag 'hayakuchi-championship-batter1.png', alt: '早口言葉選手権バッター待機', id: 'batterImage', class: "" %>
         </div>
 
-        <div class="row justify-content-center pt-2" data-turbolinks="false">
+        <div class="row justify-content-center pt-3 game-button-pair" data-turbolinks="false">
             <%= link_to "もう一度試合する", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 invisible" %>
             <%= link_to "トップページに戻る", root_path, id: "top", class: "col-2 btn btn-primary ms-3 invisible" %>
         </div>
-        <div class="d-none" id="twitter"></div>
+        <div class="d-none mt-4" id="twitter"></div>
+        <div class="d-none mt-5 mb-3" id="ranking" data-turbolinks="false"></div>
       </div>
     </div>
   </div>

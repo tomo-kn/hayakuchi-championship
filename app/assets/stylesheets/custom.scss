@@ -165,6 +165,18 @@ input {
   height: auto;
 }
 
+.game-button-pair {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.game-button-pair > a {
+  width: 35%;
+  margin: 0 5%;
+}
 
 /* tab */
 .tab {
