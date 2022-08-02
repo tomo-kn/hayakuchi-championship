@@ -11,13 +11,14 @@
         <% if Game.exists?(user_id: current_user.id) %>
           <div id="myScore">
             <h3 class="text-center mt-5 pb-3"><i class="fa-solid fa-pen pe-2"></i>マイスコア</h3>
-            <div class="ol-align-center">
+            <div class="ol-align-center" data-turbolinks="false">
               <ul>
                 <li>ゲームの挑戦回数：<%= @games.count %></li>
                 <li>ベストスコア：<%= @bestscore[0].score %> - <%= @bestscore[0].out %></li>
                 <li>平均スコア：<%= sprintf("%.2f", @games.sum(:score).to_f/@games.count.to_f) %> - <%= sprintf("%.2f", @games.sum(:out).to_f/@games.count.to_f) %></li>
                 <li>直近5回の平均スコア：<%= sprintf("%.2f", @recentscore.pluck(:score).sum.to_f/@recentscore.pluck(:score).count.to_f) %> - <%= sprintf("%.2f", @recentscore.pluck(:out).sum.to_f/@recentscore.pluck(:out).count.to_f) %></li>
               </ul>
+              <%= link_to "マイページはこちら", user_path(current_user), class: "text-center fs-5" %>
             </div>
           </div>
         <% end %>
