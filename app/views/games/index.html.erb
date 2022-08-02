@@ -6,9 +6,24 @@
     <div id="startPage" class="">
       <div class="top-inner-text text-center">
         <button class="btn btn-primary btn-lg mt-5 gamestart-button" id="startButton"><i class="fa-solid fa-baseball pe-2"></i>試合開始</button>
-        <h3 class="mt-5 pb-3">遊び方</h3>
       </div>
-      <div class="ol-align-center">
+      <% if logged_in? %>
+        <% if Game.exists?(user_id: current_user.id) %>
+          <div id="myScore">
+            <h3 class="text-center mt-5 pb-3"><i class="fa-solid fa-pen pe-2"></i>マイスコア</h3>
+            <div class="ol-align-center">
+              <ul>
+                <li>ゲームの挑戦回数：<%= @games.count %></li>
+                <li>ベストスコア：<%= @bestscore[0].score %> - <%= @bestscore[0].out %></li>
+                <li>平均スコア：<%= sprintf("%.2f", @games.sum(:score).to_f/@games.count.to_f) %> - <%= sprintf("%.2f", @games.sum(:out).to_f/@games.count.to_f) %></li>
+                <li>直近5回の平均スコア：<%= sprintf("%.2f", @recentscore.pluck(:score).sum.to_f/@recentscore.pluck(:score).count.to_f) %> - <%= sprintf("%.2f", @recentscore.pluck(:out).sum.to_f/@recentscore.pluck(:out).count.to_f) %></li>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <h3 class="text-center mt-5 pb-3" id="howToPlay"><i class="fa-solid fa-book pe-2"></i>遊び方</h3>
+      <div class="ol-align-center" id="howToPlayItems">
         <ol>
           <li>ランダムにお題が表示されるので、そのお題を<span style='color:red'>1回</span>正しく発声してください。</li>
           <li>発音の精度に応じて点数がもらえます（ホームラン:2点、ヒット:1点、アウト:0点）。</li>
@@ -16,19 +31,19 @@
           <li>アウトが3回重なるか、60秒の残り時間を使い切ったらゲームセットです。</li>
         </ol>
       </div>
-      <h3 class="mt-4 pb-3 text-center">注意事項</h3>
-      <div class="ul-align-center">
+      <h3 class="mt-4 pb-3 text-center" id="Notes"><i class="fa-solid fa-triangle-exclamation pe-2"></i>注意事項</h3>
+      <div class="ul-align-center" id="NotesItems">
         <ul>
           <li>ゲーム中は音が出ますので、音量にご注意ください。</li>
           <li>なるべく雑音の少ない静かな環境でご利用ください。</li>
           <li><span style='color:red'>PCまたはAndroid端末のChromeブラウザのみ</span>の対応となります。ご了承ください。</li>
-        <% if !logged_in? %>
-          <li>ログインすると試合結果が保存されます。</li>
-        <% end %>
+          <% if !logged_in? %>
+            <li>ログインすると試合結果が保存されます。</li>
+          <% end %>
         </ul>
       </div>
       <% if !logged_in? %>
-        <div class="mt-3 mb-3 login-membership-pair" data-turbolinks="false">
+        <div class="mt-3 mb-3 login-membership-pair" data-turbolinks="false" id="loginAndMembership">
           <%= link_to "ログインはこちら", login_path, class: "text-center" %>
           <%= link_to "新規会員登録はこちら", new_user_path, class: "text-center" %>
         </div>

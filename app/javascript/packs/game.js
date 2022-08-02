@@ -30,10 +30,16 @@ const homerunsSound = document.getElementById('homerunsSound');
 const outSound = document.getElementById('outSound');
 const playballSound =  document.getElementById('playballSound');
 
+// スタートページ関連
 const startPage = document.getElementById('startPage');
 const gamePage = document.getElementById('gamePage');
 const startButton = document.getElementById('startButton');
+const howToPlay = document.getElementById('howToPlay');
+const howToPlayItems = document.getElementById('howToPlayItems');
+const Notes = document.getElementById('Notes');
+const NotesItems = document.getElementById('NotesItems');
 
+// d-none関連
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
 const odai = document.getElementById('odai');
@@ -56,8 +62,22 @@ let gameContinue = true;
 
 // スタートボタン
 startButton.onclick = function() {
-  // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
+  // 効果音とボタン以外の非表示
   playballSound.play();
+  howToPlay.classList.add('d-none');
+  howToPlayItems.classList.add('d-none');
+  Notes.classList.add('d-none');
+  NotesItems.classList.add('d-none');
+  // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
+  if(document.getElementById('loginAndMembership')) {
+    const loginAndMembership = document.getElementById('loginAndMembership');
+    loginAndMembership.classList.add('d-none');
+  }
+  if(document.getElementById('myScore')) {
+    const myScore = document.getElementById('myScore');
+    myScore.classList.add('d-none');
+  }
+  // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
   selectSentence();
   let startTime = new Date();
   timerID = setInterval(() => {
