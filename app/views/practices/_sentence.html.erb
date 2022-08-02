@@ -3,5 +3,14 @@
     <%= link_to "/practices/#{sentence.id}", class: 'card-text text-muted' do %>
       <p class="fs-4"><%= sentence.content %></p>
     <% end %>
+    <% if logged_in? %>
+      <div class="practices-data">
+        <% if @counts[sentence.id] %>
+          <p><i class="fa-solid fa-forward pe-2"></i>: <%= @counts[sentence.id] %> 回
+          <br>
+          <i class="fa-solid fa-graduation-cap pe-2"></i>: <%= sprintf("%.2f", @scores[sentence.id].to_f/@counts[sentence.id].to_f) %> 点</p>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -4,6 +4,11 @@ class PracticesController < ApplicationController
   before_action :user_check, only: %i[result destroy]
   def index
     @sentences = Sentence.all
+    if logged_in?
+      @practices = Practice.where(user_id: current_user.id)
+      @counts = @practices.group(:sentence_id).count
+      @scores = @practices.group(:sentence_id).sum(:score)
+    end
   end
 
   def show

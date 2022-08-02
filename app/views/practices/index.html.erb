@@ -10,5 +10,10 @@
       </div>
     </div>
   </div>
+  <% if logged_in? %>
+    <% if @practices.count > 0 %>
+      <p class="mt-1 mb-3 me-3" style="text-align: right;"><i class="fa-solid fa-forward pe-2"></i>: 練習回数, <i class="fa-solid fa-graduation-cap pe-2"></i>: 平均点</p>
+    <% end %>
+  <% end %>
 </div>
 
