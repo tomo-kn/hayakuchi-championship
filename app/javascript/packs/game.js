@@ -161,7 +161,10 @@ function gradeText() {
   console.log("精度: " + accuracy);
   console.log("あなたの言葉は、" + resultWord + "と聞こえました");
 
-  const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
+  // confidenceの威力を半分にする
+  const accuracyFixed = Number(accuracy) + ((1 - Number(accuracy)) / 2.0);
+  console.log("修正した精度: " + accuracyFixed);
+  const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracyFixed * 10) / 10;
   console.log("scoreOriginal: " + scoreOriginal);
   // misconversionの処理
   var scoreMisconversion = 0;
@@ -171,7 +174,7 @@ function gradeText() {
     for (let i = 1; i < sentenceMisconversionArray.length; i++) {
       var sentenceMisconversionWord = sentenceMisconversionArray[i].replace(/\s+/g, "");
       console.log("誤変換ワード: " + sentenceMisconversionWord);
-      scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracy * 10) / 10);
+      scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracyFixed * 10) / 10);
     }
     console.log("scoreMisconversionAll: " + scoreMisconversionAll);
     var scoreMisconversion = Math.max(...scoreMisconversionAll);
