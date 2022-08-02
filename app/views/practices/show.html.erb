@@ -48,6 +48,23 @@
         <div class="d-none" id="twitter"></div>
       </section>
     </div>
+    <% if logged_in? %>
+        <% if Practice.exists?(user_id: current_user.id, sentence_id: @sentence.id) %>
+          <div id="myScore">
+            <h3 class="text-center mt-5 pb-3"><i class="fa-solid fa-pen pe-2"></i>マイスコア</h3>
+            <div class="ol-align-center" data-turbolinks="false">
+              <ul>
+                <li>このお題の練習回数：<%= @practices.count %> 回</li>
+                <li>ベストスコア（タイム）：<%= @bestscore[0].score %> 点（<%= @bestscore[0].time %> 秒）</li>
+                <li>ベストタイム（スコア）：<%= @besttime[0].time %> 秒（<%= @besttime[0].score %> 点）</li>
+                <li>平均スコア（タイム）：<%= sprintf("%.2f", @practices.sum(:score).to_f/@practices.count.to_f) %> 点（<%= sprintf("%.2f", @practices.sum(:time).to_f/@practices.count.to_f) %> 秒）</li>
+                <li>直近5回の平均スコア（タイム）：<%= sprintf("%.2f", @recentscore.pluck(:score).sum.to_f/@recentscore.pluck(:score).count.to_f) %> 点（<%= sprintf("%.2f", @recentscore.pluck(:time).sum.to_f/@recentscore.pluck(:time).count.to_f) %> 秒）</li>
+              </ul>
+              <%= link_to "マイページはこちら", user_path(current_user), class: "text-center fs-5" %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     <h3 class="mt-4 pb-3 text-center" id="Notes"><i class="fa-solid fa-triangle-exclamation pe-2"></i>注意事項</h3>
     <div class="ul-align-center" id="NotesItems">
       <ul>

@@ -8,6 +8,14 @@ class PracticesController < ApplicationController
 
   def show
     @sentence = Sentence.find(params[:id])
+    if logged_in?
+      if Practice.exists?(user_id: current_user.id, sentence_id: @sentence.id)
+        @practices = Practice.where(user_id: current_user.id, sentence_id: @sentence.id)
+        @bestscore = @practices.order(score: "DESC", time: "ASC").limit(1)
+        @besttime = @practices.order(time: "ASC", score: "DESC").limit(1)
+        @recentscore = @practices.order(id: "DESC").limit(5)
+      end
+    end
   end
 
   def new

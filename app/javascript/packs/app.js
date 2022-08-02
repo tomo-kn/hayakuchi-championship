@@ -19,6 +19,8 @@ const practices = document.getElementById('practices');
 const twitter = document.getElementById('twitter');
 const theme = document.getElementById('theme');
 const sentenceFurigana = document.getElementById('sentenceFurigana').value;
+const Notes = document.getElementById('Notes');
+const NotesItems = document.getElementById('NotesItems');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -55,6 +57,17 @@ rec.onclick = function() {
     recognition.start();
     recordingNow = true;
     rec.textContent = "Now Recording…";
+    Notes.classList.add('d-none');
+    NotesItems.classList.add('d-none');
+    // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
+    if(document.getElementById('loginAndMembership')) {
+      const loginAndMembership = document.getElementById('loginAndMembership');
+      loginAndMembership.classList.add('d-none');
+    }
+    if(document.getElementById('myScore')) {
+      const myScore = document.getElementById('myScore');
+      myScore.classList.add('d-none');
+    }
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 };
 
@@ -278,8 +291,8 @@ result.onclick = function() {
   twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
-  // ログイン時のみデータを保存する
-  if (document.getElementById('user')) {
+  // ログイン時、かつscoreが0点より大きい場合のみデータを保存する
+  if (document.getElementById('user') && score > 0) {
     // FormDataの用意
     const voiceform = document.getElementById('voiceform');
     const fd = new FormData(voiceform);
