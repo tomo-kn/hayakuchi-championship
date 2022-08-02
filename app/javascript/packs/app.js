@@ -21,6 +21,7 @@ const theme = document.getElementById('theme');
 const sentenceFurigana = document.getElementById('sentenceFurigana').value;
 const Notes = document.getElementById('Notes');
 const NotesItems = document.getElementById('NotesItems');
+const backToPractices = document.getElementById('backToPractices');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -59,6 +60,7 @@ rec.onclick = function() {
     rec.textContent = "Now Recording…";
     Notes.classList.add('d-none');
     NotesItems.classList.add('d-none');
+    backToPractices.classList.add('d-none');
     // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
     if(document.getElementById('loginAndMembership')) {
       const loginAndMembership = document.getElementById('loginAndMembership');
@@ -138,6 +140,10 @@ stop.onclick = function() {
   result.classList.remove("d-none");
   play.classList.remove("d-none");
   restart.classList.remove("d-none");
+  if(document.getElementById('saveCaution')) {
+    const saveCaution = document.getElementById('saveCaution');
+    saveCaution.classList.remove('d-none');
+  }
   saveAudio();
 };
 
@@ -229,6 +235,9 @@ let saveAudio = function () {
 result.onclick = function() {
   notice.innerHTML = '～結果発表～';
   result.classList.add("d-none");
+  if(document.getElementById('saveCaution')) {
+    saveCaution.classList.add('d-none');
+  }
   const resultWord_original = kotoba.innerHTML;
   const sentence_original = document.getElementById('sentence').value;
   

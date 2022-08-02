@@ -41,6 +41,9 @@
             <button class = "col-2 btn btn-primary mr-3 d-none" id="play" >再生する</button>
             <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 d-none" %>
         </div>
+        <% if logged_in? %>
+          <p class="d-none mt-4" id="saveCaution">※「採点する」ボタンを押さないとデータは保存されません。</p>
+        <% end %>
         <div class="row justify-content-center pt-2"  data-turbolinks="false">
             <%= link_to "今すぐ試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 d-none" %>
             <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 d-none" %>
@@ -82,6 +85,9 @@
         <%= link_to "新規会員登録はこちら", new_user_path, class: "text-center" %>
       </div>
     <% end %>
+    <div class="mt-2 mb-3 text-center" id="backToPractices">
+      <%= link_to "練習一覧ページに戻る", practices_path, class: " fs-5" %>
+    </div>
   </div>
 </div>
 
