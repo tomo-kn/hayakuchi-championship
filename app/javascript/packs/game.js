@@ -18,11 +18,28 @@ const judge = document.getElementById('judge');
 const restart = document.getElementById('restart');
 const top = document.getElementById('top');
 const twitter = document.getElementById('twitter');
+const jsAnimation = document.getElementById('jsAnimation');
+const batterImage = document.getElementById('batterImage');
+const ranking = document.getElementById('ranking');
 
+// 効果音
+const gamesetSound = document.getElementById('gamesetSound');
+const hitSound = document.getElementById('hitSound');
+const homerunSound = document.getElementById('homerunSound');
+const homerunsSound = document.getElementById('homerunsSound');
+const outSound = document.getElementById('outSound');
+const playballSound =  document.getElementById('playballSound');
+
+// スタートページ関連
 const startPage = document.getElementById('startPage');
 const gamePage = document.getElementById('gamePage');
 const startButton = document.getElementById('startButton');
+const howToPlay = document.getElementById('howToPlay');
+const howToPlayItems = document.getElementById('howToPlayItems');
+const Notes = document.getElementById('Notes');
+const NotesItems = document.getElementById('NotesItems');
 
+// d-none関連
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
 const odai = document.getElementById('odai');
@@ -45,15 +62,29 @@ let gameContinue = true;
 
 // スタートボタン
 startButton.onclick = function() {
+  // 効果音とボタン以外の非表示
+  playballSound.play();
+  howToPlay.classList.add('d-none');
+  howToPlayItems.classList.add('d-none');
+  Notes.classList.add('d-none');
+  NotesItems.classList.add('d-none');
+  // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
+  if(document.getElementById('loginAndMembership')) {
+    const loginAndMembership = document.getElementById('loginAndMembership');
+    loginAndMembership.classList.add('d-none');
+  }
+  if(document.getElementById('myScore')) {
+    const myScore = document.getElementById('myScore');
+    myScore.classList.add('d-none');
+  }
   // スタートボタンを押したら1秒で初めのお題とカウントダウンを準備する。
   selectSentence();
   let startTime = new Date();
   timerID = setInterval(() => {
-    timer.innerHTML = "残り時間: " + (originTime - getTimerTime());
+    timer.innerHTML = "  残り時間: " + (originTime - getTimerTime());
     // 制限時間を過ぎたらゲームセット関数を呼び出す 
-    if(originTime - getTimerTime() == 0) {
+    if(originTime - getTimerTime() <= 0) {
       gameSet();
-      clearInterval(timerID);
     };
     // console.log(originTime - getTimerTime());
   }, 1000);
@@ -61,7 +92,7 @@ startButton.onclick = function() {
     return Math.floor((new Date() - startTime) / 1000);
   }
   startButton.disabled = true;
-  startButton.textContent = "Now Starting…";
+  startButton.textContent = "プレイボール!!";
   gameContinue = true;
   // 1秒後に画面を切り替える
   setTimeout(() => {
@@ -83,6 +114,7 @@ var hundleSuccess = (function() {
   recognition.onspeechstart = function() {
     console.log("開始しました")
     notice.innerHTML = '録音中…';
+    batterImage.src = 'hayakuchi-championship-batter1.png';
   };
   // result の処理
   recognition.onresult = function(e) {
@@ -94,6 +126,7 @@ var hundleSuccess = (function() {
         kotoba.innerHTML = product;
         seido.innerHTML = confidence;
         console.log(e);
+        reading.innerHTML = '読み取り結果';
       } else {
         reading.innerHTML += product;
       }
@@ -113,7 +146,7 @@ var hundleSuccess = (function() {
 stop.onclick = function() {
   console.log("停止しました");
   rec.textContent = "録音する";
-  notice.innerHTML = 'お題を1回繰り返そう！';
+  notice.innerHTML = 'お題を1回正しく発声しよう！';
   rec.disabled = false;
   recognition.stop();
   gradeText();
@@ -154,29 +187,46 @@ function gradeText() {
     gameScore += 2;
     homerunCount += 1;
     scoreTemporary.innerHTML = "Score: " + gameScore;
+    batterImage.src = 'hayakuchi-championship-batter3.png';
+    if(homerunCount <= 2){
+      homerunSound.play();
+    }
   } else if(score >= 90) {
     console.log("ヒット");
     gameScore += 1;
     homerunCount = 0;
     scoreTemporary.innerHTML = "Score: " + gameScore;
+    batterImage.src = 'hayakuchi-championship-batter2.png';
+    hitSound.play();
   } else {
     console.log("アウト…");
     outScore += 1;
     homerunCount = 0;
-    outTemporary.innerHTML = "Out: " + outScore;
+    if(outScore == 1){
+      outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●</span>";
+      outSound.play();
+    } else if(outScore == 2){
+      outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●●</span>";
+      outSound.play();
+    }
+    batterImage.src = 'hayakuchi-championship-batter4.png';
   };
   // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
   if(homerunCount == 3) {
     console.log("3回連続ホームランボーナス！残り時間5秒追加！");
     homerunCount = 0;
     originTime += 5;
+    homerunsSound.play();
+    jsAnimation.classList.add('is-show');
+    setTimeout(() => {
+      jsAnimation.classList.remove('is-show');
+    }, 2000)
   };
   // ゲームが続行中の場合、以下の処理を行う
   if(gameContinue) {
     // アウトが3回重なったらゲームセット関数を呼び出す
     if(outScore == 3) {
       gameSet();
-      clearInterval(timerID);
     } else {
       // 次のお題を選び録音ボタンを裏側で押す
       selectSentence();
@@ -187,6 +237,8 @@ function gradeText() {
 
 // ゲームセット関数
 function gameSet() {
+  gamesetSound.play();
+  clearInterval(timerID);
   gameContinue = false;
   console.log("ゲームセット！");
   originTime = -1000;
@@ -209,13 +261,18 @@ function gameSet() {
   outTemporary.classList.add('d-none');
   rec.classList.add('d-none');
   reading.classList.add('d-none');
+  batterImage.classList.add('d-none');
 
   restart.classList.remove('invisible');
   top.classList.remove('invisible');
 
   // twitterのシェアボタン
-  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>試合結果をつぶやく</a>'
-  twitter.classList.remove("d-none")
+  twitter.innerHTML += '<a  class="btn btn-outline-info" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=ゲームセット！%0a%0a試合結果は… ' + gameScore + ' - ' + outScore + 'でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>試合結果をつぶやく</a>';
+  twitter.classList.remove("d-none");
+
+  // ランキングページへのリンクを表示
+  ranking.innerHTML += "<a href='/rank'>ランキングをチェック</a>";
+  ranking.classList.remove('d-none');
 
   // ログイン時、かつgameScoreが1以上の場合のみデータを保存する
   if (document.getElementById('user') && gameScore >= 1) {

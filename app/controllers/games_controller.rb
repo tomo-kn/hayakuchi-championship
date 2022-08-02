@@ -8,6 +8,14 @@ class GamesController < ApplicationController
     @sentences_content = Sentence.all.map(&:content)
     @sentences_contentFurigana = Sentence.all.map(&:contentFurigana)
     @sentences_contentMisconversion = Sentence.all.map(&:contentMisconversion)
+
+    if logged_in?
+      if Game.exists?(user_id: current_user.id)
+        @games = Game.where(user_id: current_user.id)
+        @bestscore = @games.order(score: "DESC", out: "ASC").limit(1)
+        @recentscore = @games.order(id: "DESC").limit(5)
+      end
+    end
   end
   
   def new

@@ -12,10 +12,6 @@
 
 /* universal */
 
-body {
-  padding-top: 60px;
-}
-
 .content {
   min-height: calc(100vh - 100px);
 }
@@ -135,6 +131,87 @@ input {
 
 .top-button {
   height: 4em;
+}
+
+
+/* game */
+
+.timer-pair {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer-pair > p {
+  margin:0 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.js-animation {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 1s;
+}
+.js-animation.is-show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+}
+
+#batterImage {
+  width: 30%;
+  max-width: 300px;
+  height: auto;
+}
+
+.game-button-pair {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.game-button-pair > a {
+  width: 35%;
+  margin: 0 5%;
+}
+
+.gamestart-button {
+  width: 7em;
+  height: 4em;
+  font-size: 1.7rem !important;
+  border-radius: 100% !important;
+}
+
+.ol-align-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ul-align-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  ul { margin-left:15px; /* beforeで左に動かした分を相殺 */ }
+  ul li { display:block; position:relative; }
+  ul li:before { content:'※'; position:absolute; left:-15px; /* インデントさせるため「※」だけを左に */ }
+}
+
+.login-membership-pair {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.login-membership-pair > a {
+  width: 25%;
+  margin: 0 3%;
+  font-size: 1.2rem;
 }
 
 
