@@ -74,7 +74,6 @@ rec.onclick = function() {
 };
 
 var hundleSuccess = (function(stream){
-  rec.disabled = true;
   audioData = [];
   audioContext = new AudioContext();
   audio_sample_rate = audioContext.sampleRate;
@@ -84,6 +83,7 @@ var hundleSuccess = (function(stream){
   scriptProcessor.onaudioprocess = onAudioProcess;
   scriptProcessor.connect(audioContext.destination);
 
+  rec.disabled = true;
   nowRecordingMessage();
 
   // カウントダウン
@@ -297,7 +297,7 @@ result.onclick = function() {
   practices.classList.remove("d-none")
 
   // twitterのシェアボタン
-  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
+  twitter.innerHTML += '<a  class="btn btn-outline-info" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
   // ログイン時、かつscoreが0点より大きい場合のみデータを保存する

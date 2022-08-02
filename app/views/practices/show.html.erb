@@ -23,8 +23,8 @@
             <input type="hidden" id="user" value="<%= current_user.id %>">
           <% end %>
         <h2 class="d-none" id="display"></h2>
-        <h3 class="d-none" id="judge"></h3>
-        <p class="d-none" id="yourWord"></p>
+        <h3 class="d-none mt-4" id="judge"></h3>
+        <p class="d-none mt-4" id="yourWord"></p>
           <input type="hidden" id="sentence" value="<%= @sentence.content %>">
           <input type="hidden" id="sentenceFurigana" value="<%= @sentence.contentFurigana %>">
           <input type="hidden" id="sentenceMisconversion" value="<%= @sentence.contentMisconversion %>">
@@ -37,18 +37,18 @@
           <a id ="download" href="#" type="hidden"></a>
           <a id="stop" type="hidden"></a>
         </div>
-        <div class="row justify-content-center pt-2"  data-turbolinks="false">
-            <button class = "col-2 btn btn-primary mr-3 d-none" id="play" >再生する</button>
-            <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 d-none" %>
+        <div class="row justify-content-center pt-3 practice-button-pair" data-turbolinks="false">
+          <a class="col-2 btn btn-primary ms-3 d-none" id="play" >再生する</a>
+          <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 d-none" %>
         </div>
         <% if logged_in? %>
           <p class="d-none mt-4" id="saveCaution">※「採点する」ボタンを押さないとデータは保存されません。</p>
         <% end %>
-        <div class="row justify-content-center pt-2"  data-turbolinks="false">
-            <%= link_to "今すぐ試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 d-none" %>
-            <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 d-none" %>
+        <div class="row justify-content-center pt-3 practice-button-pair" data-turbolinks="false">
+          <%= link_to "試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 d-none" %>
+          <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 d-none" %>
         </div>
-        <div class="d-none" id="twitter"></div>
+        <div class="d-none mt-4 mb-3" id="twitter"></div>
       </section>
     </div>
     <% if logged_in? %>
