@@ -161,7 +161,7 @@ function gradeText() {
   console.log("精度: " + accuracy);
   console.log("あなたの言葉は、" + resultWord + "と聞こえました");
 
-  // confidenceの威力を7分の2にする
+  // confidenceの威力を約7分の5にする
   const accuracyFixed = Number(accuracy) + ((1 - Number(accuracy)) / 3.5);
   console.log("修正した精度: " + accuracyFixed);
   const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracyFixed * 10) / 10;

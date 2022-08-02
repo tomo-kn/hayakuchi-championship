@@ -215,6 +215,17 @@ input {
 }
 
 
+/* practice */
+
+.card-body > a {
+  text-decoration: none;
+}
+
+.card-body>a:hover {
+  color: #008CFF !important;
+}
+
+
 /* tab */
 .tab {
   width: 100%;
