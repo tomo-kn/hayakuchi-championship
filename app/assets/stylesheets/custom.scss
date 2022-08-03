@@ -251,13 +251,35 @@ input {
 }
 
 
-/* tab */
-.tab {
+/* mypage */
+
+.profile > h1 {
+  text-align: left;
+  display: inline;
+  float: left;
+}
+
+.profile > a {
+  
+}
+
+// tab
+
+.tab-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  padding: 10px;
+  margin: 0 !important;
+}
+
+.tab {
+  width: 30%;
+  min-height: 30px;
   cursor: pointer;
   border-left: solid 1px #CCC;
   border-bottom: solid 1px #CCC;
+  opacity: 0.7;
 }
 .tab:first-child {
   border-left: none;
@@ -268,9 +290,11 @@ input {
 }
 // タブがactiveのときのデザイン
 .tab-active {
-  color: #FFF;
-  background: #19b5d1;
+  color: rgb(63, 63, 63);
+  background: #f9fabe;
   transition: all 0.2s ease-in-out;
+  opacity: 1;
+  font-weight: bold;
 }
 // タブの中身は最初は非表示にしておき、box-showクラスだけ表示に変更
 .tabbox {
