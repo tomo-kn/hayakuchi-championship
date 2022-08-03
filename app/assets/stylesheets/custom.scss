@@ -316,6 +316,27 @@ input {
 }
 
 
+/* table */
+
+.thead-primary {
+  background: #00AB4C;
+  color: #EFF0F4;
+  border-color: #00AB4C;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.btn-info {
+  background: #01bd8e !important;
+  color: #fff !important;
+  border-color: #01bd8e !important;
+  border-radius:30px !important;
+}
+
+
 /* pagination */
 // https://shanabrian.com/web/jquery/pagination.php
 .pagination{
