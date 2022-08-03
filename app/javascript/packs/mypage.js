@@ -16,12 +16,13 @@ $('.pagination').remove();
 $(".js-filter-items").pagination({
   itemElement : '> tr',
   displayItemCount: 10,
-  prevNextPageBtnMode: true,
   firstEndPageBtnMode: true,
-  onePageOnlyDisplay: true,
   paginationClassName: 'pagination',
-  setPaginationMode: 'after',
-})
+});
+// paginationクラスをpagiWrapperクラスで囲む
+$(function() {
+  $(".pagination").wrap("<div class='pagiWrapper'></div>");
+});
 
 // プルダウンによる絞り込み
 $(".js-filter-form").on("change", function(){
@@ -54,10 +55,11 @@ $(".js-filter-form").on("change", function(){
   $(".js-filter-items").pagination({
     itemElement : '> tr:not(.hidden)',
     displayItemCount: 10,
-    prevNextPageBtnMode: true,
     firstEndPageBtnMode: true,
-    onePageOnlyDisplay: true,
     paginationClassName: 'pagination',
-    setPaginationMode: 'after',
-  })
+  });
+  // paginationクラスをpagiWrapperクラスで囲む
+  $(function() {
+    $(".pagination").wrap("<div class='pagiWrapper'></div>");
+  });
 });
