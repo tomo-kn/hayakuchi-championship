@@ -1,7 +1,7 @@
 <% set_meta_tags title: "マイページ" %>
 <div class="container text-muted mt-5">
   <div class="row">
-    <div class="profile mb-5">
+    <div class="profile mb-5 offset-md-1">
       <h1><i class="fas fa-user pe-2"></i><%= @user.name %> さんのマイページ</h1>
       <%= link_to edit_user_path, class: 'btn btn-primary ms-5 pl-5' do %>
         <i class="fa-regular fa-pen-to-square pe-2"></i>編集

@@ -259,12 +259,7 @@ input {
   float: left;
 }
 
-.profile > a {
-  
-}
-
 // tab
-
 .tab-list {
   display: flex;
   justify-content: center;
@@ -296,6 +291,7 @@ input {
   opacity: 1;
   font-weight: bold;
 }
+
 // タブの中身は最初は非表示にしておき、box-showクラスだけ表示に変更
 .tabbox {
   display: none;
@@ -303,6 +299,20 @@ input {
 }
 .box-show{
   display: block;
+}
+
+// ドロップダウンリスト
+.list-checkbox {
+  display: block;
+  box-shadow: none;
+  font-size: 16px;
+  margin-top: 9px;
+  margin-bottom: 15px;
+  width: 50%;
+}
+
+.list-checkbox:hover {
+  cursor: pointer;
 }
 
 

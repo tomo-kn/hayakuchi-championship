@@ -1,4 +1,4 @@
-<select name="type" class="js-filter-form list_checkbox">
+<select name="type" class="js-filter-form list-checkbox">
     <option value="all">お題で絞り込む</option>
     <% @sentences.each do |sentence| %>
       <option value="<%= sentence.id %>"><%= sentence.content %></option>
