@@ -1,7 +1,19 @@
-<h1>Practices#index / 練習一覧ページ</h1>
-<a href="/">Topページに戻る</a>
-<h2>練習一覧</h2>
-<% @sentences.each do |sentence| %>
-  <p>Test:<%=  sentence.id %></p>
-  <span  data-turbolinks="false"><%= link_to sentence.content, "/practices/#{sentence.id}" %></span>
-<% end %>
+<% set_meta_tags title: '練習一覧ページ' %>
+<div class="container-lg text-muted mt-3">
+  <div class="center-block">
+    <h1 class="text-center mt-3"><i class="fa-solid fa-hand-pointer pe-2"></i>練習する早口言葉を選択してください</h1>
+  </div>
+  <div class="sentences-wrapper">
+    <div class="top-cards pt-5 pb-4">
+      <div class="row justify-content-center">
+        <%= render partial: 'sentence', collection: @sentences %>
+      </div>
+    </div>
+  </div>
+  <% if logged_in? %>
+    <% if @practices.count > 0 %>
+      <p class="mt-1 mb-3 me-3" style="text-align: right;"><i class="fa-solid fa-forward pe-2"></i>: 練習回数, <i class="fa-solid fa-graduation-cap pe-2"></i>: 平均点</p>
+    <% end %>
+  <% end %>
+</div>
+

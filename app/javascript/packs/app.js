@@ -19,6 +19,9 @@ const practices = document.getElementById('practices');
 const twitter = document.getElementById('twitter');
 const theme = document.getElementById('theme');
 const sentenceFurigana = document.getElementById('sentenceFurigana').value;
+const Notes = document.getElementById('Notes');
+const NotesItems = document.getElementById('NotesItems');
+const backToPractices = document.getElementById('backToPractices');
 
 const kotoba = document.getElementById('kotoba');
 const seido = document.getElementById('seido');
@@ -55,11 +58,22 @@ rec.onclick = function() {
     recognition.start();
     recordingNow = true;
     rec.textContent = "Now Recording…";
+    Notes.classList.add('d-none');
+    NotesItems.classList.add('d-none');
+    backToPractices.classList.add('d-none');
+    // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
+    if(document.getElementById('loginAndMembership')) {
+      const loginAndMembership = document.getElementById('loginAndMembership');
+      loginAndMembership.classList.add('d-none');
+    }
+    if(document.getElementById('myScore')) {
+      const myScore = document.getElementById('myScore');
+      myScore.classList.add('d-none');
+    }
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 };
 
 var hundleSuccess = (function(stream){
-  rec.disabled = true;
   audioData = [];
   audioContext = new AudioContext();
   audio_sample_rate = audioContext.sampleRate;
@@ -69,6 +83,7 @@ var hundleSuccess = (function(stream){
   scriptProcessor.onaudioprocess = onAudioProcess;
   scriptProcessor.connect(audioContext.destination);
 
+  rec.disabled = true;
   nowRecordingMessage();
 
   // カウントダウン
@@ -123,8 +138,12 @@ stop.onclick = function() {
   doneMessage();
   rec.classList.add("d-none");
   result.classList.remove("d-none");
-  play.classList.remove("invisible");
-  restart.classList.remove("invisible");
+  play.classList.remove("d-none");
+  restart.classList.remove("d-none");
+  if(document.getElementById('saveCaution')) {
+    const saveCaution = document.getElementById('saveCaution');
+    saveCaution.classList.remove('d-none');
+  }
   saveAudio();
 };
 
@@ -216,6 +235,9 @@ let saveAudio = function () {
 result.onclick = function() {
   notice.innerHTML = '～結果発表～';
   result.classList.add("d-none");
+  if(document.getElementById('saveCaution')) {
+    saveCaution.classList.add('d-none');
+  }
   const resultWord_original = kotoba.innerHTML;
   const sentence_original = document.getElementById('sentence').value;
   
@@ -271,15 +293,15 @@ result.onclick = function() {
   yourWord.classList.remove("d-none");
 
   // game,practices
-  game.classList.remove("invisible")
-  practices.classList.remove("invisible")
+  game.classList.remove("d-none")
+  practices.classList.remove("d-none")
 
   // twitterのシェアボタン
-  twitter.innerHTML += '<a  class="btn btn-primary" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
+  twitter.innerHTML += '<a  class="btn btn-outline-info" target="_blank" href="https://twitter.com/share?url=' + location.href + '&hashtags=早口言葉,早口言葉選手権&text=早口言葉【' + sentence_original + '】に挑戦しました！%0a%0a結果は… ' + score + '点/100点(Time: ' + time + '秒)でした！%0aみんなも挑戦しよう！%0a%0a"><i class="fab fa-twitter pe-1"></i>練習結果をつぶやく</a>'
   twitter.classList.remove("d-none")
 
-  // ログイン時のみデータを保存する
-  if (document.getElementById('user')) {
+  // ログイン時、かつscoreが0点より大きい場合のみデータを保存する
+  if (document.getElementById('user') && score > 0) {
     // FormDataの用意
     const voiceform = document.getElementById('voiceform');
     const fd = new FormData(voiceform);

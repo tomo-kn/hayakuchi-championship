@@ -7,12 +7,11 @@
         <h1 class="text-center mt-5", id="theme">お題</h1>
       </div>
       <div>
-        <p class="mt-3", id="notice">録音ボタンを押して3回繰り返そう！<br>
-        <span style= "color: red">※PC・Android端末のChromeブラウザのみの対応です(iOS端末では使えません)</span></p>
+        <p class="mt-3", id="notice">練習ボタンを押して3回繰り返そう！</p>
       </div>
 
       <div class="mt-4 mb-5">
-        <button class="btn btn-primary btn-lg" id="rec">録音する</button>
+        <button class="btn btn-primary btn-lg" id="rec"><i class="fa-solid fa-baseball-bat-ball pe-2"></i>練習開始</button>
         <button class="btn btn-danger btn-lg d-none" id="result">採点する</button>
           <% if logged_in? %>
             <%= form_with model: @practice, id: "voiceform", multipart: true, local: true do |f| %>
@@ -24,8 +23,8 @@
             <input type="hidden" id="user" value="<%= current_user.id %>">
           <% end %>
         <h2 class="d-none" id="display"></h2>
-        <h3 class="d-none" id="judge"></h3>
-        <p class="d-none" id="yourWord"></p>
+        <h3 class="d-none mt-4" id="judge"></h3>
+        <p class="d-none mt-4" id="yourWord"></p>
           <input type="hidden" id="sentence" value="<%= @sentence.content %>">
           <input type="hidden" id="sentenceFurigana" value="<%= @sentence.contentFurigana %>">
           <input type="hidden" id="sentenceMisconversion" value="<%= @sentence.contentMisconversion %>">
@@ -38,16 +37,56 @@
           <a id ="download" href="#" type="hidden"></a>
           <a id="stop" type="hidden"></a>
         </div>
-        <div class="row justify-content-center pt-2"  data-turbolinks="false">
-            <button class = "col-2 btn btn-primary mr-3 invisible" id="play" >再生する</button>
-            <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 invisible" %>
+        <div class="row justify-content-center pt-3 practice-button-pair" data-turbolinks="false">
+          <a class="col-2 btn btn-primary ms-3 d-none" id="play" >再生する</a>
+          <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 d-none" %>
         </div>
-        <div class="row justify-content-center pt-2"  data-turbolinks="false">
-            <%= link_to "今すぐ試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 invisible" %>
-            <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 invisible" %>
+        <% if logged_in? %>
+          <p class="d-none mt-4" id="saveCaution">※「採点する」ボタンを押さないとデータは保存されません。</p>
+        <% end %>
+        <div class="row justify-content-center pt-3 practice-button-pair" data-turbolinks="false">
+          <%= link_to "試合する", game_path, id: "game", class: "col-2 btn btn-primary ms-3 d-none" %>
+          <%= link_to "練習一覧ページに戻る", practices_path, id: "practices", class: "col-2 btn btn-primary ms-3 d-none" %>
         </div>
-        <div class="d-none" id="twitter"></div>
+        <div class="d-none mt-4 mb-3" id="twitter"></div>
       </section>
+    </div>
+    <% if logged_in? %>
+        <% if Practice.exists?(user_id: current_user.id, sentence_id: @sentence.id) %>
+          <div id="myScore">
+            <h3 class="text-center mt-5 pb-3"><i class="fa-solid fa-pen pe-2"></i>マイスコア</h3>
+            <div class="ol-align-center" data-turbolinks="false">
+              <ul>
+                <li>このお題の練習回数：<%= @practices.count %> 回</li>
+                <li>ベストスコア（タイム）：<%= @bestscore[0].score %> 点（<%= @bestscore[0].time %> 秒）</li>
+                <li>ベストタイム（スコア）：<%= @besttime[0].time %> 秒（<%= @besttime[0].score %> 点）</li>
+                <li>平均スコア（タイム）：<%= sprintf("%.2f", @practices.sum(:score).to_f/@practices.count.to_f) %> 点（<%= sprintf("%.2f", @practices.sum(:time).to_f/@practices.count.to_f) %> 秒）</li>
+                <li>直近5回の平均スコア（タイム）：<%= sprintf("%.2f", @recentscore.pluck(:score).sum.to_f/@recentscore.pluck(:score).count.to_f) %> 点（<%= sprintf("%.2f", @recentscore.pluck(:time).sum.to_f/@recentscore.pluck(:time).count.to_f) %> 秒）</li>
+              </ul>
+              <%= link_to "マイページはこちら", user_path(current_user), class: "text-center fs-5" %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <h3 class="mt-4 pb-3 text-center" id="Notes"><i class="fa-solid fa-triangle-exclamation pe-2"></i>注意事項</h3>
+    <div class="ul-align-center" id="NotesItems">
+      <ul>
+        <li>お題を<span style='color:red'>3回連続</span>で正しく発声してください。採点方法は試合モードと異なります。</li>
+        <li>なるべく雑音の少ない静かな環境でご利用ください。</li>
+        <li><span style='color:red'>PCまたはAndroid端末のChromeブラウザのみ</span>の対応となります。ご了承ください。</li>
+        <% if !logged_in? %>
+          <li>ログインすると練習結果が保存されます。</li>
+        <% end %>
+      </ul>
+    </div>
+    <% if !logged_in? %>
+      <div class="mt-3 mb-3 login-membership-pair" data-turbolinks="false" id="loginAndMembership">
+        <%= link_to "ログインはこちら", login_path, class: "text-center" %>
+        <%= link_to "新規会員登録はこちら", new_user_path, class: "text-center" %>
+      </div>
+    <% end %>
+    <div class="mt-2 mb-3 text-center" id="backToPractices">
+      <%= link_to "練習一覧ページに戻る", practices_path, class: " fs-5" %>
     </div>
   </div>
 </div>

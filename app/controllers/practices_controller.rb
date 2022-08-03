@@ -4,10 +4,23 @@ class PracticesController < ApplicationController
   before_action :user_check, only: %i[result destroy]
   def index
     @sentences = Sentence.all
+    if logged_in?
+      @practices = Practice.where(user_id: current_user.id)
+      @counts = @practices.group(:sentence_id).count
+      @scores = @practices.group(:sentence_id).sum(:score)
+    end
   end
 
   def show
     @sentence = Sentence.find(params[:id])
+    if logged_in?
+      if Practice.exists?(user_id: current_user.id, sentence_id: @sentence.id)
+        @practices = Practice.where(user_id: current_user.id, sentence_id: @sentence.id)
+        @bestscore = @practices.order(score: "DESC", time: "ASC").limit(1)
+        @besttime = @practices.order(time: "ASC", score: "DESC").limit(1)
+        @recentscore = @practices.order(id: "DESC").limit(5)
+      end
+    end
   end
 
   def new

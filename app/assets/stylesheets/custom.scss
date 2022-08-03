@@ -27,6 +27,13 @@
   border-radius:30px !important;
 }
 
+.btn-danger {
+  color: #ffffff !important;
+  background: #c53b54 !important;
+  border-color: #c53b54 !important;
+  border-radius:30px !important;
+}
+
 .btn {
   transition: all .2s !important;
 }
@@ -44,6 +51,35 @@
 .button-pair > a {
   width: 44%;
   margin: 0 5%;
+}
+
+.ol-align-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ul-align-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  ul { margin-left:15px; /* beforeで左に動かした分を相殺 */ }
+  ul li { display:block; position:relative; }
+  ul li:before { content:'※'; position:absolute; left:-15px; /* インデントさせるため「※」だけを左に */ }
+}
+
+.login-membership-pair {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.login-membership-pair > a {
+  width: 25%;
+  margin: 0 3%;
+  font-size: 1.2rem;
 }
 
 
@@ -185,22 +221,18 @@ input {
   border-radius: 100% !important;
 }
 
-.ol-align-center {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+
+/* practice */
+
+.card-body > a {
+  text-decoration: none;
 }
 
-.ul-align-center {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  ul { margin-left:15px; /* beforeで左に動かした分を相殺 */ }
-  ul li { display:block; position:relative; }
-  ul li:before { content:'※'; position:absolute; left:-15px; /* インデントさせるため「※」だけを左に */ }
+.card-body>a:hover {
+  color: #008CFF !important;
 }
 
-.login-membership-pair {
+.practice-button-pair {
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -208,10 +240,14 @@ input {
   margin: 0 !important;
 }
 
-.login-membership-pair > a {
-  width: 25%;
-  margin: 0 3%;
-  font-size: 1.2rem;
+.practice-button-pair > a {
+  width: 35%;
+  margin: 0 5%;
+}
+
+.practices-data {
+  text-align: right;
+  font-size: 0.85rem;
 }
 
 
