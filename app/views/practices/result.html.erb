@@ -7,14 +7,14 @@
         <div class="card-body">
           <div class='row text-center'>
             <div class='col-md-9'>
-              <h1 style='display: inline;'><%= @sentence.content %>：<%= @result.score %>点</h1>
-              <div class='advice mb-5'>
+              <h1 style='display: inline;'><%= @sentence.content %>：<%= @result.score %>点(<%= @result.time %>秒)</h1>
+              <div class='advice mb-5 mt-1'>
                 <p>
                 あなたの言葉は、<span style='color:red'><%= @result.word %></span>と聞こえました
                 </p>
               </div>
               <%= audio_tag("#{@result.voice.url}", controls: true) %>
-              <ul class="list-inline">
+              <ul class="list-inline mt-1">
                 <li class="list-inline-item">by <%= @user.name %></li>
                 <li class="list-inline-item"><%= @result.created_at.to_s(:datetime_jp) %></li>
               </ul>
@@ -22,12 +22,18 @@
           </div>
         </div>
       </article>
-      <%= link_to "https://twitter.com/share?url=#{request.url}&hashtags=早口言葉,早口言葉選手権&text=早口言葉【#{@sentence.content}】に挑戦しました！%0a%0a結果は… #{@result.score}点/100点(Time: #{@result.time}秒)でした！%0aみんなも挑戦しよう！%0a%0a", class: 'btn btn-primary float-right', target: '_blank' do %>
+      <%= link_to "https://twitter.com/share?url=#{root_url}&hashtags=早口言葉,早口言葉選手権&text=早口言葉【#{@sentence.content}】に挑戦しました！%0a%0a結果は… #{@result.score}点/100点(Time: #{@result.time}秒)でした！%0aみんなも挑戦しよう！%0a%0a", class: 'btn btn-outline-info float-right mt-3', target: '_blank' do %>
         <i class="fab fa-twitter pe-1"></i>練習結果をつぶやく
       <% end %>
-      <%= link_to "/results/#{@result.id}", method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger' do %>
+      <%= link_to "/results/#{@result.id}", method: :delete, data: { confirm: "削除しますか？" }, class: 'btn btn-danger mt-3 ms-3' do %>
         <i class="far fa-trash-alt"></i> 
       <% end %>
+      <p class="mt-5 mb-5 fs-5" data-turbolinks="false">
+        <%= link_to "マイページに戻る", user_path(current_user) %>
+      </p>
+      <p class="mt-5 mb-3 text-center fs-2">
+        <a href="/practices" style="text-decoration: none;">お題を選ぶ</a>
+      </p>
     </div>
   </div>
 </div>
