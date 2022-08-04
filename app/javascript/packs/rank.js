@@ -1,5 +1,6 @@
 // ページネーション
 $('.pagination').remove();
+$('.pagiWrapper').remove();
 $(".js-filter-items").pagination({
   itemElement : '> tr',
   displayItemCount: 10,

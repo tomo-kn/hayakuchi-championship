@@ -13,6 +13,7 @@ $(document).on('turbolinks:load', function() {
 
 // ページネーション
 $('.pagination').remove();
+$('.pagiWrapper').remove();
 $(".js-filter-items").pagination({
   itemElement : '> tr',
   displayItemCount: 10,
@@ -52,6 +53,7 @@ $(".js-filter-form").on("change", function(){
 
   // ページネーションを作り直す
   $('.pagination').remove();
+  $('.pagiWrapper').remove();
   $(".js-filter-items").pagination({
     itemElement : '> tr:not(.hidden)',
     displayItemCount: 10,
