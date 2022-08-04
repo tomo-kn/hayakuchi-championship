@@ -157,6 +157,15 @@ input {
   height: auto !important;
 }
 
+label {
+  font-weight: bold;
+}
+
+.form-control:focus {
+  border-color: #fef686 !important;
+  box-shadow: 0 0 0 0.25rem rgba(249, 253, 13, 0.25) !important;
+}
+
 /* toppage */
 
 .logo-top {
