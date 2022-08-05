@@ -1,5 +1,5 @@
 <tr>
-  <td class='align-middle'><%= rank.ranking %>位</td>
+  <td class='align-middle'><% if rank.ranking == 1 %><%= image_tag 'f5-1.png', alt: '早口言葉選手権1位', class: 'crown pe-2' %><% end %><% if rank.ranking == 2 %><%= image_tag 'f5-2.png', alt: '早口言葉選手権2位', class: 'crown pe-2' %><% end %><% if rank.ranking == 3 %><%= image_tag 'f5-3.png', alt: '早口言葉選手権3位', class: 'crown pe-2' %><% end %><%= rank.ranking %>位</td>
   <td class='align-middle'><%= User.find(rank.user_id).name %></td>
   <td class='align-middle td-pe-none'><%= rank.score %> - <%= rank.out %></td>
   <td class='align-middle'><%= rank.created_at.to_s(:datetime_jp) %></td>

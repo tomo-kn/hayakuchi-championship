@@ -1,13 +1,13 @@
 // ページネーション
 $('.pagination').remove();
+$('.pagiWrapper').remove();
 $(".js-filter-items").pagination({
   itemElement : '> tr',
   displayItemCount: 10,
-  prevNextPageBtnMode: true,
   firstEndPageBtnMode: true,
-  onePageOnlyDisplay: true,
   paginationClassName: 'pagination',
-  setPaginationMode: 'after',
-})
-
-
+});
+// paginationクラスをpagiWrapperクラスで囲む
+$(function() {
+  $(".pagination").wrap("<div class='pagiWrapper'></div>");
+});

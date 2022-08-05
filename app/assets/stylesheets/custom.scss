@@ -157,6 +157,20 @@ input {
   height: auto !important;
 }
 
+label {
+  font-weight: bold;
+}
+
+.form-control:focus {
+  border-color: #fef686 !important;
+  box-shadow: 0 0 0 0.25rem rgba(249, 253, 13, 0.25) !important;
+}
+
+.login-register {
+  text-decoration: none;
+}
+
+
 /* toppage */
 
 .logo-top {
@@ -251,13 +265,30 @@ input {
 }
 
 
-/* tab */
-.tab {
+/* mypage */
+
+.profile > h1 {
+  text-align: left;
+  display: inline;
+  float: left;
+}
+
+// tab
+.tab-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  padding: 10px;
+  margin: 0 !important;
+}
+
+.tab {
+  width: 30%;
+  min-height: 30px;
   cursor: pointer;
   border-left: solid 1px #CCC;
   border-bottom: solid 1px #CCC;
+  opacity: 0.7;
 }
 .tab:first-child {
   border-left: none;
@@ -268,10 +299,13 @@ input {
 }
 // タブがactiveのときのデザイン
 .tab-active {
-  color: #FFF;
-  background: #19b5d1;
+  color: rgb(63, 63, 63);
+  background: #f9fabe;
   transition: all 0.2s ease-in-out;
+  opacity: 1;
+  font-weight: bold;
 }
+
 // タブの中身は最初は非表示にしておき、box-showクラスだけ表示に変更
 .tabbox {
   display: none;
@@ -281,89 +315,84 @@ input {
   display: block;
 }
 
+// ドロップダウンリスト
+tr.hidden {
+  display: none;
+}
+
+.list-checkbox {
+  display: block;
+  box-shadow: none;
+  font-size: 16px;
+  margin-top: 9px;
+  margin-bottom: 15px;
+  width: 50%;
+}
+
+.list-checkbox:hover {
+  cursor: pointer;
+}
+
+
+/* table */
+
+.thead-primary {
+  background: #00AB4C;
+  color: #EFF0F4;
+  border-color: #00AB4C;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.btn-info {
+  background: #01bd8e !important;
+  color: #fff !important;
+  border-color: #01bd8e !important;
+  border-radius:30px !important;
+}
+
 
 /* pagination */
 // https://shanabrian.com/web/jquery/pagination.php
-.pagination{
+
+.pagiWrapper {
+  margin: 0 auto 0 auto;
+  width: 100% !important;
+}
+
+.pagination {
   margin: 20px auto 0;
-  width: 50%;
+  width: 100%;
+  text-align: center;
+} 
+ 
+.pagination ul {
+  list-style: none;
   display: flex;
   justify-content: center;
-  span{
-      text-align: center;
-      width: 50px;
-      :hover{
-          background-color:#f3f3f3;
-      }
-      a{
-          display: block;
-          width: 100%;
-          height: 100%;
-          :hover{
-              background-color: #f3f3f3;
-            }
-      }
-  }
-} 
-    /* 前・次へ移動するボタン */
-    .pagination .prev-page {}
-    .pagination .next-page {}
-        .pagination .prev-page button {}
-        .pagination .next-page button {}
- 
-    /* 前・次へ移動するボタンの無効化時 */
-    .pagination .prev-page.disabled {}
-    .pagination .next-page.disabled {}
-        .pagination .prev-page.disabled button {}
-        .pagination .next-page.disabled button {}
- 
-    /* 最初・最後へ移動するボタン */
-    .pagination .first-page {}
-    .pagination .end-page {}
-        .pagination .first-page button {}
-        .pagination .end-page button {}
- 
-    /* 最初・最後へ移動するボタンの無効化時 */
-    .pagination .first-page.disabled {}
-    .pagination .end-page.disabled {}
-        .pagination .first-page.disabled button {}
-        .pagination .end-page.disabled button {}
- 
-    /* ページ別切り替えボタン */
-    .pagination ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-        .pagination li {
-          margin-right: 1em;
-        }
-            .pagination li a {
-              text-decoration: none;
-              color: #000;
-            }
-        /* カレント時（現在位置） */
-        .pagination li.current {}
-            .pagination li.current a {}
-        /* 省略記号 */
-        .pagination li.ellipsis {}
-            .pagination li.ellipsis span {}
- 
-    /* ページ情報（現在のページ番号と最大数） */
-    .pagination .page-info {}
-
-
-
-.current{
-  color: #008CFF;
+  align-items: center;
 }
 
-.gap{
-  background-color: white !important;
+.pagination li {
+  margin-right: 1em;
 }
 
-/* pull down */
-tr.hidden {
-  display: none;
+.pagination li > a {
+  text-decoration: none;
+  color: #000;
+}
+
+.current {
+  background-color: #f9fabe !important;
+}
+
+
+/* rank */
+
+.crown {
+  max-height: 40px;
+  width: auto;
 }

@@ -1,25 +1,45 @@
 <% set_meta_tags title: "会員登録" %>
-<h1>会員登録</h1>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_with(model: @user, local: true) do |f| %>
-      <%= render 'shared/error_message' %>
-      <%= f.label :name, "アカウント名" %>
-      <%= f.text_field :name %>
+<div class="container text-muted">
+  <div class="row mt-5">
+    <div class="col-lg-7 offset-lg-2">
+      <h1 class="mb-5"><i class="fas fa-user pe-2"></i>会員登録</h1>
+      <%= form_with(model: @user, local: true) do |f| %>
+        <%= render 'shared/error_message' %>
+        <div class="form-group">
+          <i class="fas fa-user"></i>
+          <%= f.label :name, "アカウント名" %>
+          <%= f.text_field :name, class: "form-control mb-3 mt-1", placeholder: :name %>
+        </div>
 
-      <%= f.label :email, "メールアドレス" %>
-      <%= f.email_field :email %>
+        <div class="form-group">
+          <i class="fas fa-envelope"></i>
+          <%= f.label :email, "メールアドレス" %>
+          <%= f.email_field :email, class: "form-control mb-3 mt-1", placeholder: :email %>
+        </div>
 
-      <%= f.label :password, "パスワード" %>
-      <%= f.password_field :password %>
+        <div class="form-group">
+          <i class="fas fa-lock"></i>
+          <%= f.label :password, "パスワード" %>
+          <%= f.password_field :password, class: "form-control mb-3 mt-1", placeholder: :password %>
+        </div>
 
-      <%= f.label :password_confirmation, "パスワード確認" %>
-      <%= f.password_field :password_confirmation %>
+        <div class="form-group">
+          <i class="fas fa-lock"></i>
+          <%= f.label :password_confirmation, "パスワード確認" %>
+          <%= f.password_field :password_confirmation, class: "form-control mb-3 mt-1", placeholder: '再度パスワードをご入力ください' %>
+        </div>
 
-      <%= f.submit "登録する", class: "btn btn-primary" %>
-    <% end %>
+        <div class="actions mt-2 mb-3" style="max-width: 100px;">
+          <%= f.submit "登録する", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
+
+<p class="text-center mt-3 mb-5" data-turbolinks="false">
+  <%= link_to "既にアカウントをお持ちの方はこちら", login_path, class: "login-register" %>
+</p>
 
 <% if @user.errors.any? %>
   <%= javascript_pack_tag 'users_new' %>
