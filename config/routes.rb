@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get '/policy', to: 'pages#policy'
   get '/contact', to: 'pages#contact'
   get '/terms', to: 'pages#terms'
-  get '/how-to-play', to: 'pages#how_to_play'
 
   get '/game', to: 'games#index'
   post '/game', to: 'games#create'
