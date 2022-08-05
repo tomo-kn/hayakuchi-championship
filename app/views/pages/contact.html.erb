@@ -1,2 +1,14 @@
-<h1>Pages#contact / お問い合わせ</h1>
-<a href='/'>Topページに戻る</a>
+<% set_meta_tags title: 'お問い合わせ' %>
+<section class="info">
+  <div class="container-fluid text-muted px-5 py-5">
+    <div class="my-5">
+      <h1 class="h2 fw-bold mb-4">お問い合わせ</h1>
+      <p class="mb-2">お問い合わせ、不具合の報告などございましたら、以下のTwitterアカウントまでご連絡ください。</p>
+      <p class="mb-4">ご感想もお待ちしております。</p>
+      
+      <%= link_to 'https://twitter.com/tomokn5', class: 'btn btn-primary', target: '_blank', rel: 'noopener noreferrer' do %>
+        <i class="fab fa-twitter pe-1"></i>@tomokn5
+      <% end %>
+    </div>
+  </div>
+</section>
