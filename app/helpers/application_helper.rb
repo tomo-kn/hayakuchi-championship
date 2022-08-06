@@ -2,7 +2,7 @@ module ApplicationHelper
   def default_meta_tags
     {
       site: '早口言葉選手権',
-      title: '',
+      title: 'トップページ',
       reverse: true,
       charset: 'utf-8',
       description: 'あなたの早口言葉を採点します。試合モードでライバルとスコアを競え！',
