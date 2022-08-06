@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update]
   before_action :set_user, only: [:show, :edit, :update]
-  before_action :set_practice_result, only: %i[show edit update destroy]
 
   def new
     @user = User.new
@@ -30,8 +29,9 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to user_path(@user)
+      redirect_to user_path(@user), success: "更新しました"
     else
+      flash[:danger] = "更新に失敗しました"
       render :edit
     end
   end
@@ -40,10 +40,6 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(current_user.id)
-    end
-
-    def set_practice_result
-      @practice_result = Practice.find(params[:id])
     end
 
     def user_params
