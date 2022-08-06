@@ -1,3 +1,13 @@
+/** デバッグモードかどうか。本番URLが含まれている場合は自動でfalse */
+var DEBUG_MODE = true && window.location.href.indexOf("https://hayakuchi-championship.com/") < 0;
+
+/** デバッグモードでConsoleAPIが有効な場合にログを出力する */ 
+function trace(s) {
+    if (DEBUG_MODE && this.console && typeof console.log != "undefined") {
+        console.log(s);
+    }
+}
+
 // Chrome と Firefox 両方に対応する
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 
@@ -86,7 +96,7 @@ startButton.onclick = function() {
     if(originTime - getTimerTime() <= 0) {
       gameSet();
     };
-    // console.log(originTime - getTimerTime());
+    // trace(originTime - getTimerTime());
   }, 1000);
   function getTimerTime() {
     return Math.floor((new Date() - startTime) / 1000);
@@ -112,7 +122,7 @@ var hundleSuccess = (function() {
   rec.disabled = true;
   // 話し始めたら録音中…と表示する。
   recognition.onspeechstart = function() {
-    console.log("開始しました")
+    trace("開始しました")
     notice.innerHTML = '録音中…';
     batterImage.src = 'hayakuchi-championship-batter1.png';
   };
@@ -125,7 +135,7 @@ var hundleSuccess = (function() {
       if(e.results[i].isFinal){
         kotoba.innerHTML = product;
         seido.innerHTML = confidence;
-        console.log(e);
+        trace(e);
         reading.innerHTML = '読み取り結果';
       } else {
         reading.innerHTML += product;
@@ -144,7 +154,7 @@ var hundleSuccess = (function() {
 
 // 停止
 stop.onclick = function() {
-  console.log("停止しました");
+  trace("停止しました");
   rec.textContent = "録音する";
   notice.innerHTML = 'お題を1回正しく発声しよう！';
   rec.disabled = false;
@@ -158,14 +168,14 @@ function gradeText() {
   const resultWord = kotoba.innerHTML.replace(/\s+/g, "");
   const sentenceWord = odai.innerHTML.replace(/\s+/g, "");
 
-  console.log("精度: " + accuracy);
-  console.log("あなたの言葉は、" + resultWord + "と聞こえました");
+  trace("精度: " + accuracy);
+  trace("あなたの言葉は、" + resultWord + "と聞こえました");
 
   // confidenceの威力を約7分の5にする
   const accuracyFixed = Number(accuracy) + ((1 - Number(accuracy)) / 3.5);
-  console.log("修正した精度: " + accuracyFixed);
+  trace("修正した精度: " + accuracyFixed);
   const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracyFixed * 10) / 10;
-  console.log("scoreOriginal: " + scoreOriginal);
+  trace("scoreOriginal: " + scoreOriginal);
   // misconversionの処理
   var scoreMisconversion = 0;
   if(gohenkan.innerHTML != "なし"){
@@ -173,20 +183,20 @@ function gradeText() {
     var scoreMisconversionAll = [];
     for (let i = 1; i < sentenceMisconversionArray.length; i++) {
       var sentenceMisconversionWord = sentenceMisconversionArray[i].replace(/\s+/g, "");
-      console.log("誤変換ワード: " + sentenceMisconversionWord);
+      trace("誤変換ワード: " + sentenceMisconversionWord);
       scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracyFixed * 10) / 10);
     }
-    console.log("scoreMisconversionAll: " + scoreMisconversionAll);
+    trace("scoreMisconversionAll: " + scoreMisconversionAll);
     var scoreMisconversion = Math.max(...scoreMisconversionAll);
-    console.log("scoreMisconversion: " + scoreMisconversion);
+    trace("scoreMisconversion: " + scoreMisconversion);
   };
 
   const score = Math.max(scoreOriginal, scoreMisconversion);
-  console.log("スコアは、" + score + "点です。");
+  trace("スコアは、" + score + "点です。");
 
   // 95点以上はホームラン、90点以上はヒット、90点未満はアウト
   if(score >= 95){
-    console.log("ホームラン！");
+    trace("ホームラン！");
     gameScore += 2;
     homerunCount += 1;
     scoreTemporary.innerHTML = "Score: " + gameScore;
@@ -195,14 +205,14 @@ function gradeText() {
       homerunSound.play();
     }
   } else if(score >= 90) {
-    console.log("ヒット");
+    trace("ヒット");
     gameScore += 1;
     homerunCount = 0;
     scoreTemporary.innerHTML = "Score: " + gameScore;
     batterImage.src = 'hayakuchi-championship-batter2.png';
     hitSound.play();
   } else {
-    console.log("アウト…");
+    trace("アウト…");
     outScore += 1;
     homerunCount = 0;
     if(outScore == 1){
@@ -216,7 +226,7 @@ function gradeText() {
   };
   // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
   if(homerunCount == 3) {
-    console.log("3回連続ホームランボーナス！残り時間5秒追加！");
+    trace("3回連続ホームランボーナス！残り時間5秒追加！");
     homerunCount = 0;
     originTime += 5;
     homerunsSound.play();
@@ -243,7 +253,7 @@ function gameSet() {
   gamesetSound.play();
   clearInterval(timerID);
   gameContinue = false;
-  console.log("ゲームセット！");
+  trace("ゲームセット！");
   originTime = -1000;
 
   sentence.innerHTML = "<span style='color:red'>試合終了!!</span>";
@@ -337,11 +347,11 @@ function shuffle([...array]) {
 let index = 0;
 function selectSentence() {
   let selectIndex = sentenceIndexArrayShuffled[index % sentencesSize] - 1;
-  console.log("次のお題の番号: " + selectIndex);
+  trace("次のお題の番号: " + selectIndex);
   let sentenceTemporary = sentencesContentFurigana[selectIndex].value;
   let sentenceOriginalTemporary = sentencesContent[selectIndex].value;
   let sentenceMisconversionTemporary = sentencesContentMisconversion[selectIndex].value;
-  console.log("次のお題: " + sentenceOriginalTemporary);
+  trace("次のお題: " + sentenceOriginalTemporary);
 
   sentence.innerHTML = sentenceTemporary;
   odai.innerHTML = sentenceOriginalTemporary;

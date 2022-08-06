@@ -1,3 +1,13 @@
+/** デバッグモードかどうか。本番URLが含まれている場合は自動でfalse */
+var DEBUG_MODE = true && window.location.href.indexOf("https://hayakuchi-championship.com/") < 0;
+
+/** デバッグモードでConsoleAPIが有効な場合にログを出力する */ 
+function trace(s) {
+    if (DEBUG_MODE && this.console && typeof console.log != "undefined") {
+        console.log(s);
+    }
+}
+
 // Chrome と Firefox 両方に対応する
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 
@@ -97,7 +107,7 @@ var hundleSuccess = (function(stream){
       endTime.innerHTML += performance.now();
       stop.click();
       clearInterval(timerID);
-      console.log("20秒経過したので自動的に停止しました");
+      trace("20秒経過したので自動的に停止しました");
       recognition.stop();
     };
   }, 1000);
@@ -108,7 +118,7 @@ var hundleSuccess = (function(stream){
   // 話し始めたら録音中…と表示し、話が終わったら自動でstopしてくれる。
   recognition.addEventListener('speechstart', function() {
     startTime.innerHTML += performance.now();
-    console.log("開始しました")
+    trace("開始しました")
     notice.innerHTML = '録音中…';
   });
   recognition.addEventListener('speechend', function() {
@@ -117,7 +127,7 @@ var hundleSuccess = (function(stream){
       endTime.innerHTML += performance.now();
       stop.click();
       clearInterval(timerID);
-      console.log("停止しました");
+      trace("停止しました");
       recognition.stop();
     };
   });
@@ -216,7 +226,7 @@ let exportWAV = function (audioData) {
   let dataview = encodeWAV(mergeBuffers(audioData), audio_sample_rate);
   audioBlob = new Blob([dataview], { type: 'audio/wav' });
   micBlobUrl = window.URL.createObjectURL(audioBlob);
-  console.log(dataview);
+  trace(dataview);
 
   let myURL = window.URL || window.webkitURL;
   let url = myURL.createObjectURL(audioBlob);
@@ -244,13 +254,13 @@ result.onclick = function() {
   const resultWord = resultWord_original.replace(/\s+/g, "");
   const sentenceWord = sentence_original.repeat(3).replace(/\s+/g, "");
 
-  console.log("読み取り結果: " + resultWord);
-  console.log("元のワード3回繰り返し: " + sentenceWord);
-  console.log("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceWord));
+  trace("読み取り結果: " + resultWord);
+  trace("元のワード3回繰り返し: " + sentenceWord);
+  trace("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceWord));
   // 元のワードに対するスコアを計算
   const accuracy = seido.innerHTML;
   const scoreOriginal = Math.round((100 - levenshteinDistance(resultWord, sentenceWord)) * accuracy * 10) / 10;
-  console.log("scoreOriginal: " + scoreOriginal);
+  trace("scoreOriginal: " + scoreOriginal);
 
   var scoreMisconversion = 0;
   // misconversionの処理
@@ -260,14 +270,14 @@ result.onclick = function() {
     var scoreMisconversionAll = [];
     for (let i = 1; i < sentenceMisconversionArray.length; i++) {
       var sentenceMisconversionWord = sentenceMisconversionArray[i].repeat(3).replace(/\s+/g, "");
-      console.log("誤変換ワード3回繰り返し: " + sentenceMisconversionWord);
-      console.log("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceMisconversionWord));
+      trace("誤変換ワード3回繰り返し: " + sentenceMisconversionWord);
+      trace("レーベンシュタイン距離: " + levenshteinDistance(resultWord, sentenceMisconversionWord));
       // misconversionに対するscoreを計算
       scoreMisconversionAll.push(Math.round((100 - levenshteinDistance(resultWord, sentenceMisconversionWord)) * accuracy * 10) / 10);
     }
-    console.log("scoreMisconversionAll: " + scoreMisconversionAll);
+    trace("scoreMisconversionAll: " + scoreMisconversionAll);
     var scoreMisconversion = Math.max(...scoreMisconversionAll);
-    console.log("scoreMisconversion: " + scoreMisconversion);
+    trace("scoreMisconversion: " + scoreMisconversion);
   };
 
   // display
@@ -310,7 +320,7 @@ result.onclick = function() {
     fd.set('time', time);
     fd.set('word', resultWord);
     fd.set('voice', audioBlob, 'voice.wav');
-    console.log([...fd.entries()]);
+    trace([...fd.entries()]);
     // sentenceIdの取得
     const sentenceId = document.getElementById('sentenceId').value;
     // fetchで送信
@@ -328,7 +338,7 @@ result.onclick = function() {
       // blob にレスポンスデータが入る
     })
     .catch((reason) => {
-      console.log(reason);
+      trace(reason);
     });
   };
 };
@@ -366,7 +376,7 @@ recognition.onresult = function(e){
     if(e.results[i].isFinal){
       kotoba.innerHTML += product;
       seido.innerHTML += confidence;
-      console.log(e);
+      trace(e);
     }
   }
 };
