@@ -39,3 +39,6 @@ yarn-debug.log*
 /.env
 # Ignore local audio file
 /public/uploads
+
+# Ignore sitemap file
+public/sitemap.xml.gz

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   delete '/games/:id', to: 'games#destroy'
 
   get '/practices', to: 'practices#index'
-  get '/practices/:id', to: 'practices#show'
+  get '/practices/:id', to: 'practices#show', as: 'practice'
   post '/practices/:id', to: 'practices#create'
   get '/results/:id', to: 'practices#result'
   delete 'results/:id', to: 'practices#destroy'
