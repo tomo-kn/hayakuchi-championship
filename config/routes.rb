@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
+  get '/sitemap', to: redirect("https://s3-ap-northeast-1.amazonaws.com/hayakuchi-championship-voice/sitemaps/sitemap.xml.gz")
+
   namespace :api do
     namespace :v1 do
       get :health_check, to: 'health_check#index'

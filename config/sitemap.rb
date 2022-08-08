@@ -1,5 +1,12 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "https://hayakuchi-championship.com/"
+SitemapGenerator::Sitemap.default_host = "https://hayakuchi-championship.com"
+SitemapGenerator::Sitemap.sitemaps_host = "https://s3-ap-northeast-1.amazonaws.com/hayakuchi-championship-voice"
+SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(
+  'hayakuchi-championship-voice',
+  aws_access_key_id: ENV['S3_ACCESS_KEY_ID'],
+  aws_secret_access_key: ENV['S3_SECRET_ACCESS_KEY'],
+  aws_region: 'ap-northeast-1',
+)
 
 SitemapGenerator::Sitemap.create({ search_engines: {:google=>"http://www.google.com/webmasters/tools/ping?sitemap=%s", :bing=>"https://www.bing.com/webmasters/about?siteUrl="} }) do
   # Put links creation logic here.
