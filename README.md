@@ -46,6 +46,7 @@
 - Docker
 - CircleCI
 - RSpec
+- MySQL
 
 ### 使用API
 - WebSpeechAPI(音声認識に使用)
