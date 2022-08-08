@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_050417) do
+ActiveRecord::Schema.define(version: 2022_08_08_105524) do
 
   create_table "games", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "score"
@@ -49,7 +49,10 @@ ActiveRecord::Schema.define(version: 2022_07_18_050417) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "crypted_password"
     t.string "salt"
+    t.string "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
     t.index ["crypted_password"], name: "index_users_on_crypted_password"
+    t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
     t.index ["salt"], name: "index_users_on_salt"
   end
 

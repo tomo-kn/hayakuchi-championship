@@ -14,6 +14,12 @@
           <%= f.label :password, "パスワード" %>
           <%= f.password_field :password, class: "form-control mb-3 mt-1", placeholder: :password %>
         </div>
+        
+        <div class="form-group checkbox-inline">
+          <%= check_box_tag :remember, params[:remember], true, style: "max-width: 30px;", class: "mt-2 mb-3"%>
+          <%= label_tag :remember, "ログイン状態を保存する" %>
+        </div>
+
         <div class="actions mt-2 mb-3" style="max-width: 100px;">
           <%= f.submit "ログイン", class: "btn btn-primary" %>
         </div>
