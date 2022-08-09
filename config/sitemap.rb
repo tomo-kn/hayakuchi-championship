@@ -18,8 +18,17 @@ SitemapGenerator::Sitemap.create({ search_engines: {:google=>"http://www.google.
     add practices_path, :priority => 0.7, :changefreq => 'daily'
   
   # '/practices/:id' を追加する 
-  
-    Practice.find_each do |practice|
-      add practice_path(practice), :lastmod => practice.updated_at
-    end
+  Sentence.find_each do |practice|
+    add practice_path(practice), :lastmod => practice.updated_at
+  end
+
+  # その他sitemapに登録したいページ(=非ログイン時に読み込めるページ)
+  add '/game'
+  add '/rank'
+  add '/login'
+  add '/users/new'
+  add '/terms'
+  add '/policy'
+  add '/contact'
+
 end
