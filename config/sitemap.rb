@@ -1,7 +1,7 @@
 # Set the host name for URL creation
 SitemapGenerator::Sitemap.default_host = "https://hayakuchi-championship.com"
 
-SitemapGenerator::Sitemap.create do
+SitemapGenerator::Sitemap.create({ search_engines: {:google=>"http://www.google.com/webmasters/tools/ping?sitemap=%s", :bing=>"https://www.bing.com/webmasters/about?siteUrl="} }) do
   # Put links creation logic here.
   #
   # The root path '/' and sitemap index file are added automatically for you.
