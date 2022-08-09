@@ -15,7 +15,7 @@ SitemapGenerator::Sitemap.create({ search_engines: {:google=>"http://www.google.
   #
 
   # '/practices' を追加する
-    add practices_path, :priority => 0.7, :changefreq => 'daily'
+  add practices_path, :priority => 0.7, :changefreq => 'daily'
   
   # '/practices/:id' を追加する 
   Sentence.find_each do |practice|

@@ -5,8 +5,6 @@ ruby '3.1.2'
 
 # サイトマップ
 gem 'sitemap_generator'
-gem 'whenever', require: false
-gem 'aws-sdk-s3'
 # デザイン
 gem 'font-awesome-sass', '~> 6.1', '>= 6.1.2'
 # for audio uploader with AWS S3
