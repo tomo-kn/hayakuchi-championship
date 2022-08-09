@@ -14,3 +14,5 @@ bin/setup
 bundle exec rake db:seed_fu
 # puma
 bundle exec pumactl start
+# sitemapの作成
+bundle exec rake sitemap:refresh
