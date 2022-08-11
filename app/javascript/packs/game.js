@@ -276,6 +276,12 @@ function gameSet() {
   reading.classList.add('d-none');
   batterImage.classList.add('d-none');
 
+  // 非ログイン時にloginRecommendationを表示
+  if(document.getElementById('loginRecommendation')) {
+    const loginRecommendation = document.getElementById('loginRecommendation');
+    loginRecommendation.classList.remove('d-none');
+  }
+
   restart.classList.remove('invisible');
   top.classList.remove('invisible');
 

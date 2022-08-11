@@ -37,6 +37,15 @@
           <a id ="download" href="#" type="hidden"></a>
           <a id="stop" type="hidden"></a>
         </div>
+
+        <% if !logged_in? %>
+          <div class="row justify-content-center pt-3 pb-3 d-none" id="loginRecommendation" data-turbolinks="false">
+            <p>※あなたは現在ログインしていないため、練習結果は保存されません。：
+            <%= link_to "ログインはこちら", login_path %>
+            </p>
+          </div>
+        <% end %>
+
         <div class="row justify-content-center pt-3 practice-button-pair" data-turbolinks="false">
           <a class="col-2 btn btn-primary ms-3 d-none" id="play" >再生する</a>
           <%= link_to "リトライ", request.path_info, id: "restart", class: "col-2 btn btn-primary ms-3 d-none" %>

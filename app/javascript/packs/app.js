@@ -302,6 +302,12 @@ result.onclick = function() {
   yourWord.innerHTML += "あなたの言葉は、<span style='color:red'>" + resultWord + "</span>と聞こえました";
   yourWord.classList.remove("d-none");
 
+  // 非ログイン時にloginRecommendationを表示
+  if(document.getElementById('loginRecommendation')) {
+    const loginRecommendation = document.getElementById('loginRecommendation');
+    loginRecommendation.classList.remove('d-none');
+  }
+
   // game,practices
   game.classList.remove("d-none")
   practices.classList.remove("d-none")
