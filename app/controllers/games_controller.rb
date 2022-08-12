@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :require_login, only: %i[destroy]
+  before_action :require_login, only: %i[create destroy]
   before_action :set_result, only: %i[destroy]
   before_action :user_check, only: %i[destroy]
   
