@@ -59,7 +59,7 @@ jobs:
           command: yarn install -v 1.22.19
 
       - run: 
-          command: bundle exec rake app:update:bin | bundle exec bin/webpack
+          command: bundle exec rails assets:precompile
 
       # run tests
       - run:
