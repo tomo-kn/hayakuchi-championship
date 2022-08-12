@@ -58,6 +58,10 @@ jobs:
           name: yarn Install
           command: yarn install -v 1.22.19
 
+      - run: 
+          command: bundle exec bin/webpack
+          working_directory: ~/repo
+
       # run tests
       - run:
           name: RSpec
