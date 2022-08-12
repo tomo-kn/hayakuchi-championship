@@ -60,7 +60,6 @@ jobs:
 
       - run: 
           command: bundle exec bin/webpack
-          working_directory: ~/repo
 
       # run tests
       - run:
