@@ -1,5 +1,5 @@
 class PracticesController < ApplicationController
-  before_action :require_login, only: %i[result destroy]
+  before_action :require_login, only: %i[create result destroy]
   before_action :set_result, only: %i[result destroy]
   before_action :user_check, only: %i[result destroy]
   def index
