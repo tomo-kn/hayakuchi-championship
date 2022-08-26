@@ -28,6 +28,10 @@
   </div>
 </div>
 
-<p class="text-center mt-3 mb-5" data-turbolinks="false">
+<p class="text-center mt-3 mb-4" data-turbolinks="false">
   <%= link_to "まだアカウントをお持ちでない方はこちら", new_user_path, class: "login-register" %>
+</p>
+
+<p class="text-center mt-3 mb-5" data-turbolinks="false">
+  <%= link_to "お試しログイン", guest_sign_in_path, class: "btn btn-danger", method: :post %>
 </p>
