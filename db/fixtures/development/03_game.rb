@@ -3,7 +3,7 @@
 User.all.each do |user|
   15.times do
     user.games.create!(
-      score: rand(30),
+      score: rand(1..30),
       out: rand(0..3)
   )
   end
