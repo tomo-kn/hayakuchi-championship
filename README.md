@@ -62,7 +62,8 @@
 <img src="https://gyazo.com/360f1565f511847763af18ea808e0d67.png">
 
 ### ER図
-<img src="https://gyazo.com/f4333f0409d7e7b1a7df0a9f3a54d742.png">
+※ 現在、ER図を参考に追加機能を実装中
+<img src="https://gyazo.com/6fea0d43eae82c35966ef2c5ca367fed.png">
 
 ## 関連ページ
 - Twitterハッシュタグ: [#早口言葉選手権](https://twitter.com/hashtag/%E6%97%A9%E5%8F%A3%E8%A8%80%E8%91%89%E9%81%B8%E6%89%8B%E6%A8%A9?src=hashtag_click)
