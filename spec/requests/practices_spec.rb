@@ -65,14 +65,17 @@ RSpec.describe "Practices", type: :request do
     context "as an authenticated user" do
       before do
         @user = FactoryBot.create(:user)
+        @sentence = FactoryBot.create(:sentence)
         allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(@user)
       end
       # 練習結果を保存できること
       it "adds a practice result" do
-        practice_params = FactoryBot.attributes_for(:practice, sentence_id: rand(1..15))
+        practice_params = FactoryBot.attributes_for(:practice, user_id: @user.id, sentence_id: @sentence.id)
         login @user
+        allow_any_instance_of(PracticesController).to receive(:practice_params).and_return(practice_params)
+
         expect {
-          post "/practices/#{practice_params[:sentence_id]}", params: { practice: practice_params }
+          post "/practices/#{@sentence.id}", params: { practice: practice_params }
         }.to change(@user.practices, :count).by(1)
       end
     end
