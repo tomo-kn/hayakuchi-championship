@@ -2,6 +2,7 @@ version: '3'
 
 services:
   db:
+    platform: linux/x86_64
     image: mysql:8.0.28
     environment:
       TZ: Asia/Tokyo
@@ -26,7 +27,7 @@ services:
     environment:
       TZ: Asia/Tokyo
     ports:
-      - 5000:3000
+      - 5056:3000
     depends_on:
       - db
 
