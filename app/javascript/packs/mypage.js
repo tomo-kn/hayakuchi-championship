@@ -1,7 +1,7 @@
 // タブの切り替え
-$(document).on('turbolinks:load', function() {
-  $(function() {
-    $('.tab').click(function() {
+$(document).on('turbolinks:load', function () {
+  $(function () {
+    $('.tab').click(function () {
       $('.tab-active').removeClass('tab-active');
       $(this).addClass('tab-active');
       $('.box-show').removeClass('box-show');
@@ -15,28 +15,28 @@ $(document).on('turbolinks:load', function() {
 $('.pagination').remove();
 $('.pagiWrapper').remove();
 $(".js-filter-items").pagination({
-  itemElement : '> tr',
+  itemElement: '> tr',
   displayItemCount: 10,
   firstEndPageBtnMode: true,
   paginationClassName: 'pagination',
 });
 // paginationクラスをpagiWrapperクラスで囲む
-$(function() {
+$(function () {
   $(".pagination").wrap("<div class='pagiWrapper'></div>");
 });
 
 // プルダウンによる絞り込み
-$(".js-filter-form").on("change", function(){
+$(".js-filter-form").on("change", function () {
   var selected = [];
-  $(".js-filter-form :selected").each(function(){
+  $(".js-filter-form :selected").each(function () {
     selected.push($(this).val());
   });
   // console.log(selected);
 
-  $(".js-filter-items tr").each(function(){
+  $(".js-filter-items tr").each(function () {
     var id = $(this).data("id");
-    var is_exist = $.inArray( String(id), selected );
-    if (selected[0] == 'all'){
+    var is_exist = $.inArray(String(id), selected);
+    if (selected[0] == 'all') {
       is_exist = 0
     }
     // console.log(id);
@@ -44,10 +44,10 @@ $(".js-filter-form").on("change", function(){
     // console.log(is_exist);
     if (is_exist != -1) {
       $(this).removeClass("hidden");
-      $(this).css("display",""); // paginationがつけたdisplay要素を削除する
+      $(this).css("display", ""); // paginationがつけたdisplay要素を削除する
     } else {
       $(this).addClass("hidden");
-      $(this).css("display",""); // paginationがつけたdisplay要素を削除する
+      $(this).css("display", ""); // paginationがつけたdisplay要素を削除する
     }
   });
 
@@ -55,13 +55,13 @@ $(".js-filter-form").on("change", function(){
   $('.pagination').remove();
   $('.pagiWrapper').remove();
   $(".js-filter-items").pagination({
-    itemElement : '> tr:not(.hidden)',
+    itemElement: '> tr:not(.hidden)',
     displayItemCount: 10,
     firstEndPageBtnMode: true,
     paginationClassName: 'pagination',
   });
   // paginationクラスをpagiWrapperクラスで囲む
-  $(function() {
+  $(function () {
     $(".pagination").wrap("<div class='pagiWrapper'></div>");
   });
 });

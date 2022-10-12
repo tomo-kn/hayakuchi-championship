@@ -3,35 +3,35 @@
 	Copyright(c) 2015, ShanaBrian
 	Dual licensed under the MIT and GPL licenses.
 ============================================================================= */
-(function($) {
-	$.fn.pagination = function(options) {
+(function ($) {
+	$.fn.pagination = function (options) {
 		if ($(this).length === 0) return this;
 
 		if ($(this).length > 1) {
 			var these = [];
-			$.each(this, function() {
+			$.each(this, function () {
 				these.push($(this).pagination(options));
 			});
 			return $(these);
 		}
 
-		var $element           = this,
-			$items             = null,
-			$paginationItems   = null,
-			$prevPageBtnBox    = null,
-			$nextPageBtnBox    = null,
-			$firstPageBtnBox   = null,
-			$endPageBtnBox     = null,
+		var $element = this,
+			$items = null,
+			$paginationItems = null,
+			$prevPageBtnBox = null,
+			$nextPageBtnBox = null,
+			$firstPageBtnBox = null,
+			$endPageBtnBox = null,
 			$firstPageEllipsis = null,
-			$endPageEllipsis   = null,
-			$pageInfo          = null,
-			settings           = {},
-			status             = {};
+			$endPageEllipsis = null,
+			$pageInfo = null,
+			settings = {},
+			status = {};
 
 		/**
 		 * 初期化
 		 */
-		var init = function() {
+		var init = function () {
 			/*
 				paginationMode                 : ページ切り替え機能の有無（デフォルトはオンでオフで初期定義されている機能を使う）
 				itemElement                    : アイテムの要素
@@ -75,51 +75,51 @@
 				changeEndCallback              : 切り替え終了時のコールバック関数
 			*/
 			settings = $.extend({
-				paginationMode                 : true,
-				itemElement                    : null,
-				defaultDisplayPageNumber       : 1,
-				displayItemCount               : 10,
-				prevNextPageBtnMode            : true,
-				firstEndPageBtnMode            : false,
-				bothEndsBtnHideDisplay         : true,
-				pageLinkMode                   : true,
-				pageNumberLinkPrefix           : '#page-',
-				currentpageLinkUnWrap          : false,
-				pageNumberDisplayNumber        : 0,
-				onePageOnlyDisplay             : true,
-				onePageOnlyPrevNextPageDisplay : false,
-				onePageOnlyFirstEndPageDisplay : false,
-				pageInfoDisplay                : false,
-				pageInfoFormat                 : 'Page %n / %m',
-				ellipsisMode                   : false,
-				ellipsisText                   : '...',
-				ellipsisMaxPageNumber          : 20,
-				clickUserFunction              : null,
-				wrapElement                    : 'div',
-				prevBtnText                    : '&lt;',
-				nextBtnText                    : '&gt;',
-				firstPageBtnText               : '&lt;&lt;',
-				endPageBtnText                 : '&gt;&gt;',
-				prevBtnAriaLabel               : 'Previous',
-				nextBtnAriaLabel               : 'Next',
-				firstPageBtnAriaLabel          : 'First Page',
-				endPageBtnAriaLabel            : 'End Page',
-				paginationClassName            : '',
-				paginationInnerClassName       : '',
-				pageNumberClassName            : '',
-				currentPageNumberClassName     : 'current',
-				prevBtnClassName               : 'prev-page',
-				nextBtnClassName               : 'next-page',
-				firstBtnClassName              : 'first-page',
-				endBtnClassName                : 'end-page',
-				prevNextBtnDisabledClassName   : 'disabled',
-				ellipsisClassName              : 'ellipsis',
-				pageInfoClassName              : 'page-info',
-				setPagination                  : '',
-				setPaginationMode              : 'after',
-				changeStartCallback            : function() {},
-				changeEndCallback              : function() {},
-				idPrefix                       : 'pg'
+				paginationMode: true,
+				itemElement: null,
+				defaultDisplayPageNumber: 1,
+				displayItemCount: 10,
+				prevNextPageBtnMode: true,
+				firstEndPageBtnMode: false,
+				bothEndsBtnHideDisplay: true,
+				pageLinkMode: true,
+				pageNumberLinkPrefix: '#page-',
+				currentpageLinkUnWrap: false,
+				pageNumberDisplayNumber: 0,
+				onePageOnlyDisplay: true,
+				onePageOnlyPrevNextPageDisplay: false,
+				onePageOnlyFirstEndPageDisplay: false,
+				pageInfoDisplay: false,
+				pageInfoFormat: 'Page %n / %m',
+				ellipsisMode: false,
+				ellipsisText: '...',
+				ellipsisMaxPageNumber: 20,
+				clickUserFunction: null,
+				wrapElement: 'div',
+				prevBtnText: '&lt;',
+				nextBtnText: '&gt;',
+				firstPageBtnText: '&lt;&lt;',
+				endPageBtnText: '&gt;&gt;',
+				prevBtnAriaLabel: 'Previous',
+				nextBtnAriaLabel: 'Next',
+				firstPageBtnAriaLabel: 'First Page',
+				endPageBtnAriaLabel: 'End Page',
+				paginationClassName: '',
+				paginationInnerClassName: '',
+				pageNumberClassName: '',
+				currentPageNumberClassName: 'current',
+				prevBtnClassName: 'prev-page',
+				nextBtnClassName: 'next-page',
+				firstBtnClassName: 'first-page',
+				endBtnClassName: 'end-page',
+				prevNextBtnDisabledClassName: 'disabled',
+				ellipsisClassName: 'ellipsis',
+				pageInfoClassName: 'page-info',
+				setPagination: '',
+				setPaginationMode: 'after',
+				changeStartCallback: function () { },
+				changeEndCallback: function () { },
+				idPrefix: 'pg'
 			}, options);
 
 			$items = $element.find(settings.itemElement);
@@ -128,12 +128,12 @@
 			if (!settings.onePageOnlyDisplay && $items.length <= settings.displayItemCount) return;
 
 			status = {
-				id               : settings.idPrefix + new Date().getTime() + '_' + Math.floor(Math.random() * 10000),
-				status           : 'wait',
-				activePageNumber : 0,
-				maxPageNumber    : 0,
-				startPageNumber  : 0,
-				historyPage      : []
+				id: settings.idPrefix + new Date().getTime() + '_' + Math.floor(Math.random() * 10000),
+				status: 'wait',
+				activePageNumber: 0,
+				maxPageNumber: 0,
+				startPageNumber: 0,
+				historyPage: []
 			};
 
 			setup();
@@ -142,10 +142,10 @@
 		/**
 		 * セットアップ
 		 */
-		var setup = function() {
+		var setup = function () {
 			status.activePageNumber = settings.defaultDisplayPageNumber;
-			status.maxPageNumber    = Math.ceil($items.length / settings.displayItemCount);
-			status.startPageNumber  = settings.defaultDisplayPageNumber;
+			status.maxPageNumber = Math.ceil($items.length / settings.displayItemCount);
+			status.startPageNumber = settings.defaultDisplayPageNumber;
 
 			if (settings.defaultDisplayPageNumber > status.maxPageNumber) {
 				status.startPageNumber = status.maxPageNumber;
@@ -161,18 +161,18 @@
 		/**
 		 * ナビゲーションの生成
 		 */
-		var createNavigation = function() {
-			var $paginationWrap         = $('<' + settings.wrapElement + '>'),
-				$paginationBox          = $('<ul>'),
-				$paginationItem         = $('<li>'),
-				$paginationItemC        = null,
-				$prevPageBtn            = null,
-				$nextPageBtn            = null,
-				$firstPageBtn           = null,
-				$endPageBtnBoxLink      = null,
+		var createNavigation = function () {
+			var $paginationWrap = $('<' + settings.wrapElement + '>'),
+				$paginationBox = $('<ul>'),
+				$paginationItem = $('<li>'),
+				$paginationItemC = null,
+				$prevPageBtn = null,
+				$nextPageBtn = null,
+				$firstPageBtn = null,
+				$endPageBtnBoxLink = null,
 				$firstPageEllipsisInner = null,
-				$endPageEllipsisInner   = null,
-				i                       = 0;
+				$endPageEllipsisInner = null,
+				i = 0;
 
 			$paginationBox.attr('role', 'menubar');
 
@@ -201,8 +201,8 @@
 			if (settings.prevNextPageBtnMode) {
 				$prevPageBtnBox = $('<p>');
 				$nextPageBtnBox = $('<p>');
-				$prevPageBtn    = $('<button>').attr('type', 'button');
-				$nextPageBtn    = $('<button>').attr('type', 'button');
+				$prevPageBtn = $('<button>').attr('type', 'button');
+				$nextPageBtn = $('<button>').attr('type', 'button');
 
 				$prevPageBtnBox.html(settings.prevBtnText);
 				$nextPageBtnBox.html(settings.nextBtnText);
@@ -219,9 +219,9 @@
 
 			// 最初・最後のページへ移動するボタン
 			if (settings.firstEndPageBtnMode) {
-				$firstPageBtnBox   = $('<p>');
-				$endPageBtnBox     = $('<p>');
-				$firstPageBtn      = $('<button>').attr('type', 'button');
+				$firstPageBtnBox = $('<p>');
+				$endPageBtnBox = $('<p>');
+				$firstPageBtn = $('<button>').attr('type', 'button');
 				$endPageBtnBoxLink = $('<button>').attr('type', 'button');
 
 				$firstPageBtnBox.html(settings.firstPageBtnText);
@@ -241,10 +241,10 @@
 
 			// 省略記号
 			if (settings.ellipsisMode && settings.ellipsisMaxPageNumber <= status.maxPageNumber) {
-				$firstPageEllipsis      = $paginationItem.clone();
-				$endPageEllipsis        = $paginationItem.clone();
+				$firstPageEllipsis = $paginationItem.clone();
+				$endPageEllipsis = $paginationItem.clone();
 				$firstPageEllipsisInner = $('<span>');
-				$endPageEllipsisInner   = $('<span>');
+				$endPageEllipsisInner = $('<span>');
 
 				$firstPageEllipsis.addClass(settings.ellipsisClassName);
 				$endPageEllipsis.addClass(settings.ellipsisClassName);
@@ -290,28 +290,28 @@
 		/**
 		 * イベント追加
 		 */
-		var addEvent = function() {
+		var addEvent = function () {
 			$paginationItems.find('a').on('click', nextPage);
 
 			if (settings.prevNextPageBtnMode) {
-				$prevPageBtnBox.on('click', function() {
+				$prevPageBtnBox.on('click', function () {
 					$element.movePrevPage(settings.changeEndCallback, settings.changeStartCallback);
 					return false;
 				});
 
-				$nextPageBtnBox.on('click', function() {
+				$nextPageBtnBox.on('click', function () {
 					$element.moveNextPage(settings.changeEndCallback, settings.changeStartCallback);
 					return false;
 				});
 			}
 
 			if (settings.firstEndPageBtnMode) {
-				$firstPageBtnBox.on('click', function() {
+				$firstPageBtnBox.on('click', function () {
 					$element.moveFirstPage(settings.changeEndCallback, settings.changeStartCallback);
 					return false;
 				});
 
-				$endPageBtnBox.on('click', function() {
+				$endPageBtnBox.on('click', function () {
 					$element.moveEndPage(settings.changeEndCallback, settings.changeStartCallback);
 					return false;
 				});
@@ -321,7 +321,7 @@
 		/**
 		 * 次のページへ移動
 		 */
-		var nextPage = function() {
+		var nextPage = function () {
 			var pageNumber = Number($(this).parent().data('page-number'));
 			if (!pageNumber || pageNumber === status.activePageNumber) return false;
 			$element.movePage(pageNumber, settings.changeEndCallback, settings.changeStartCallback);
@@ -331,9 +331,9 @@
 		/**
 		 * 表示するアイテムの範囲を取得（戻り値：インデックス番号）
 		 */
-		var getDisplayItemRange = function() {
+		var getDisplayItemRange = function () {
 			var results = [];
-			$.each($items, function(itemIndex) {
+			$.each($items, function (itemIndex) {
 				var itemPageNumber = Math.ceil((itemIndex + 1) / settings.displayItemCount);
 				if (itemPageNumber === status.activePageNumber) {
 					results.push(itemIndex);
@@ -345,7 +345,7 @@
 		/**
 		 * 前のページの番号を取得
 		 */
-		var getPrevPageNumber = function() {
+		var getPrevPageNumber = function () {
 			var result = -1;
 			if (status.activePageNumber > 1) {
 				result = status.activePageNumber - 1;
@@ -356,7 +356,7 @@
 		/**
 		 * 次のページの番号を取得
 		 */
-		var getNextPageNumber = function() {
+		var getNextPageNumber = function () {
 			var result = -1;
 			if (status.activePageNumber < status.maxPageNumber) {
 				result = status.activePageNumber + 1;
@@ -367,14 +367,14 @@
 		/**
 		 * 最初のページの番号を取得
 		 */
-		var getFirstPageNumber = function() {
+		var getFirstPageNumber = function () {
 			return 1;
 		};
 
 		/**
 		 * 最後のページの番号を取得
 		 */
-		var getEndPageNumber = function() {
+		var getEndPageNumber = function () {
 			return status.maxPageNumber;
 		};
 
@@ -382,7 +382,7 @@
 		 * ページ番号を設定
 		 * @param {number} pageNumber ページ番号
 		 */
-		var setPageNumber = function(pageNumber) {
+		var setPageNumber = function (pageNumber) {
 			var result = false;
 			if (pageNumber && String(pageNumber).match(/^[0-9]+$/)) {
 				status.historyPage.push(status.activePageNumber);
@@ -397,14 +397,14 @@
 		 * @param {function} callback コールバック関数
 		 * @param {function}} startCallback 実行前のコールバック関数
 		 */
-		var movePage = function(callback, startCallback) {
+		var movePage = function (callback, startCallback) {
 			var targetIndexs = getDisplayItemRange();
 
 			if (startCallback && typeof startCallback === 'function') {
 				startCallback.apply($element, [status]);
 			}
 
-			$.each($items, function(itemIndex) {
+			$.each($items, function (itemIndex) {
 				if ($.inArray(itemIndex, targetIndexs) !== -1) {
 					$(this).show();
 				} else {
@@ -426,11 +426,11 @@
 		/**
 		 * ページネーションの表示範囲を取得
 		 */
-		var getViewPaginationPosition = function() {
-			var result    = false,
-				half      = 0,
+		var getViewPaginationPosition = function () {
+			var result = false,
+				half = 0,
 				startPage = 0,
-				endPage   = 0;
+				endPage = 0;
 
 			if (settings.pageNumberDisplayNumber === 0) return false;
 			if (settings.pageNumberDisplayNumber >= status.maxPageNumber) return false;
@@ -447,12 +447,12 @@
 
 			if (endPage > status.maxPageNumber) {
 				startPage = status.maxPageNumber - settings.pageNumberDisplayNumber + 1;
-				endPage   = status.maxPageNumber;
+				endPage = status.maxPageNumber;
 			}
 
 			result = {
-				startPage : startPage,
-				endPage   : endPage
+				startPage: startPage,
+				endPage: endPage
 			};
 
 			return result;
@@ -461,12 +461,12 @@
 		/**
 		 * ページネーションの表示範囲を変更
 		 */
-		var changePaginationPosition = function() {
+		var changePaginationPosition = function () {
 			var position = getViewPaginationPosition();
 
 			if (!position) return;
 
-			$.each($paginationItems, function() {
+			$.each($paginationItems, function () {
 				var thisPage = $(this).data('page-number');
 				if (thisPage >= position.startPage && thisPage <= position.endPage) {
 					$(this).show();
@@ -479,7 +479,7 @@
 		/**
 		 * ページ番号の設定
 		 */
-		var setPageInfo = function() {
+		var setPageInfo = function () {
 			var setText = settings.pageInfoFormat;
 
 			if (!settings.pageInfoDisplay) return;
@@ -492,7 +492,7 @@
 		/**
 		 * 省略記号の切り替え
 		 */
-		var changeEllipsis = function() {
+		var changeEllipsis = function () {
 			if (!settings.ellipsisMode || settings.ellipsisMaxPageNumber > status.maxPageNumber) return;
 
 			var position = getViewPaginationPosition();
@@ -500,7 +500,7 @@
 			if (!position) return;
 
 			if (position.startPage > 1) {
-				$.each($paginationItems, function() {
+				$.each($paginationItems, function () {
 					if (Number($(this).data('page-number')) === 1) {
 						$(this).show();
 						return false;
@@ -512,7 +512,7 @@
 			}
 
 			if (position.endPage < status.maxPageNumber) {
-				$.each($paginationItems, function() {
+				$.each($paginationItems, function () {
 					if (Number($(this).data('page-number')) === status.maxPageNumber) {
 						$(this).show();
 						return false;
@@ -527,9 +527,9 @@
 		/**
 		 * クラス名の切り替え
 		 */
-		var changeClassName = function() {
-			var targetIndex       = status.activePageNumber - 1;
-			var currentClassName  = settings.currentPageNumberClassName;
+		var changeClassName = function () {
+			var targetIndex = status.activePageNumber - 1;
+			var currentClassName = settings.currentPageNumberClassName;
 			var disabledClassName = settings.prevNextBtnDisabledClassName;
 
 			var $nextTurrentItem = $paginationItems.eq(targetIndex);
@@ -581,7 +581,7 @@
 		/**
 		 * ARIA属性切り替え
 		 */
-		var changeAriaAttr = function() {
+		var changeAriaAttr = function () {
 			var targetIndex = status.activePageNumber - 1;
 
 			$paginationItems.eq(targetIndex).attr('aria-selected', 'true');
@@ -591,7 +591,7 @@
 		/**
 		 * ステータスの切り替え
 		 */
-		var changeStatus = function() {
+		var changeStatus = function () {
 			if (status.activePageNumber === 1) {
 				status.status = 'start';
 			} else if (status.activePageNumber === status.maxPageNumber) {
@@ -604,22 +604,22 @@
 		/**
 		 * ステータスの取得（メソッド）
 		 */
-		$element.getStatus = function() {
+		$element.getStatus = function () {
 			return status;
 		};
 
 		/**
 		 * 前のページへ移動（メソッド）
 		 */
-		$element.movePrevPage = function(callback, startCallback) {
+		$element.movePrevPage = function (callback, startCallback) {
 			var pageNumber = getPrevPageNumber();
 
 			if (!callback || callback && typeof callback !== 'function') {
-				callback = function() {};
+				callback = function () { };
 			}
 
 			if (!startCallback || startCallback && typeof startCallback !== 'function') {
-				startCallback = function() {};
+				startCallback = function () { };
 			}
 
 			if (pageNumber !== -1 && pageNumber !== status.activePageNumber) {
@@ -636,15 +636,15 @@
 		/**
 		 * 次のページへ移動（メソッド）
 		 */
-		$element.moveNextPage = function(callback, startCallback) {
+		$element.moveNextPage = function (callback, startCallback) {
 			var pageNumber = getNextPageNumber();
 
 			if (!callback || callback && typeof callback !== 'function') {
-				callback = function() {};
+				callback = function () { };
 			}
 
 			if (!startCallback || startCallback && typeof startCallback !== 'function') {
-				startCallback = function() {};
+				startCallback = function () { };
 			}
 
 			if (pageNumber !== -1 && pageNumber !== status.activePageNumber) {
@@ -661,15 +661,15 @@
 		/**
 		 * 最初のページへ移動（メソッド）
 		 */
-		$element.moveFirstPage = function(callback, startCallback) {
+		$element.moveFirstPage = function (callback, startCallback) {
 			var pageNumber = getFirstPageNumber();
 
 			if (!callback || callback && typeof callback !== 'function') {
-				callback = function() {};
+				callback = function () { };
 			}
 
 			if (!startCallback || startCallback && typeof startCallback !== 'function') {
-				startCallback = function() {};
+				startCallback = function () { };
 			}
 
 			if (pageNumber !== -1 && pageNumber !== status.activePageNumber) {
@@ -688,15 +688,15 @@
 		 * @param {function} callback 移動後のコールバック関数
 		 * @param {function} startCallback 移動前のコールバック関数
 		 */
-		$element.moveEndPage = function(callback, startCallback) {
+		$element.moveEndPage = function (callback, startCallback) {
 			var pageNumber = getEndPageNumber();
 
 			if (!callback || callback && typeof callback !== 'function') {
-				callback = function() {};
+				callback = function () { };
 			}
 
 			if (!startCallback || startCallback && typeof startCallback !== 'function') {
-				startCallback = function() {};
+				startCallback = function () { };
 			}
 
 			if (pageNumber !== -1 && pageNumber !== status.activePageNumber) {
@@ -716,15 +716,15 @@
 		 * @param {function} callback 移動後のコールバック関数
 		 * @param {function} startCallback 移動前のコールバック関数
 		 */
-		$element.movePage = function(pageNumber, callback, startCallback) {
+		$element.movePage = function (pageNumber, callback, startCallback) {
 			if ((pageNumber || pageNumber === 0) && String(pageNumber).match(/^[0-9]+$/)) {
 
 				if (!callback || callback && typeof callback !== 'function') {
-					callback = function() {};
+					callback = function () { };
 				}
 
 				if (!startCallback || startCallback && typeof startCallback !== 'function') {
-					startCallback = function() {};
+					startCallback = function () { };
 				}
 
 				setPageNumber(pageNumber);

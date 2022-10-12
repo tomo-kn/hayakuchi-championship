@@ -1,11 +1,11 @@
 /** デバッグモードかどうか。本番URLが含まれている場合は自動でfalse */
 var DEBUG_MODE = true && window.location.href.indexOf("https://hayakuchi-championship.com/") < 0;
 
-/** デバッグモードでConsoleAPIが有効な場合にログを出力する */ 
+/** デバッグモードでConsoleAPIが有効な場合にログを出力する */
 function trace(s) {
-    if (DEBUG_MODE && this.console && typeof console.log != "undefined") {
-        console.log(s);
-    }
+  if (DEBUG_MODE && this.console && typeof console.log != "undefined") {
+    console.log(s);
+  }
 }
 
 // Chrome と Firefox 両方に対応する
@@ -38,7 +38,7 @@ const hitSound = document.getElementById('hitSound');
 const homerunSound = document.getElementById('homerunSound');
 const homerunsSound = document.getElementById('homerunsSound');
 const outSound = document.getElementById('outSound');
-const playballSound =  document.getElementById('playballSound');
+const playballSound = document.getElementById('playballSound');
 
 // スタートページ関連
 const startPage = document.getElementById('startPage');
@@ -71,7 +71,7 @@ let timerID;
 let gameContinue = true;
 
 // スタートボタン
-startButton.onclick = function() {
+startButton.onclick = function () {
   // 効果音とボタン以外の非表示
   playballSound.play();
   howToPlay.classList.add('d-none');
@@ -79,11 +79,11 @@ startButton.onclick = function() {
   Notes.classList.add('d-none');
   NotesItems.classList.add('d-none');
   // ログイン時のみ、あるいは非ログイン時のみ表示しているブロックについてはif文で条件分岐して対応
-  if(document.getElementById('loginAndMembership')) {
+  if (document.getElementById('loginAndMembership')) {
     const loginAndMembership = document.getElementById('loginAndMembership');
     loginAndMembership.classList.add('d-none');
   }
-  if(document.getElementById('myScore')) {
+  if (document.getElementById('myScore')) {
     const myScore = document.getElementById('myScore');
     myScore.classList.add('d-none');
   }
@@ -93,7 +93,7 @@ startButton.onclick = function() {
   timerID = setInterval(() => {
     timer.innerHTML = "  残り時間: " + (originTime - getTimerTime());
     // 制限時間を過ぎたらゲームセット関数を呼び出す 
-    if(originTime - getTimerTime() <= 0) {
+    if (originTime - getTimerTime() <= 0) {
       gameSet();
     };
     // trace(originTime - getTimerTime());
@@ -112,27 +112,27 @@ startButton.onclick = function() {
   }, 1000);
 }
 
-rec.onclick = function() {
+rec.onclick = function () {
   recognition.start();
   rec.textContent = "Now Recording…";
   navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(hundleSuccess);
 }
 
-var hundleSuccess = (function() {
+var hundleSuccess = (function () {
   rec.disabled = true;
   // 話し始めたら録音中…と表示する。
-  recognition.onspeechstart = function() {
+  recognition.onspeechstart = function () {
     trace("開始しました")
     notice.innerHTML = '録音中…';
     batterImage.src = 'hayakuchi-championship-batter1.png';
   };
   // result の処理
-  recognition.onresult = function(e) {
+  recognition.onresult = function (e) {
     reading.innerHTML = '';
-    for (let i = e.resultIndex; (i < e.results.length); i++){
+    for (let i = e.resultIndex; (i < e.results.length); i++) {
       let product = e.results[i][0].transcript;
       let confidence = e.results[i][0].confidence;
-      if(e.results[i].isFinal){
+      if (e.results[i].isFinal) {
         kotoba.innerHTML = product;
         seido.innerHTML = confidence;
         trace(e);
@@ -143,7 +143,7 @@ var hundleSuccess = (function() {
     }
   };
   // 話が終わったら自動でstopする。
-  recognition.onspeechend = function() {
+  recognition.onspeechend = function () {
     // resultの処理を待つために0.5秒間遅延してみる
     notice.innerHTML = '～採点中～';
     setTimeout(() => {
@@ -153,7 +153,7 @@ var hundleSuccess = (function() {
 })
 
 // 停止
-stop.onclick = function() {
+stop.onclick = function () {
   trace("停止しました");
   rec.textContent = "録音する";
   notice.innerHTML = 'お題を1回正しく発声しよう！';
@@ -178,7 +178,7 @@ function gradeText() {
   trace("scoreOriginal: " + scoreOriginal);
   // misconversionの処理
   var scoreMisconversion = 0;
-  if(gohenkan.innerHTML != "なし"){
+  if (gohenkan.innerHTML != "なし") {
     var sentenceMisconversionArray = gohenkan.innerHTML.split(',');
     var scoreMisconversionAll = [];
     for (let i = 1; i < sentenceMisconversionArray.length; i++) {
@@ -195,16 +195,16 @@ function gradeText() {
   trace("スコアは、" + score + "点です。");
 
   // 95点以上はホームラン、90点以上はヒット、90点未満はアウト
-  if(score >= 95){
+  if (score >= 95) {
     trace("ホームラン！");
     gameScore += 2;
     homerunCount += 1;
     scoreTemporary.innerHTML = "Score: " + gameScore;
     batterImage.src = 'hayakuchi-championship-batter3.png';
-    if(homerunCount <= 2){
+    if (homerunCount <= 2) {
       homerunSound.play();
     }
-  } else if(score >= 90) {
+  } else if (score >= 90) {
     trace("ヒット");
     gameScore += 1;
     homerunCount = 0;
@@ -215,17 +215,17 @@ function gradeText() {
     trace("アウト…");
     outScore += 1;
     homerunCount = 0;
-    if(outScore == 1){
+    if (outScore == 1) {
       outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●</span>";
       outSound.play();
-    } else if(outScore == 2){
+    } else if (outScore == 2) {
       outTemporary.innerHTML = "  Out: " + "<span style='color:red'>●●</span>";
       outSound.play();
     }
     batterImage.src = 'hayakuchi-championship-batter4.png';
   };
   // 3回連続ホームランの場合、残り時間に5秒追加のボーナス
-  if(homerunCount == 3) {
+  if (homerunCount == 3) {
     trace("3回連続ホームランボーナス！残り時間5秒追加！");
     homerunCount = 0;
     originTime += 5;
@@ -236,9 +236,9 @@ function gradeText() {
     }, 2000)
   };
   // ゲームが続行中の場合、以下の処理を行う
-  if(gameContinue) {
+  if (gameContinue) {
     // アウトが3回重なったらゲームセット関数を呼び出す
-    if(outScore == 3) {
+    if (outScore == 3) {
       gameSet();
     } else {
       // 次のお題を選び録音ボタンを裏側で押す
@@ -259,9 +259,9 @@ function gameSet() {
   sentence.innerHTML = "<span style='color:red'>試合終了!!</span>";
   scoreOut.innerHTML = "スコア: " + gameScore + " - " + outScore;
   scoreOut.classList.remove("d-none");
-  if((gameScore >= 14 && outScore <= 1) || gameScore >= 22) {
+  if ((gameScore >= 14 && outScore <= 1) || gameScore >= 22) {
     judge.innerHTML = "あなたは一流の早口バッター！"
-  } else if((gameScore >= 10 && outScore <= 2) || gameScore >= 16) {
+  } else if ((gameScore >= 10 && outScore <= 2) || gameScore >= 16) {
     judge.innerHTML = "一流の早口バッターまでもう少し"
   } else {
     judge.innerHTML = "練習モードでたくさん訓練しよう"
@@ -277,7 +277,7 @@ function gameSet() {
   batterImage.classList.add('d-none');
 
   // 非ログイン時にloginRecommendationを表示
-  if(document.getElementById('loginRecommendation')) {
+  if (document.getElementById('loginRecommendation')) {
     const loginRecommendation = document.getElementById('loginRecommendation');
     loginRecommendation.classList.remove('d-none');
   }
@@ -299,32 +299,32 @@ function gameSet() {
     const formOut = document.getElementById('out');
     formScore.value = gameScore;
     formOut.value = outScore;
-  
+
     document.getElementById("submit").click();
   };
 }
 
 // レーベンシュタイン距離の定義
-function levenshteinDistance( str1, str2 ) { 
-  var x = str1.length; 
-  var y = str2.length; 
+function levenshteinDistance(str1, str2) {
+  var x = str1.length;
+  var y = str2.length;
 
-  var d = []; 
-  for( var i = 0; i <= x; i++ ) { 
-      d[i] = []; 
-      d[i][0] = i; 
-  } 
-  for( var i = 0; i <= y; i++ ) { 
-      d[0][i] = i; 
-  } 
+  var d = [];
+  for (var i = 0; i <= x; i++) {
+    d[i] = [];
+    d[i][0] = i;
+  }
+  for (var i = 0; i <= y; i++) {
+    d[0][i] = i;
+  }
 
-  var cost = 0; 
-  for( var i = 1; i <= x; i++ ) { 
-      for( var j = 1; j <= y; j++ ) { 
-          cost = str1[i - 1] == str2[j - 1] ? 0 : 1; 
+  var cost = 0;
+  for (var i = 1; i <= x; i++) {
+    for (var j = 1; j <= y; j++) {
+      cost = str1[i - 1] == str2[j - 1] ? 0 : 1;
 
-          d[i][j] = Math.min( d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost ); 
-      }
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+    }
   }
   return d[x][y];
 };
@@ -333,10 +333,10 @@ function levenshteinDistance( str1, str2 ) {
 let sentenceIndexArray = forRange(1, sentencesSize);
 function forRange(a, z) {
   const lst = [];
-    for (let i = a; i <= z; i++) {
-        lst.push(i)
-    }
-    return lst;
+  for (let i = a; i <= z; i++) {
+    lst.push(i)
+  }
+  return lst;
 };
 
 // sentenceIndexArray の中身をシャッフルする

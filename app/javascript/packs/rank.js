@@ -2,12 +2,12 @@
 $('.pagination').remove();
 $('.pagiWrapper').remove();
 $(".js-filter-items").pagination({
-  itemElement : '> tr',
+  itemElement: '> tr',
   displayItemCount: 10,
   firstEndPageBtnMode: true,
   paginationClassName: 'pagination',
 });
 // paginationクラスをpagiWrapperクラスで囲む
-$(function() {
+$(function () {
   $(".pagination").wrap("<div class='pagiWrapper'></div>");
 });
