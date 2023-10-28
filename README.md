@@ -70,3 +70,12 @@
 ## 関連ページ
 - Twitterハッシュタグ: [#早口言葉選手権](https://twitter.com/hashtag/%E6%97%A9%E5%8F%A3%E8%A8%80%E8%91%89%E9%81%B8%E6%89%8B%E6%A8%A9?src=hashtag_click)
 - Qiita記事: [【個人開発】楽しみながら滑舌を鍛えることができるWebアプリ『早口言葉選手権』をリリースしました⚾🏏](https://qiita.com/tomo-kn/items/293280565b7ab69506e5)
+
+## 開発者向け
+
+### 開発環境構築手順
+
+dockerを立ち上げれば、`localhost:5056` からアクセスできます。
+```
+$ docker compose up -d
+```
